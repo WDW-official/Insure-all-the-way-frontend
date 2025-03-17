@@ -36,7 +36,7 @@ const ComprehensiveMotorInsuranceHero = () => {
       </div>
       <div>
         <Image
-          src="https://res.cloudinary.com/dfilepe0f/image/upload/v1738920159/Car-Insurance-Banner-a-e1673007271251_npbmqe.jpg"
+          src="https://res.cloudinary.com/dfilepe0f/image/upload/v1742229580/Comprehensive_Motor_Insurance_m2yyyh.svg"
           fill
           alt="Motor Insurance"
         />
