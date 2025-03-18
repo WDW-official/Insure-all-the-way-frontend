@@ -5,7 +5,7 @@ const ContactUsImages = () => {
   return (
     <section className={classes.container}>
       <Image
-        src="https://res.cloudinary.com/dfilepe0f/image/upload/v1739787807/Get_in_touch_qcziia.webp"
+        src="https://res.cloudinary.com/dfilepe0f/image/upload/v1742005288/Contact_Us_jkwrx3.svg"
         width={800}
         height={800}
         alt="Contact Us"

@@ -41,7 +41,7 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
         return {
           policyHeld: structureWords(data?.insuranceType),
           exporationDate: moment(data?.endDate)?.format("Do MMMM, YYYY"),
-          agent: data?.agent?.name,
+          agent: `${data?.agent?.firstName} ${data?.agent?.lastName}`,
           status: data?.status || "pending",
           isActive: false,
           id: data?._id,

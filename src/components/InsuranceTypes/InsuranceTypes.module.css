@@ -157,18 +157,15 @@
   .item > div:nth-child(2) > img {
     width: 100%;
     height: 350px;
-    border: 13px solid var(--yellowWihOpacity);
     border-radius: 20px;
   }
 
   .item:nth-child(even) > div:nth-child(2) > img {
-    border: 13px solid var(--blueWIthOpacity);
     width: 100%;
   }
 
   .item:hover > div:nth-child(2) > img {
     scale: 1.05;
-    border: 13px solid var(--grey2WithOpacity);
   }
 
   .item:nth-child(odd) > img {

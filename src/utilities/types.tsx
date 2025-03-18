@@ -146,7 +146,7 @@ export type userPoliciesType = {
   user: string;
   _id: string;
   status: string;
-  agent: { name: string; phoneNumber: string; email: string };
+  agent: userType;
   isTrackerInstalled?: boolean;
 };
 

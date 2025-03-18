@@ -12,7 +12,7 @@
 }
 
 .container > form {
-  flex-basis: 800px;
+  flex-basis: 700px;
 }
 
 @media screen and (max-width: 767px) {
