@@ -42,7 +42,7 @@ const FleetInsuranceHero = () => {
       </div>
       <div>
         <Image
-          src="https://res.cloudinary.com/dfilepe0f/image/upload/v1738920158/Fleet-Banner_n0k1s3.jpg"
+          src="https://res.cloudinary.com/dfilepe0f/image/upload/v1742314773/Fleet_Motor_Insurance_2_aedygk.svg"
           fill
           alt="Motor Insurance"
         />
