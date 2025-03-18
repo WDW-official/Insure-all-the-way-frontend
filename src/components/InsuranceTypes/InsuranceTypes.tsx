@@ -17,8 +17,6 @@ const InsuranceTypes = ({ data, isNotHover }: InsuranceTypesTypes) => {
   const pathname = usePathname();
   const router = useRouter();
 
-  console.log(isNotHover, "1000");
-
   return (
     <section className={`${classes.container}`} id="types">
       {data?.map((item) => {
