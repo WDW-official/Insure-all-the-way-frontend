@@ -14,7 +14,6 @@ import {
 } from "@/utilities/types";
 import { inputChangeHandler } from "@/helpers/inputChangeHandler";
 import { areAllValuesFilled } from "@/helpers/validateObjectValues";
-import { formatCurrency } from "@/helpers/formatAmount";
 import { projectTime } from "@/helpers/projectTime";
 import { TODAY } from "@/utilities/constants";
 import { requestHandler } from "@/helpers/requestHandler";
