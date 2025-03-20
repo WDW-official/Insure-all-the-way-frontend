@@ -5,6 +5,7 @@ import classes from "./HomeTestimonoals.module.css";
 import ArrowBack from "@/assets/svgIcons/ArrowBack";
 import { useEffect, useRef, useState } from "react";
 import TesimonialCard from "@/components/TesimonialCard/TesimonialCard";
+import { testimonials } from "@/utilities/testimonials";
 
 const HomeTestimonoals = () => {
   // States
@@ -79,12 +80,16 @@ const HomeTestimonoals = () => {
       </div>
 
       <div className={classes.testimonials} ref={scrollContainerRef}>
-        <TesimonialCard />
-        <TesimonialCard />
-        <TesimonialCard />
-        <TesimonialCard />
-        <TesimonialCard />
-        <TesimonialCard />
+        {testimonials.map((data) => {
+          return (
+            <TesimonialCard
+              name={data?.name}
+              role="Customer"
+              comment={data?.comment}
+              key={data?.name}
+            />
+          );
+        })}
       </div>
     </section>
   );

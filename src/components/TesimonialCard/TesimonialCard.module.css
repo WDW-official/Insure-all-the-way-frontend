@@ -24,16 +24,16 @@
   font-family: General Sans;
   font-size: 20px;
   font-weight: 500;
-  line-height: 27px;
+  line-height: 150%;
   text-align: left;
-  margin-bottom: 29px;
+  margin-bottom: 16px;
 }
 
 .container > p:nth-child(3) {
   font-family: General Sans;
   font-size: 16px;
   font-weight: 500;
-  line-height: 32px;
+  line-height: 200%;
   text-align: left;
   color: var(-grey4);
 }
