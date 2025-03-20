@@ -13,10 +13,11 @@ const IndividualAndFamilyHmoHero = () => {
   return (
     <section className={classes.container}>
       <div>
-        <h1>Individual & Family HMO</h1>
+        <h1>Individual & Family HMO Plans</h1>
         <p>
-          Welcome to our Individual & Family HMO plans, designed to provide
-          comprehensive, affordable healthcare for you and your loved ones.
+          Affordable and comprehensive health insurance designed for you and
+          your loved ones. Enjoy seamless access to quality healthcare with
+          flexible plans tailored to fit your needs.
         </p>
         <Button
           onClick={() => {

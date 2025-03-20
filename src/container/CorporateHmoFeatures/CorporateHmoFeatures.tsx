@@ -6,28 +6,29 @@ import { useEffect, useRef, useState } from "react";
 
 const sections = [
   {
-    title: "Stress Free",
-    caption:
-      "In a few minutes, you can sign up your entire company with no hassle.",
+    title: "Stress-Free Signup",
+    caption: "Quick & Easy: Sign up your entire company in minutes—no hassle!",
     image:
       "https://res.cloudinary.com/dfilepe0f/image/upload/v1739348786/hassle-free-white_nse8v7.png",
   },
   {
     title: "24/7 Availability",
     caption:
-      "Our 24-hour availability can always be relied upon by your employees or the hospital.",
+      "Round-the-Clock Support: Your employees can always rely on us, anytime, anywhere.",
     image:
       "https://res.cloudinary.com/dfilepe0f/image/upload/v1739348786/24-hours-white_ww0zqx.png",
   },
   {
     title: "Dedicated Account Manager",
-    caption: "Having 10 or more employees will get you a Key Account Manager.",
+    caption:
+      "Personalized Support: Companies with 10+ employees get a dedicated account manager.",
     image:
       "https://res.cloudinary.com/dfilepe0f/image/upload/v1739348786/accountant-white_ddrtjm.png",
   },
   {
     title: "Affordable Health Insurance",
-    caption: "A representative will find a plan that fits your business needs.",
+    caption:
+      "Tailored Coverage: Our experts help you find the best plan within your budget.",
     image:
       "https://res.cloudinary.com/dfilepe0f/image/upload/v1739348786/naira-white_ctuhl9.png",
   },

@@ -22,8 +22,8 @@ const PropertyInsuranceHero = () => {
           Protect Your Home,<span>Secure Your Future </span>
         </h1>
         <p>
-          Reliable property insurance for peace of mind—because your home
-          deserves the best protection.
+          Reliable property insurance for total peace of mind because your home
+          is more than just a building; it’s your future.
         </p>
 
         <div className={classes.buttonSection}>

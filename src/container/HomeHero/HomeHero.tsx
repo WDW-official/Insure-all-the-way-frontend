@@ -15,11 +15,15 @@ const HomeHero = () => {
     <section className={classes.container}>
       <div>
         <h1>
-          <span>Insurance</span> With A Difference
+          Welcome to the <span> future of insurance.</span>
         </h1>
         <p>
-          <b>Insure All The Way</b> provides you with quality insurance products
-          and services.
+          We harness innovative technology and value added services to simplify
+          the way you buy, manage, and claim your coverage.
+        </p>
+        <p>
+          Insure All The Way <b>Insure All The Way</b>, your satisfaction is our
+          priority!
         </p>
 
         <Button onClick={() => updateSearchParams("contact-us", "true", "set")}>

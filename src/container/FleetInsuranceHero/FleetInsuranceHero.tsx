@@ -5,10 +5,10 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 const features = [
-  "Policy Management: Implementation and management of fleet insurance policies, including renewals and claims.",
-  "Safety Training: Education and training of fleet drivers to help reduce accidents, expenses that may occur with wear & tear, and claim rates.",
-  "Compliance Support: Provide assistance to ensure compliance with relevant regulatory bodies and industry standards.",
-  "Risk Management Services: Consult services on safety and loss control measures to help reduce the risk of accidents and claims, by monitoring and reporting driving habits.",
+  "Policy Management: Seamless implementation and renewal of fleet insurance, ensuring uninterrupted coverage.",
+  "Safety Training: Expert-led driver education to minimize accidents, reduce costs, and enhance road safety.",
+  "Compliance Support: Stay ahead of regulations with dedicated assistance in meeting industry standards.",
+  "Risk Management Services: Advanced monitoring and reporting to prevent accidents and lower",
 ];
 
 const FleetInsuranceHero = () => {

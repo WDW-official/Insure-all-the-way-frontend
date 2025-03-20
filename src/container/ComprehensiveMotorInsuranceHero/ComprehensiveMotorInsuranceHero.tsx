@@ -7,9 +7,9 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 const stepsInfo = [
-  "Fill out the Comprehensive Motor Insurance Form and get a quote",
-  "Make payment",
-  "Complete our Insurance Proposal Form, and you are Insured All The Way!",
+  "<span><b>Get a Quote</b>: Fill out the form in minutes</span>",
+  "<span><b>Make Payment</b>: Secure and seamless</span>",
+  "<span><b>You're Insured! </b></span>Plus, enjoy exclusive gifts & added services.",
 ];
 
 const ComprehensiveMotorInsuranceHero = () => {
@@ -19,15 +19,15 @@ const ComprehensiveMotorInsuranceHero = () => {
     <section className={classes.outerContainer}>
       <div className={classes.container}>
         <h1>
-          Buy our <span>comprehensive</span> policy and get a gift and{" "}
-          <span>added-value services</span> as a reward for your trust.
+          Get <span>Comprehensive Car Insurance</span> & Exclusive Rewards
+          Because, Your Satisfaction Is Our <span>Priority!</span>
         </h1>
 
         {stepsInfo.map((data, i) => {
           return (
             <p key={i}>
               <CheckCircle />
-              <span>{data}</span>
+              <span dangerouslySetInnerHTML={{ __html: data }}></span>
             </p>
           );
         })}

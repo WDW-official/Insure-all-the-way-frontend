@@ -12,15 +12,19 @@ const AllRiskHero = () => {
   return (
     <section className={classes.container}>
       <div>
-        <h1>All Risks</h1>
+        <h1>All Risks Insurance: Comprehensive Protection for Your Assets</h1>
         <p>
-          All Risks Insurance provides broad coverage for loss or damage to
-          insured property from various unforeseen events, except those
+          All Risks Insurance provides extensive coverage for loss or damage to
+          your insured property due to unforeseen events except those
           specifically excluded.
         </p>
         <p>
-          It offers more comprehensive protection than standard policies,
-          covering risks like theft, fire, and accidental damage.
+          Unlike standard policies, it offers broader protection against risks
+          like theft, fire, and accidental damage, giving you peace of mind in
+          every situation.
+        </p>
+        <p>
+          <b>Stay Covered, Stay Secure!</b>
         </p>
         <Button onClick={() => router.push("#insurance-form")}>
           <span>Book Now</span>

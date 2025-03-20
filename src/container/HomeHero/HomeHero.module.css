@@ -12,7 +12,7 @@
 
 .container > div:first-child > h1 {
   font-family: General Sans;
-  font-size: 96px;
+  font-size: 76px;
   font-weight: 600;
   line-height: 98.5px;
   letter-spacing: -4px;
@@ -34,6 +34,7 @@
   text-align: left;
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
+  margin-bottom: 1rem;
 }
 .container > div:nth-child(2) {
   height: auto;

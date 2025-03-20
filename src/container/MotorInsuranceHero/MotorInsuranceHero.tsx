@@ -24,10 +24,14 @@ const MotorInsuranceHero = () => {
     <section className={classes.container}>
       <div>
         <h1>
-          Drive with <span>Confidence</span>
+          Drive, <span>Protected</span>
+        </h1>
+        <h1>
+          Drive, <span>Confidently.</span>
         </h1>
         <p>
-          Drive confidently with coverage for damage, flood, fire and theft.
+          Get full protection against damage, floods, fire, and theft so you can
+          drive worry-free!
         </p>
 
         <div className={classes.buttonSection}>

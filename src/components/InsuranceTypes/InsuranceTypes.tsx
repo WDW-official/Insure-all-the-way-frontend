@@ -44,7 +44,7 @@ const InsuranceTypes = ({ data, isNotHover }: InsuranceTypesTypes) => {
                   scrollToTop();
                 }}
               >
-                Learn more
+                {item?.buttonText || "Learn more"}
               </Button>
             </div>
 

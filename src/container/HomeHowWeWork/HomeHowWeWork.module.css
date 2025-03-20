@@ -16,6 +16,16 @@
   margin-bottom: 1rem;
 }
 
+.container > div:nth-child(1) > h4 {
+  font-family: General Sans;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 150%;
+  letter-spacing: -1px;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
 .container > div:nth-child(1) > p {
   font-family: General Sans;
   font-size: 18px;

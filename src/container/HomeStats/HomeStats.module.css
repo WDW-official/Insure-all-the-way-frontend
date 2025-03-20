@@ -98,6 +98,10 @@
   align-items: center;
 }
 
+.container > div:nth-child(2) > ul > li > span > b {
+  display: inline;
+}
+
 @media screen and (max-width: 767px) {
   .container {
     flex-direction: column;

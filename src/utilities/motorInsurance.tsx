@@ -5,9 +5,10 @@ export const motorInsuranceTypes = [
     title: "3rd Party <br />Motor Insurance",
     route: routes.THIRD_PARTY_MOTOR_INSURANCE,
     descriptions: [
-      "With this insurance policy, you are covered for any damage or liability caused to a third party, including accidental deaths or bodily injuries caused by you.",
+      "Stay legally protected! Our third-party motor insurance covers damage, liability, and accidental injuries to others giving you peace of mind on the road.",
     ],
     list: null,
+    buttonText: "Get Covered",
     image:
       "https://res.cloudinary.com/dfilepe0f/image/upload/v1741276272/Third_Party_1_sfidlp.svg",
     bgImage:
@@ -16,9 +17,11 @@ export const motorInsuranceTypes = [
   {
     title: "Enhanced Third Party <br /> Motor Insurance",
     route: routes.ENHANCED_THIRD_PARTY_MOTOR_INSURANCE,
+
     descriptions: [
       "Enhanced Third Party insurance offers three vehicle coverage options:",
     ],
+    buttonText: "Get Covered",
     list: [
       "Type A Cover is for private use only.",
       "Type B Cover  is for privately used buses and pickups, it is designed for staff and student transport, not for public.",
@@ -32,9 +35,10 @@ export const motorInsuranceTypes = [
   {
     title: "Comprehensive <br /> Motor Insurance",
     route: routes.COMPREHENSIVE_MOTOR_INSTRANCE,
+    buttonText: "Get Covered",
     descriptions: [
-      "Comprehensive Motor Insurance covers loss or damage from fire, theft, vandalism, accident, or collision, including legal liability for third-party injury or property damage.",
-      "Buy our comprehensive policy and get a gift and added-value services as a reward for your trust.",
+      "Stay fully covered! Our Comprehensive Motor Insurance protects you from loss or damage due to fire, theft, vandalism, accidents, and collisions. It also includes legal liability coverage for third-party injuries and property damage.",
+      "Sign up today and enjoy exclusive perks, including a free gift and premium added-value services!",
     ],
     list: null,
     image:
@@ -45,6 +49,7 @@ export const motorInsuranceTypes = [
   {
     title: "Fleet Motor Insurance",
     route: routes.FLEET_MOTOR_INSURANCE,
+    buttonText: "Protect Your Fleet",
     descriptions: [
       "With our fleet insurance, you can cover your entire fleet of vehicles. The policy allows you to insure all vehicles under a single policy rather than separately.",
     ],
@@ -61,9 +66,14 @@ export const healthInsuranceTypes = [
     title: "Individual & Family <br />HMO  ",
     route: routes.INDIVIDUAL_AND_FAMILY_HMO,
     descriptions: [
-      "Get a health cover designed to suit your specific needs, and enjoy access to quality healthcare and superior service.",
+      "Affordable Health Insurance for Individuals & Families",
+      "Protect yourself and your loved ones with a tailored HMO plan that meets your healthcare needs. Enjoy access to top-rated hospitals, expert medical care, and 24/7 support.      ",
     ],
-    list: null,
+    list: [
+      "Comprehensive Coverage",
+      "Affordable Plans",
+      "Quality Healthcare Access",
+    ],
     image:
       "https://res.cloudinary.com/dfilepe0f/image/upload/v1741712067/Individual_Family_HMO_xwyla3.svg",
     bgImage: "",
@@ -72,9 +82,13 @@ export const healthInsuranceTypes = [
     title: "Corporate & Group <br /> HMO ",
     route: routes.CORPORATE_HMO,
     descriptions: [
-      "Our plans are for SMEs, cooperative societies, or small groups. In addition, we also offer plans designed for companies with a large workforce as well as associations.",
+      "Empower your workforce with affordable, high-quality health insurance designed for SMEs, cooperative societies and businesses of all sizes. Our flexible plans provide comprehensive health coverage, ensuring your employees stay healthy and productive",
     ],
-    list: null,
+    list: [
+      "Tailored Plans for Businesses & Groups",
+      "Nationwide Network of Quality Hospitals",
+      "Cost Effective Health Benefits",
+    ],
     image:
       "https://res.cloudinary.com/dfilepe0f/image/upload/v1741711025/Corporate_Group_HMO_vwtg05.svg",
     bgImage: "",

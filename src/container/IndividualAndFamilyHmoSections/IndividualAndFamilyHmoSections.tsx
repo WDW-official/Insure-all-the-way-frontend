@@ -12,21 +12,20 @@ interface Section {
 
 const sections: Section[] = [
   {
-    title: "Plans that work for you",
-    caption:
-      "Depending on your requirements, we have monthly, quarterly, and yearly plans.",
+    title: "Flexible Plans",
+    caption: "Choose from monthly, quarterly, or yearly options.",
     image:
       "https://res.cloudinary.com/dfilepe0f/image/upload/v1739276724/settings-1-150x150_fyaa96.png",
   },
   {
-    title: "Payment made easy",
-    caption: "Payments without the hassle. Just click and go!",
+    title: "Easy Payments",
+    caption: "Hassle-free, secure online payment.",
     image:
       "https://res.cloudinary.com/dfilepe0f/image/upload/v1739276723/credit_mn3q3l.png",
   },
   {
-    title: "Easy care",
-    caption: "Care made effortless because you deserve the best.",
+    title: "Effortless Care",
+    caption: "Quick access to top hospitals and clinics nationwide.",
     image:
       "https://res.cloudinary.com/dfilepe0f/image/upload/v1739276724/heart_upja59.png",
   },

@@ -25,8 +25,8 @@ const ThirdPartyMotorInsuranceHero = ({
         <span> Third Party Motor Insurance!</span>
       </h1>
       <p>
-        This insurance policy protects you from any damage or liability you
-        cause to a third party, including accidental death or bodily injury.
+        Stay covered against third-party damages, accidental death, and bodily
+        injury with affordable plans tailored to your needs
       </p>
 
       <div className={classes.rateSection}>

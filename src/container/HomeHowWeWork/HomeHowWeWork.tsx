@@ -35,8 +35,12 @@ const HomeHowWeWork = () => {
   return (
     <section className={classes.container}>
       <div>
-        <h2>How We Work</h2>
-        <p>A Simple Four-Step Process to Get You Covered with Confidence.</p>
+        <h2>How It Works</h2>
+        <h4>Get Covered in 4 Easy Steps</h4>
+        <p>
+          We've made getting insurance fast and hassle-free Follow these four
+          steps to secure your coverage today.
+        </p>
 
         <Image
           src="https://res.cloudinary.com/dfilepe0f/image/upload/v1741178154/How_We_Work_h4bxia.svg"

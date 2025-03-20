@@ -16,14 +16,14 @@
 
 .container > div > h1 {
   font-family: General Sans;
-  font-size: 96px;
+  font-size: 76px;
   font-weight: 600;
-  line-height: 98.5px;
+  line-height: 150%;
   letter-spacing: -4px;
   text-align: left;
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
-  margin-bottom: 2rem;
+  margin-bottom: 0rem;
 }
 
 .container > div > p,
@@ -36,6 +36,7 @@
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
   width: 550px;
+  margin-top: 1rem;
 }
 
 .container > div:first-child > div {
@@ -45,7 +46,6 @@
 }
 
 .container > div > h1 > span {
-  display: block;
   color: var(--yellow);
 }
 

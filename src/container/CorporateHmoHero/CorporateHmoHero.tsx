@@ -13,7 +13,7 @@ const CorporateHmoHero = () => {
     <section className={classes.container}>
       <div>
         <h1>
-          Providing Quality Health Insurance For{" "}
+          Reliable Health Insurance for{" "}
           <span> Corporate & Small Businesses </span>
         </h1>
         <p>

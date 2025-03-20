@@ -4,9 +4,9 @@ import CheckCircle from "@/assets/svgIcons/CheckCircle";
 import Reward from "@/assets/svgIcons/Reward";
 
 const features = [
-  "Competitive Rates",
-  "Quality Products and Services",
-  "A1 Customer Service",
+  "<span><b>Instant Insurance Quotes</b>: Get quick, competitive rates, tailored to your needs.</span>",
+  "<span><b>Effortless policy management</b>: Access and manage your insurance policies anyday, anytime.</span>",
+  "<span><b>Fast Claims Processing</b>: Experience seamless and speedy claims handlingfor complete peace of mind</span>",
 ];
 
 const HomeStats = () => {
@@ -47,7 +47,7 @@ const HomeStats = () => {
               <span>
                 <CheckCircle />
               </span>
-              <span>{data}</span>
+              <span dangerouslySetInnerHTML={{ __html: data }}></span>
             </li>
           ))}
         </ul>

@@ -26,16 +26,17 @@ const IndividualAndFamilyHmoAbout = () => {
           <div className={classes.header}>
             <p>HMO Plan Recommendation</p>
             <h4>
-              Want Us To Recommend A Plan
-              <br /> That Best Suites Your Needs?
+              Need Help Choosing the
+              <br />
+              Right HMO Plan?
             </h4>
           </div>
 
           <p>
-            Choosing the right HMO plan can be overwhelming, but we’re here to
-            make it simple. Tell us about your healthcare needs, and we’ll
-            recommend a plan that fits your lifestyle, budget, and medical
-            requirements.
+            Finding the perfect <b>health insurance plan </b>can feel
+            overwhelming, but we’re here to help! Tell us about your{" "}
+            <b>healthcare needs, budget, and lifestyle</b>, and we’ll recommend
+            a plan that fits <b>you and your family.</b>
           </p>
           <p>
             Let us guide you toward an HMO plan that truly suits your needs,

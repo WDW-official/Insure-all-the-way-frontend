@@ -12,15 +12,19 @@ const BuildingHero = () => {
   return (
     <section className={classes.container}>
       <div>
-        <h1>Building</h1>
+        <h1>Protect Your Building, Secure Your Investment</h1>
         <p>
-          Building Insurance covers the structure of a property, including
-          walls, roofs, and permanent fixtures, against risks like fire, storms,
+          Building insurance safeguards the structure of your property covering
+          walls, roofs, and permanent fixtures against risks like fire, storms,
           and vandalism.
         </p>
         <p>
-          It ensures property owners can repair or rebuild after damage but
-          doesn’t cover contents inside, which require separate insurance
+          With the right coverage, you can repair or rebuild without financial
+          strain. However, for added protection, consider separate insurance for
+          your belongings inside.
+        </p>
+        <p>
+          <b>Get Covered Today!</b>
         </p>
         <Button onClick={() => router.push("#insurance-form")}>
           <span>Book Now</span>
