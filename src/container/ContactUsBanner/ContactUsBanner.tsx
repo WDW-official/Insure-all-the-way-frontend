@@ -5,7 +5,6 @@ import classes from "./ContactUsBanner.module.css";
 import Image from "next/image";
 import Phone from "@/assets/svgIcons/Phone";
 import { useRouter } from "next/navigation";
-import { routes } from "@/utilities/routes";
 
 type ContactUsBannerTypes = {
   title?: string;
