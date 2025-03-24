@@ -132,7 +132,7 @@ const EnhancedThordPartyMortrInsuranceForm1 = ({
       <Dropdown
         label="Make of Vehicle"
         options={carManufacturers}
-        selected={makeOfVehicle}
+        selected={makeOfVehicle || data?.makeOfVehicle}
         setSelected={setMakeOfVehicle}
         isLoading={isLoading}
         isRequired
@@ -141,7 +141,7 @@ const EnhancedThordPartyMortrInsuranceForm1 = ({
         label="Year of make"
         options={years}
         isRequired
-        selected={yearOfMake}
+        selected={yearOfMake || data?.yearOfMake}
         setSelected={setYearOfMake}
       />
 
@@ -149,8 +149,15 @@ const EnhancedThordPartyMortrInsuranceForm1 = ({
         label="Model of Vehicle"
         options={(carModels as any) || []}
         isRequired
-        selected={modelOfVehicle}
+        selected={modelOfVehicle || data?.modelOfVehicle}
         setSelected={setModelOfVehidle}
+      />
+      <Input
+        label="Registration Number"
+        isRequired
+        value={data?.registrationNumber}
+        onChange={(e) => inputChangeHandler(e, setData)}
+        name="registrationNumber"
       />
       <Input
         label="Start Date"
@@ -170,13 +177,7 @@ const EnhancedThordPartyMortrInsuranceForm1 = ({
         name="endDate"
         readOnly
       />
-      <Input
-        label="Registration Number"
-        isRequired
-        value={data?.registrationNumber}
-        onChange={(e) => inputChangeHandler(e, setData)}
-        name="registrationNumber"
-      />
+
       <Input
         label="Engine Number"
         isRequired
@@ -195,14 +196,14 @@ const EnhancedThordPartyMortrInsuranceForm1 = ({
         label="Vehicle Color"
         options={carColors}
         isRequired
-        selected={color}
+        selected={color || data?.color}
         setSelected={setColor}
       />
       <Dropdown
         label="Vehicle Type"
         options={vehicleTypes}
         isRequired
-        selected={vehicleType}
+        selected={vehicleType || data?.vehicleType}
         setSelected={setVehicleType}
       />
     </form>

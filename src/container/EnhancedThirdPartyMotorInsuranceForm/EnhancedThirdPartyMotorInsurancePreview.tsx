@@ -126,7 +126,7 @@ const EnhancedThirdPartyMotorInsurancePreview = ({
           loading={requestState?.isLoading}
           onClick={() => submitForm()}
         >
-          Pay
+          Submit & Pay
         </Button>
       </div>
     </div>

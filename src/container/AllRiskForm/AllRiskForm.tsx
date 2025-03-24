@@ -15,12 +15,14 @@ import {
 import { inputChangeHandler } from "@/helpers/inputChangeHandler";
 import { areAllValuesFilled } from "@/helpers/validateObjectValues";
 import { projectTime } from "@/helpers/projectTime";
-import { TODAY } from "@/utilities/constants";
+import { GENDERS, TODAY } from "@/utilities/constants";
 import { requestHandler } from "@/helpers/requestHandler";
 import { setAllModalsFalse, setModalTrue } from "@/helpers/modalHandlers";
 import useError from "@/hooks/useError";
 import Modal from "@/components/Modal/Modal";
 import SuccessModalBody from "@/components/SuccessModalBody/SuccessModalBody";
+import { capitalize } from "@/helpers/capitalize";
+import { formatCurrency } from "@/helpers/formatAmount";
 
 const AllRiskForm = () => {
   // States
@@ -37,6 +39,8 @@ const AllRiskForm = () => {
     premium: "",
     startDate: "",
     endDate: "",
+    gender: "",
+    occupation: "",
   });
   const [state, setState] = useState("");
   const [deviceType, setDeviceType] = useState("");
@@ -48,6 +52,7 @@ const AllRiskForm = () => {
   const [modals, setModals] = useState<modalGenericType>({
     policyCreated: false,
   });
+  const [gender, setGender] = useState("");
 
   // FormData
   const [allRiskFormDataFOrmData, setAllRiskFormDataFormData] = useState(
@@ -137,12 +142,22 @@ const AllRiskForm = () => {
         return { ...prevState, state };
       });
     }
+
+    if (gender) {
+      setAllRiskFormData((prevState) => {
+        return {
+          ...prevState,
+          gender,
+        };
+      });
+    }
   }, [
     allRiskFormData?.valueOfDevice,
     allRiskFormData?.quantityOfDevice,
     allRiskFormData?.startDate,
     deviceType,
     state,
+    gender,
   ]);
 
   useEffect(() => {
@@ -160,9 +175,13 @@ const AllRiskForm = () => {
     subAllRiskFormData.append("premium", allRiskFormData?.premium);
     subAllRiskFormData.append("startDate", allRiskFormData?.startDate);
     subAllRiskFormData.append("endDate", allRiskFormData?.endDate);
+    subAllRiskFormData.append("gender", allRiskFormData?.gender);
+    subAllRiskFormData.append("occupation", allRiskFormData?.occupation);
 
     setAllRiskFormDataFormData(subAllRiskFormData);
   }, [allRiskFormData]);
+
+  console.log(allRiskFormData, "Checks");
 
   return (
     <>
@@ -198,6 +217,7 @@ const AllRiskForm = () => {
             value={allRiskFormData?.firstName}
             name="firstName"
             onChange={(e) => inputChangeHandler(e, setAllRiskFormData)}
+            isRequired
           />
           <Input
             label="Last Name"
@@ -205,6 +225,7 @@ const AllRiskForm = () => {
             value={allRiskFormData?.lastName}
             name="lastName"
             onChange={(e) => inputChangeHandler(e, setAllRiskFormData)}
+            isRequired
           />
           <Input
             label="Email"
@@ -212,6 +233,7 @@ const AllRiskForm = () => {
             value={allRiskFormData?.email}
             name="email"
             onChange={(e) => inputChangeHandler(e, setAllRiskFormData)}
+            isRequired
           />{" "}
           <Input
             label="Phone Number"
@@ -219,6 +241,7 @@ const AllRiskForm = () => {
             value={allRiskFormData?.phone}
             name="phone"
             onChange={(e) => inputChangeHandler(e, setAllRiskFormData)}
+            isRequired
           />{" "}
           <Input
             label="Address"
@@ -226,6 +249,7 @@ const AllRiskForm = () => {
             value={allRiskFormData?.address}
             name="address"
             onChange={(e) => inputChangeHandler(e, setAllRiskFormData)}
+            isRequired
           />{" "}
           <Dropdown
             label="State"
@@ -233,6 +257,23 @@ const AllRiskForm = () => {
             title="Select"
             selected={state || allRiskFormData?.state}
             setSelected={setState}
+            isRequired
+          />
+          <Dropdown
+            label="Gender"
+            options={GENDERS.map((data) => capitalize(data) as string)}
+            title="Select Gender"
+            selected={gender || allRiskFormData?.gender}
+            setSelected={setGender}
+            isRequired
+          />
+          <Input
+            label="Occupation"
+            placeholder="Eg: Student"
+            value={allRiskFormData?.occupation}
+            name="occupation"
+            onChange={(e) => inputChangeHandler(e, setAllRiskFormData)}
+            isRequired
           />
           <Dropdown
             label="What type of device would you like to insure"
@@ -240,6 +281,7 @@ const AllRiskForm = () => {
             options={["Laptop", "Phone"]}
             selected={deviceType}
             setSelected={setDeviceType}
+            isRequired
           />{" "}
           <Input
             label="Value of the device"
@@ -248,6 +290,7 @@ const AllRiskForm = () => {
             value={allRiskFormData?.valueOfDevice}
             name="valueOfDevice"
             onChange={(e) => inputChangeHandler(e, setAllRiskFormData)}
+            isRequired
           />
           <Input
             label="Quantity of the device"
@@ -256,13 +299,14 @@ const AllRiskForm = () => {
             value={allRiskFormData?.quantityOfDevice}
             name="quantityOfDevice"
             onChange={(e) => inputChangeHandler(e, setAllRiskFormData)}
+            isRequired
           />
           <Input
             label="Premium"
             placeholder="10"
-            type="number"
             readOnly
-            value={allRiskFormData?.premium}
+            value={`₦${formatCurrency(allRiskFormData?.premium)}`}
+            isRequired
           />
           <Input
             label="Start Date"
@@ -271,6 +315,7 @@ const AllRiskForm = () => {
             name="startDate"
             onChange={(e) => inputChangeHandler(e, setAllRiskFormData)}
             min={TODAY}
+            isRequired
           />
           <Input
             label="End Date"

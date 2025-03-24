@@ -167,9 +167,8 @@
   color: var(--black);
   font-size: 18px;
   font-weight: 500;
-  line-height: 120%;
+  line-height: 16px;
   text-align: left;
-  display: block;
 }
 
 .label > span {

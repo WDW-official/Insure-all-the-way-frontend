@@ -78,7 +78,7 @@
 .children > form,
 .children > div:not(.header) {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   flex-wrap: wrap;
   gap: 1.5rem;
 }

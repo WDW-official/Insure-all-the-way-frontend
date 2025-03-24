@@ -9,13 +9,14 @@ import {
   comprehensiveeFormDataTypes,
   enhancedThirdPartyInsuranceFormTypes,
   policySubTypePlansType,
-  thirdPartyInsuranceFormTypes,
+  thirdPartyInsuranceFormType,
 } from "@/utilities/types";
 import { usePolicyTypeBySubtype } from "@/hooks/usePolicies";
 import Loader from "@/components/Loader/Loader";
 import { formatCurrency } from "@/helpers/formatAmount";
 import { PAYSTACK_PUBLIC_KEY } from "@/config/paystack";
 import dynamic from "next/dynamic";
+import { hyphenateAndLowerCase } from "@/helpers/capitalize";
 
 const PaystackButton = dynamic(
   () => import("react-paystack").then((mod) => mod.PaystackButton),
@@ -24,21 +25,25 @@ const PaystackButton = dynamic(
 
 type PaymentModalBodyType = {
   onSuccess: () => void;
-  data: thirdPartyInsuranceFormTypes &
+  data: thirdPartyInsuranceFormType &
     enhancedThirdPartyInsuranceFormTypes &
     comprehensiveeFormDataTypes;
   onClose: () => void;
+  policyType?: string;
+  policySubType?: string;
 };
 
 const PaymentModalBody = ({
   onSuccess,
   data,
   onClose,
+  policyType,
+  policySubType,
 }: PaymentModalBodyType) => {
   // Requests
   const { isLoading, data: policySubtypeData } = usePolicyTypeBySubtype(
-    "motor-insurance",
-    "third-party-motor-insurance"
+    policyType || "motor-insurance",
+    policySubType || "third-party-motor-insurance"
   );
 
   // Memos
@@ -46,15 +51,19 @@ const PaymentModalBody = ({
     () =>
       policySubtypeData?.data?.plans?.find(
         (plan: policySubTypePlansType) =>
-          plan?.name === data?.product || plan?.name === data?.plan
+          hyphenateAndLowerCase(plan?.name) ===
+            hyphenateAndLowerCase(data?.product) ||
+          hyphenateAndLowerCase(plan?.name) ===
+            hyphenateAndLowerCase(data?.plan)
       ),
     [policySubtypeData]
   );
+  console.log(policySubtypeData, data, "Check");
 
   // Utils
   const componentProps = {
     email: data?.email,
-    amount: Number(policyData?.price) * 100,
+    amount: (Number(policyData?.price) || Number(data?.premium)) * 100,
     metadata: {
       name: `${data?.lastName} ${data?.firstName}`,
       phone: data?.phone,
@@ -88,12 +97,7 @@ const PaymentModalBody = ({
         readOnly
         value={data?.email}
       />
-      <Input
-        label="Phone"
-        type="phone"
-        readOnly
-        value={data?.phoneNumber || data?.phone}
-      />
+      <Input label="Phone" type="phone" readOnly value={data?.phone} />
       <Input
         label="Amount"
         readOnly

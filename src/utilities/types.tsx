@@ -55,23 +55,20 @@ export type policySubTypePlansType = {
   description: string;
 };
 
-export type thirdPartyInsuranceFormTypes = {
+export type thirdPartyInsuranceFormType = userType & {
   product: string;
   registrationNumber: string;
   chasisNumber: string;
   vehicleColor: string;
   roadWorthiness: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
-  address: string;
-  state: string;
   startDate: string;
   endDate: string;
+  makeOfVehicle: string;
+  yearOfMake: string;
+  modelOfVehicle: string;
 };
 
-export type enhancedThirdPartyInsuranceFormTypes = {
+export type enhancedThirdPartyInsuranceFormTypes = userType & {
   makeOfVehicle: string;
   yearOfMake: string;
   modelOfVehicle: string;
@@ -85,12 +82,6 @@ export type enhancedThirdPartyInsuranceFormTypes = {
   proofOfOwnership: null | File;
   plan: string;
   id: null | File;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
-  address: string;
-  state: string;
   inspectionState: string;
   inspectionAddress: string;
   dateForInspection: string;
@@ -98,27 +89,20 @@ export type enhancedThirdPartyInsuranceFormTypes = {
   contactPhone: string;
 };
 
-export type comprehensiveeFormDataTypes = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  state: string;
+export type comprehensiveeFormDataTypes = userType & {
   registrationNumber: string;
   coverPeriod: string;
   vehicleValue: string;
   premium: string;
   startDate: string;
   endDate: string;
+  makeOfVehicle: string;
+  yearOfMake: string;
+  modelOfVehicle: string;
+  chassisNumber: string;
 };
 
-export type fleetFormDataTypes = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  state: string;
-  address: string;
+export type fleetFormDataTypes = userType & {
   propertyType: string;
   comment: string;
   startDate: string;
@@ -133,6 +117,8 @@ export type userType = {
   firstLogin?: string;
   address: string;
   state: string;
+  occupation: string;
+  gender: string;
 };
 
 export type userPoliciesType = {

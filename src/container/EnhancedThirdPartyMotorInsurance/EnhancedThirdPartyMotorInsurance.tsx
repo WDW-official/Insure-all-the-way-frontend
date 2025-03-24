@@ -45,7 +45,7 @@ const EnhancedThirdPartyMotorInsurance = () => {
       firstName: "",
       lastName: "",
       email: "",
-      phoneNumber: "",
+      phone: "",
       address: "",
       state: "",
       inspectionState: "",
@@ -53,6 +53,8 @@ const EnhancedThirdPartyMotorInsurance = () => {
       dateForInspection: "",
       contactName: "",
       contactPhone: "",
+      occupation: "",
+      gender: "",
     });
 
   const [requestState, setRequestState] = useState<requestType>({
@@ -177,7 +179,7 @@ const EnhancedThirdPartyMotorInsurance = () => {
     );
     subEnhancedThirdPartyFormData.append(
       "phone",
-      enhancedThirdPartyFormData?.phoneNumber
+      enhancedThirdPartyFormData?.phone
     );
     subEnhancedThirdPartyFormData.append(
       "address",
@@ -207,6 +209,14 @@ const EnhancedThirdPartyMotorInsurance = () => {
     subEnhancedThirdPartyFormData.append(
       "contactPhone",
       enhancedThirdPartyFormData?.contactPhone
+    );
+    subEnhancedThirdPartyFormData.append(
+      "occupation",
+      enhancedThirdPartyFormData?.occupation
+    );
+    subEnhancedThirdPartyFormData.append(
+      "gender",
+      enhancedThirdPartyFormData?.gender
     );
 
     setEnhancedThirdPartyFormDataFormdata(subEnhancedThirdPartyFormData);
@@ -240,8 +250,10 @@ const EnhancedThirdPartyMotorInsurance = () => {
                 setAllModalsFalse(setModals);
                 setModalTrue(setModals, "success");
               }}
-              data={data as any}
+              data={enhancedThirdPartyFormData as any}
               onClose={() => setAllModalsFalse(setModals)}
+              policyType="motor-insurance"
+              policySubType="enhanced-third-party-motor-insurance"
             />
           }
         />
@@ -252,11 +264,35 @@ const EnhancedThirdPartyMotorInsurance = () => {
           onClick={() => setAllModalsFalse(setModals)}
           body={
             <SuccessModalBody
-              title="Your have successfully applied for a Third Party Motor Insurance Policy!"
+              title="Your have successfully applied for an Enhanced Third Party Motor Insurance Policy!"
               caption="Please check your mail to get your dashboard login details. Make sure you change your temporary password as soon as possible. "
               onClose={() => setAllModalsFalse(setModals)}
               onClick={() => {
                 setAllModalsFalse(setModals);
+                setEnhancedThirdPartyFormData((prevState) => {
+                  return {
+                    ...prevState,
+                    makeOfVehicle: "",
+                    yearOfMake: "",
+                    modelOfVehicle: "",
+                    startDate: "",
+                    endDate: "",
+                    registrationNumber: "",
+                    engineNumber: "",
+                    chasisNumber: "",
+                    color: "",
+                    vehicleType: "",
+                    proofOfOwnership: null,
+                    plan: "",
+                    id: null,
+                    inspectionState: "",
+                    inspectionAddress: "",
+                    dateForInspection: "",
+                    contactName: "",
+                    contactPhone: "",
+                  };
+                });
+                updateSearchParams("step", "1", "set");
               }}
               buttontext="Okay"
             />

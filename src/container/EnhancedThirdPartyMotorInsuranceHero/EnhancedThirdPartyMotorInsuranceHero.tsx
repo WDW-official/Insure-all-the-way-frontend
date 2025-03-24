@@ -46,7 +46,7 @@ const EnhancedThirdPartyMotorInsuranceHero = ({
                   description={plan?.description}
                   onClick={() => {
                     setData((prevState) => {
-                      return { ...prevState, plan: data?.name };
+                      return { ...prevState, plan: plan?.name };
                     });
                   }}
                   key={i}

@@ -19,8 +19,9 @@ import Modal from "@/components/Modal/Modal";
 import SuccessModalBody from "@/components/SuccessModalBody/SuccessModalBody";
 import { inputChangeHandler } from "@/helpers/inputChangeHandler";
 import { areAllValuesFilled } from "@/helpers/validateObjectValues";
-import { TODAY } from "@/utilities/constants";
+import { GENDERS, TODAY } from "@/utilities/constants";
 import { projectTime } from "@/helpers/projectTime";
+import { capitalize } from "@mui/material";
 
 const BuildingForm = () => {
   // States
@@ -35,6 +36,8 @@ const BuildingForm = () => {
     valueOfProperty: "",
     startDate: "",
     endDate: "",
+    gender: "",
+    occupation: "",
   });
   const [state, setState] = useState("");
   const [modals, setModals] = useState<modalGenericType>({
@@ -45,6 +48,7 @@ const BuildingForm = () => {
     data: null,
     error: null,
   });
+  const [gender, setGender] = useState("");
 
   // FormData
   const [buildingFormDataFOrmData, setBuildingFormDataFormData] = useState(
@@ -116,7 +120,16 @@ const BuildingForm = () => {
         };
       });
     }
-  }, [state, buildingFormData?.startDate]);
+
+    if (gender) {
+      setBuildingFormData((prevState) => {
+        return {
+          ...prevState,
+          gender,
+        };
+      });
+    }
+  }, [state, buildingFormData?.startDate, gender]);
 
   useEffect(() => {
     const subBuildingFormData = new FormData();
@@ -137,9 +150,13 @@ const BuildingForm = () => {
     );
     subBuildingFormData.append("startDate", buildingFormData?.startDate);
     subBuildingFormData.append("endDate", buildingFormData?.endDate);
+    subBuildingFormData.append("occupation", buildingFormData?.occupation);
+    subBuildingFormData.append("gender", buildingFormData?.gender);
 
     setBuildingFormDataFormData(subBuildingFormData);
   }, [buildingFormData]);
+
+  console.log(buildingFormData, "Building");
 
   return (
     <>
@@ -197,6 +214,22 @@ const BuildingForm = () => {
             name="phone"
             onChange={(e) => inputChangeHandler(e, setBuildingFormData)}
           />{" "}
+          <Dropdown
+            label="Gender"
+            options={GENDERS.map((data) => capitalize(data) as string)}
+            title="Select Gender"
+            selected={gender || buildingFormData?.gender}
+            setSelected={setGender}
+            isRequired
+          />
+          <Input
+            label="Occupation"
+            placeholder="Eg: Student"
+            value={buildingFormData?.occupation}
+            name="occupation"
+            onChange={(e) => inputChangeHandler(e, setBuildingFormData)}
+            isRequired
+          />
           <Input
             label="Address"
             placeholder="Eg: 10 Abc Close"

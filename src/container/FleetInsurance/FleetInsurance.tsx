@@ -30,14 +30,18 @@ const FleetInsurance = () => {
       comment: "",
       startDate: "",
       endDate: "",
+      gender: "",
+      occupation: "",
     });
   const [fleetInsuranceFormDataFormData, setFleetInsuranceFormDataFormData] =
     useState(new FormData());
+
   const [requestState, setRequestState] = useState<requestType>({
     isLoading: false,
     data: null,
     error: null,
   });
+
   const [modals, setModals] = useState<modalGenericType>({
     insuranceCreated: false,
   });
@@ -71,6 +75,8 @@ const FleetInsurance = () => {
           comment: "",
           startDate: "",
           endDate: "",
+          occupation: "",
+          gender: "",
         });
       },
       errorFunction(err) {
@@ -91,6 +97,8 @@ const FleetInsurance = () => {
           phone: user?.phone,
           address: user?.address,
           state: user?.state,
+          gender: user?.gender,
+          occupation: user?.occupation,
         };
       });
     }
@@ -113,6 +121,13 @@ const FleetInsurance = () => {
       "address",
       fleetInsuranceFormData?.address
     );
+
+    subFleetInsuranceFormData.append(
+      "occupation",
+      fleetInsuranceFormData?.occupation
+    );
+
+    subFleetInsuranceFormData.append("gender", fleetInsuranceFormData?.gender);
     subFleetInsuranceFormData.append("state", fleetInsuranceFormData?.state);
 
     subFleetInsuranceFormData.append(

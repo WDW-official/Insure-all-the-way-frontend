@@ -7,8 +7,10 @@ import { states } from "@/utilities/states";
 import { comprehensiveeFormDataTypes, requestType } from "@/utilities/types";
 import { inputChangeHandler } from "@/helpers/inputChangeHandler";
 import moment from "moment";
-import { TODAY } from "@/utilities/constants";
+import { GENDERS, TODAY } from "@/utilities/constants";
 import { formatCurrency } from "@/helpers/formatAmount";
+import { useCars } from "@/hooks/usePolicies";
+import { capitalize } from "@/helpers/capitalize";
 
 type ComprehensiveMotorInsuranceFormTypes = {
   data: comprehensiveeFormDataTypes;
@@ -23,11 +25,47 @@ const ComprehensiveMotorInsuranceForm = ({
   onSubmit,
   requestState,
 }: ComprehensiveMotorInsuranceFormTypes) => {
+  // Requests
+  const { isLoading, data: carData } = useCars();
+
   // States
   const [coverPeriod, setCoverPeriod] = useState("");
   const [state, setState] = useState("");
+  const [makeOfVehicle, setMakeOfVehicle] = useState("");
+  const [modelOfVehicle, setModelOfVehidle] = useState("");
+  const [yearOfMake, setYearOfMake] = useState("");
+  const [carManufacturers, setCarManufacturers] = useState([]);
+  const [carModels, setCarModels] = useState([]);
+  const [gender, setGender] = useState("");
 
   // Utils
+  function getCarManufacturers(carsData: any) {
+    const manufacturersMap: any = {};
+
+    carsData.forEach((car: any) => {
+      const { make, model } = car;
+      if (!manufacturersMap[make]) {
+        manufacturersMap[make] = new Set();
+      }
+      manufacturersMap[make].add(model);
+    });
+
+    const manufacturersArray = Object.entries(manufacturersMap).map(
+      ([make, modelsSet]) => ({
+        make,
+        models: Array.from(modelsSet as any),
+      })
+    );
+
+    return manufacturersArray;
+  }
+
+  let years = [];
+  const currentYear = Number(moment().format("YYYY"));
+
+  for (let i = currentYear; i >= 1980; i--) {
+    years.push(String(i));
+  }
 
   // Effects
   useEffect(() => {
@@ -52,6 +90,54 @@ const ComprehensiveMotorInsuranceForm = ({
     }
   }, [coverPeriod, state, data.vehicleValue]);
 
+  useEffect(() => {
+    if (carData?.data) {
+      setCarManufacturers(
+        getCarManufacturers(carData?.data)?.map((data) =>
+          capitalize(data?.make)
+        ) as any
+      );
+    }
+  }, [carData?.data]);
+
+  useEffect(() => {
+    if (carData?.data) {
+      const newCarModels = getCarManufacturers(carData?.data)
+        ?.find((car) => {
+          return car?.make?.toLowerCase() === makeOfVehicle?.toLowerCase();
+        })
+        ?.models?.map((data) => capitalize(data as string));
+
+      setCarModels(newCarModels as any);
+    }
+  }, [makeOfVehicle]);
+
+  useEffect(() => {
+    if (makeOfVehicle) {
+      setData((prevState) => {
+        return { ...prevState, makeOfVehicle };
+      });
+    }
+
+    if (modelOfVehicle) {
+      setData((prevState) => {
+        return { ...prevState, modelOfVehicle };
+      });
+    }
+
+    if (yearOfMake) {
+      setData((prevState) => {
+        return { ...prevState, yearOfMake };
+      });
+    }
+
+    if (gender) {
+      setData((prevState) => {
+        return { ...prevState, gender };
+      });
+    }
+  }, [makeOfVehicle, modelOfVehicle, yearOfMake, gender]);
+
   return (
     <section className={classes.container} id="insurance-form">
       <div className={classes.header}>
@@ -69,6 +155,7 @@ const ComprehensiveMotorInsuranceForm = ({
           value={data?.firstName}
           onChange={(e) => inputChangeHandler(e, setData)}
           name="firstName"
+          isRequired
         />
         <Input
           label="Last Name"
@@ -76,6 +163,7 @@ const ComprehensiveMotorInsuranceForm = ({
           value={data?.lastName}
           onChange={(e) => inputChangeHandler(e, setData)}
           name="lastName"
+          isRequired
         />
         <Input
           label="Email"
@@ -84,6 +172,7 @@ const ComprehensiveMotorInsuranceForm = ({
           value={data?.email}
           onChange={(e) => inputChangeHandler(e, setData)}
           name="email"
+          isRequired
         />
         <Input
           label="Phone Number"
@@ -91,6 +180,32 @@ const ComprehensiveMotorInsuranceForm = ({
           value={data?.phone}
           onChange={(e) => inputChangeHandler(e, setData)}
           name="phone"
+          isRequired
+        />
+        <Dropdown
+          label="Gender"
+          options={GENDERS.map((data) => capitalize(data) as string)}
+          title="Select Gender"
+          selected={gender || data?.gender}
+          setSelected={setGender}
+          isRequired
+        />
+
+        <Input
+          label="Occupation"
+          placeholder="Eg: Student"
+          value={data?.occupation}
+          name="occupation"
+          onChange={(e) => inputChangeHandler(e, setData)}
+          isRequired
+        />
+        <Dropdown
+          label="State of Residence"
+          options={states}
+          title="Select State"
+          selected={state || data?.state}
+          setSelected={setState}
+          isRequired
         />
         <Input
           label="Registration Number"
@@ -98,13 +213,39 @@ const ComprehensiveMotorInsuranceForm = ({
           value={data?.registrationNumber}
           onChange={(e) => inputChangeHandler(e, setData)}
           name="registrationNumber"
+          isRequired
+        />
+        <Input
+          label="Chassis Number"
+          placeholder="Eg: 12346"
+          value={data?.chassisNumber}
+          onChange={(e) => inputChangeHandler(e, setData)}
+          name="chassisNumber"
+          isRequired
+        />
+
+        <Dropdown
+          label="Make of Vehicle"
+          options={carManufacturers}
+          selected={makeOfVehicle}
+          setSelected={setMakeOfVehicle}
+          isLoading={isLoading}
+          isRequired
         />
         <Dropdown
-          label="State"
-          options={states}
-          title="Select State"
-          selected={state || data?.state}
-          setSelected={setState}
+          label="Year of make"
+          options={years}
+          isRequired
+          selected={yearOfMake}
+          setSelected={setYearOfMake}
+        />
+
+        <Dropdown
+          label="Model of Vehicle"
+          options={(carModels as any) || []}
+          isRequired
+          selected={modelOfVehicle}
+          setSelected={setModelOfVehidle}
         />
 
         <Dropdown
@@ -113,6 +254,7 @@ const ComprehensiveMotorInsuranceForm = ({
           title="Select"
           selected={coverPeriod || data?.coverPeriod}
           setSelected={setCoverPeriod}
+          isRequired
         />
 
         <Input
@@ -122,6 +264,7 @@ const ComprehensiveMotorInsuranceForm = ({
           value={data?.vehicleValue}
           onChange={(e) => inputChangeHandler(e, setData)}
           name="vehicleValue"
+          isRequired
         />
         <Input
           label="Premium"
@@ -141,7 +284,10 @@ const ComprehensiveMotorInsuranceForm = ({
               !data?.registrationNumber ||
               !data?.coverPeriod ||
               !data?.vehicleValue ||
-              !data?.premium
+              !data?.premium ||
+              !data?.makeOfVehicle ||
+              !data?.yearOfMake ||
+              !data?.modelOfVehicle
             }
             loading={requestState?.isLoading}
             onClick={(e) => {

@@ -7,7 +7,7 @@ import { states } from "@/utilities/states";
 import {
   modalGenericType,
   requestType,
-  thirdPartyInsuranceFormTypes,
+  thirdPartyInsuranceFormType,
 } from "@/utilities/types";
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { inputChangeHandler } from "@/helpers/inputChangeHandler";
@@ -22,11 +22,13 @@ import SuccessModalBody from "@/components/SuccessModalBody/SuccessModalBody";
 import PaymentModalBody from "../PaymentModalBody/PaymentModalBody";
 import Loader from "@/components/Loader/Loader";
 import { projectTime } from "@/helpers/projectTime";
-import { Alert } from "@mui/material";
+import { Alert, capitalize } from "@mui/material";
+import { GENDERS } from "@/utilities/constants";
+import { useCars } from "@/hooks/usePolicies";
 
 type ThirdPartyInsuranceFormTypes = {
-  data: thirdPartyInsuranceFormTypes;
-  setData: Dispatch<SetStateAction<thirdPartyInsuranceFormTypes>>;
+  data: thirdPartyInsuranceFormType;
+  setData: Dispatch<SetStateAction<thirdPartyInsuranceFormType>>;
   onSubmit: () => void;
   submitState: requestType;
   setSubmitState: Dispatch<SetStateAction<requestType>>;
@@ -39,6 +41,9 @@ const ThirdPartyInsuranceForm = ({
   submitState,
   setSubmitState,
 }: ThirdPartyInsuranceFormTypes) => {
+  // Requests
+  const { isLoading, data: carData } = useCars();
+
   // States
   const [vehicleColor, setVehicleColor] = useState("");
   const [state, setState] = useState("");
@@ -54,9 +59,12 @@ const ThirdPartyInsuranceForm = ({
     payment: false,
     paymentSuccess: false,
   });
-
-  // Hooks
-  const { errorFlowFunction } = useError();
+  const [gender, setGender] = useState("");
+  const [makeOfVehicle, setMakeOfVehicle] = useState("");
+  const [modelOfVehicle, setModelOfVehidle] = useState("");
+  const [yearOfMake, setYearOfMake] = useState("");
+  const [carManufacturers, setCarManufacturers] = useState([]);
+  const [carModels, setCarModels] = useState([]);
 
   // Requests
   const askNiidHandler = (regNumber: string) => {
@@ -77,12 +85,63 @@ const ThirdPartyInsuranceForm = ({
   );
   const todaysDate = moment().format("YYYY-MM-DD");
 
+  function getCarManufacturers(carsData: any) {
+    const manufacturersMap: any = {};
+
+    carsData.forEach((car: any) => {
+      const { make, model } = car;
+      if (!manufacturersMap[make]) {
+        manufacturersMap[make] = new Set();
+      }
+      manufacturersMap[make].add(model);
+    });
+
+    const manufacturersArray = Object.entries(manufacturersMap).map(
+      ([make, modelsSet]) => ({
+        make,
+        models: Array.from(modelsSet as any),
+      })
+    );
+
+    return manufacturersArray;
+  }
+
+  const currentYear = Number(moment().format("YYYY"));
+
+  let years = [];
+
+  for (let i = currentYear; i >= 1980; i--) {
+    years.push(String(i));
+  }
+
   // Effects
+  useEffect(() => {
+    if (carData?.data) {
+      setCarManufacturers(
+        getCarManufacturers(carData?.data)?.map((data) =>
+          capitalize(data?.make)
+        ) as any
+      );
+    }
+  }, [carData?.data]);
+
+  useEffect(() => {
+    if (carData?.data) {
+      const newCarModels = getCarManufacturers(carData?.data)
+        ?.find((car) => {
+          return car?.make?.toLowerCase() === makeOfVehicle?.toLowerCase();
+        })
+        ?.models?.map((data) => capitalize(data as string));
+
+      setCarModels(newCarModels as any);
+    }
+  }, [makeOfVehicle]);
+
   useEffect(() => {
     if (existingThirdPartyPolicies?.length > 0) {
       const thirdPartyPolicy = existingThirdPartyPolicies[0];
 
-      setData((prevState) => {
+      setData((prevState: thirdPartyInsuranceFormType) => {
         return {
           ...prevState,
 
@@ -98,7 +157,7 @@ const ThirdPartyInsuranceForm = ({
   useEffect(() => {
     if (data?.startDate) {
       const endDate = projectTime(data?.startDate, 1, "year");
-      setData((prevState) => {
+      setData((prevState: thirdPartyInsuranceFormType) => {
         return { ...prevState, endDate };
       });
     }
@@ -106,29 +165,62 @@ const ThirdPartyInsuranceForm = ({
 
   useEffect(() => {
     if (vehicleColor) {
-      setData((prevState) => {
+      setData((prevState: thirdPartyInsuranceFormType) => {
         return { ...prevState, vehicleColor };
       });
     }
 
     if (state) {
-      setData((prevState) => {
+      setData((prevState: thirdPartyInsuranceFormType) => {
         return { ...prevState, state };
       });
     }
 
     if (roadWorthiness) {
-      setData((prevState) => {
+      setData((prevState: thirdPartyInsuranceFormType) => {
         return { ...prevState, roadWorthiness };
       });
     }
 
     if (title) {
-      setData((prevState) => {
+      setData((prevState: thirdPartyInsuranceFormType) => {
         return { ...prevState, title };
       });
     }
-  }, [vehicleColor, state, roadWorthiness, title]);
+
+    if (gender) {
+      setData((prevState: thirdPartyInsuranceFormType) => {
+        return { ...prevState, gender };
+      });
+    }
+
+    if (makeOfVehicle) {
+      setData((prevState) => {
+        return { ...prevState, makeOfVehicle };
+      });
+    }
+
+    if (modelOfVehicle) {
+      setData((prevState) => {
+        return { ...prevState, modelOfVehicle };
+      });
+    }
+
+    if (yearOfMake) {
+      setData((prevState) => {
+        return { ...prevState, yearOfMake };
+      });
+    }
+  }, [
+    vehicleColor,
+    state,
+    roadWorthiness,
+    title,
+    gender,
+    makeOfVehicle,
+    modelOfVehicle,
+    yearOfMake,
+  ]);
 
   useEffect(() => {
     if (submitState?.data && submitState?.id === "submit-form") {
@@ -211,12 +303,13 @@ const ThirdPartyInsuranceForm = ({
             name="registrationNumber"
             value={data?.registrationNumber}
             onChange={(e) => inputChangeHandler(e, setData)}
-            onBlur={() => {
-              if (data?.registrationNumber) {
-                askNiidHandler(data?.registrationNumber);
-              }
-            }}
+            // onBlur={() => {
+            //   if (data?.registrationNumber) {
+            //     askNiidHandler(data?.registrationNumber);
+            //   }
+            // }}
             loading={requestState?.isLoading}
+            isRequired
           />
           <Input
             label="Chassis Number"
@@ -224,6 +317,31 @@ const ThirdPartyInsuranceForm = ({
             name="chasisNumber"
             value={data?.chasisNumber}
             onChange={(e) => inputChangeHandler(e, setData)}
+            isRequired
+          />
+
+          <Dropdown
+            label="Make of Vehicle"
+            options={carManufacturers}
+            selected={makeOfVehicle}
+            setSelected={setMakeOfVehicle}
+            isLoading={isLoading}
+            isRequired
+          />
+          <Dropdown
+            label="Year of make"
+            options={years}
+            isRequired
+            selected={yearOfMake}
+            setSelected={setYearOfMake}
+          />
+
+          <Dropdown
+            label="Model of Vehicle"
+            options={(carModels as any) || []}
+            isRequired
+            selected={modelOfVehicle}
+            setSelected={setModelOfVehidle}
           />
 
           <Dropdown
@@ -232,14 +350,7 @@ const ThirdPartyInsuranceForm = ({
             title="Select"
             selected={vehicleColor}
             setSelected={setVehicleColor}
-          />
-
-          <Dropdown
-            label="Do you require assistance with vehicle license and/or road worthiness"
-            options={["Yes", "No"]}
-            title="Select"
-            selected={roadWorthiness}
-            setSelected={setRoadWorthiness}
+            isRequired
           />
 
           <Input
@@ -249,6 +360,7 @@ const ThirdPartyInsuranceForm = ({
             onChange={(e) => inputChangeHandler(e, setData)}
             type="date"
             min={todaysDate}
+            isRequired
           />
 
           <Input
@@ -258,6 +370,16 @@ const ThirdPartyInsuranceForm = ({
             onChange={(e) => inputChangeHandler(e, setData)}
             type="date"
             readOnly
+            isRequired
+          />
+
+          <Dropdown
+            label="Do you require assistance with vehicle license and/or road worthiness"
+            options={["Yes", "No"]}
+            title="Select"
+            selected={roadWorthiness}
+            setSelected={setRoadWorthiness}
+            isRequired
           />
 
           <h4>Tell us About Yourself</h4>
@@ -267,6 +389,7 @@ const ThirdPartyInsuranceForm = ({
             title="Select"
             selected={title}
             setSelected={setTitle}
+            isRequired
           />
           <Input
             label="First Name"
@@ -274,6 +397,7 @@ const ThirdPartyInsuranceForm = ({
             name="firstName"
             value={data?.firstName}
             onChange={(e) => inputChangeHandler(e, setData)}
+            isRequired
           />
           <Input
             label="Last Name"
@@ -281,6 +405,7 @@ const ThirdPartyInsuranceForm = ({
             name="lastName"
             value={data?.lastName}
             onChange={(e) => inputChangeHandler(e, setData)}
+            isRequired
           />
           <Input
             label="Email"
@@ -289,27 +414,50 @@ const ThirdPartyInsuranceForm = ({
             name="email"
             value={data?.email}
             onChange={(e) => inputChangeHandler(e, setData)}
+            isRequired
           />
           <Input
             label="Phone Number"
             placeholder="+234 12 345 6789"
-            name="phoneNumber"
-            value={data?.phoneNumber}
+            name="phone"
+            value={data?.phone}
             onChange={(e) => inputChangeHandler(e, setData)}
+            isRequired
           />
+
+          <Dropdown
+            label="Gender"
+            options={GENDERS.map((data) => capitalize(data) as string)}
+            title="Select Gender"
+            selected={gender}
+            setSelected={setGender}
+            isRequired
+          />
+
+          <Input
+            label="Occupation"
+            placeholder="Eg: Student"
+            value={data?.occupation}
+            name="occupation"
+            onChange={(e) => inputChangeHandler(e, setData)}
+            isRequired
+          />
+
           <Input
             label="Address"
             placeholder="No. 4, B Close, A State"
             name="address"
             value={data?.address}
             onChange={(e) => inputChangeHandler(e, setData)}
+            isRequired
           />
           <Dropdown
-            label="State"
+            label="State of Residence"
             options={states}
             title="Select State"
             selected={state || data?.state}
             setSelected={setState}
+            isRequired
           />
 
           <div>

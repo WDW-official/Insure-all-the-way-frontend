@@ -5,7 +5,7 @@ import React, { useContext, useEffect, useMemo, useState } from "react";
 import ThirdPartyMotorInsuranceHero from "../ThirdPartyMotorInsuranceHero/ThirdPartyMotorInsuranceHero";
 import ThirdPartyInsuranceForm from "../ThirdPartyInsuranceForm/ThirdPartyInsuranceForm";
 import { usePolicyTypeBySubtype } from "@/hooks/usePolicies";
-import { requestType, thirdPartyInsuranceFormTypes } from "@/utilities/types";
+import { requestType, thirdPartyInsuranceFormType } from "@/utilities/types";
 import { requestHandler } from "@/helpers/requestHandler";
 import useError from "@/hooks/useError";
 import { AuthContext } from "@/context/AuthContext";
@@ -38,7 +38,7 @@ const ThirdPartyMotorInsurance = () => {
 
   // States
   const [thirdPartyFormData, setthirdPartyFormData] =
-    useState<thirdPartyInsuranceFormTypes>({
+    useState<thirdPartyInsuranceFormType>({
       product: "",
       registrationNumber: "",
       chasisNumber: "",
@@ -47,11 +47,16 @@ const ThirdPartyMotorInsurance = () => {
       firstName: "",
       lastName: "",
       email: "",
-      phoneNumber: "",
+      phone: "",
       address: "",
       state: "",
       startDate: "",
       endDate: "",
+      gender: "",
+      occupation: "",
+      makeOfVehicle: "",
+      yearOfMake: "",
+      modelOfVehicle: "",
     });
 
   // Requests
@@ -66,6 +71,22 @@ const ThirdPartyMotorInsurance = () => {
       setState: setRequestState,
       errorFunction(err) {
         errorFlowFunction(err);
+      },
+      successFunction() {
+        setthirdPartyFormData((prevState) => {
+          return {
+            ...prevState,
+            registrationNumber: "",
+            chasisNumber: "",
+            vehicleColor: "",
+            roadWorthiness: "",
+            startDate: "",
+            endDate: "",
+            makeOfVehicle: "",
+            yearOfMake: "",
+            modelOfVehicle: "",
+          };
+        });
       },
     });
   };
@@ -95,29 +116,43 @@ const ThirdPartyMotorInsurance = () => {
       "roadWorthiness",
       thirdPartyFormData?.roadWorthiness
     );
+    subThirdPartyFormData.append(
+      "makeOfVehicle",
+      thirdPartyFormData?.makeOfVehicle
+    );
+    subThirdPartyFormData.append("yearOfMake", thirdPartyFormData?.yearOfMake);
+    subThirdPartyFormData.append(
+      "modelOfVehicle",
+      thirdPartyFormData?.modelOfVehicle
+    );
+
     subThirdPartyFormData.append("firstName", thirdPartyFormData?.firstName);
     subThirdPartyFormData.append("lastName", thirdPartyFormData?.lastName);
     subThirdPartyFormData.append("email", thirdPartyFormData?.email);
-    subThirdPartyFormData.append("phone", thirdPartyFormData?.phoneNumber);
+    subThirdPartyFormData.append("phone", thirdPartyFormData?.phone);
     subThirdPartyFormData.append("address", thirdPartyFormData?.address);
     subThirdPartyFormData.append("startDate", thirdPartyFormData?.startDate);
     subThirdPartyFormData.append("endDate", thirdPartyFormData?.endDate);
     subThirdPartyFormData.append("state", thirdPartyFormData?.state);
+    subThirdPartyFormData.append("gender", thirdPartyFormData?.gender);
+    subThirdPartyFormData.append("occupation", thirdPartyFormData?.occupation);
 
     setThirdPartyFormDataFormdata(subThirdPartyFormData);
   }, [thirdPartyFormData]);
 
   useEffect(() => {
     if (user) {
-      setthirdPartyFormData((prevState) => {
+      setthirdPartyFormData((prevState: thirdPartyInsuranceFormType) => {
         return {
           ...prevState,
           firstName: user?.firstName,
           lastName: user?.lastName,
           email: user?.email,
-          phoneNumber: user?.phone,
+          phone: user?.phone,
           address: user?.address,
           state: user?.state,
+          gender: user?.gender,
+          occupation: user?.occupation,
         };
       });
     }

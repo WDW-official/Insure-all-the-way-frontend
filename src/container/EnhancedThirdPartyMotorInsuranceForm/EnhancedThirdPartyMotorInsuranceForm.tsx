@@ -12,6 +12,7 @@ import {
 } from "@/utilities/types";
 import { Dispatch, SetStateAction } from "react";
 import Modal from "@/components/Modal/Modal";
+import { areAllValuesFilled } from "@/helpers/validateObjectValues";
 
 type EnhancedThirdPartyMotorInsuranceFormTypes = {
   data: enhancedThirdPartyInsuranceFormTypes;
@@ -89,7 +90,12 @@ const EnhancedThirdPartyMotorInsuranceForm = ({
             ? !data?.firstName ||
               !data?.lastName ||
               !data?.email ||
-              !data?.phoneNumber
+              !data?.phone ||
+              !data?.gender ||
+              !data?.occupation ||
+              !data?.address ||
+              !data?.state ||
+              !data?.plan
             : step === "2"
             ? !data?.makeOfVehicle ||
               !data?.yearOfMake ||
@@ -109,7 +115,9 @@ const EnhancedThirdPartyMotorInsuranceForm = ({
               !data?.dateForInspection ||
               !data?.contactName ||
               !data?.contactPhone
-            : true
+            : step === "5"
+            ? areAllValuesFilled(data)
+            : false
         }
       >
         {container}

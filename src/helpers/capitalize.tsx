@@ -17,3 +17,9 @@ export const structureWords = (word: string) => {
   const replacedWord = word.replaceAll("-", " ");
   return capitalizeEachWord(replacedWord);
 };
+
+export const hyphenateAndLowerCase = (text: string) => {
+  const subText = text?.replaceAll(" ", "-").toLowerCase();
+
+  return subText;
+};

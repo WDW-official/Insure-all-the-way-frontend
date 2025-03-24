@@ -6,8 +6,10 @@ import TextArea from "@/components/Textarea/TextArea";
 import { fleetFormDataTypes, requestType } from "@/utilities/types";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { inputChangeHandler } from "@/helpers/inputChangeHandler";
-import { TODAY } from "@/utilities/constants";
+import { GENDERS, TODAY } from "@/utilities/constants";
 import moment from "moment";
+import { capitalize } from "@/helpers/capitalize";
+import { states } from "@/utilities/states";
 
 type FleetInsuranceFormTypes = {
   data: fleetFormDataTypes;
@@ -24,6 +26,8 @@ const FleetInsuranceForm = ({
 }: FleetInsuranceFormTypes) => {
   // States
   const [propertyType, setPropertyType] = useState("");
+  const [gender, setGender] = useState("");
+  const [state, setState] = useState("");
 
   // Effects
   useEffect(() => {
@@ -32,7 +36,21 @@ const FleetInsuranceForm = ({
         return { ...prevState, propertyType };
       });
     }
-  }, [propertyType]);
+
+    if (gender) {
+      setData((prevState) => {
+        return { ...prevState, gender };
+      });
+    }
+
+    if (state) {
+      setData((prevState) => {
+        return { ...prevState, state };
+      });
+    }
+  }, [propertyType, gender, state]);
+
+  console.log(data, "Check");
 
   useEffect(() => {
     if (data?.propertyType) {
@@ -89,6 +107,23 @@ const FleetInsuranceForm = ({
           value={data?.phone}
           onChange={(e) => inputChangeHandler(e, setData)}
         />
+        <Dropdown
+          label="Gender"
+          options={GENDERS.map((data) => capitalize(data) as string)}
+          title="Select Gender"
+          selected={gender || data?.gender}
+          setSelected={setGender}
+          isRequired
+        />
+
+        <Input
+          label="Occupation"
+          placeholder="Eg: Student"
+          value={data?.occupation}
+          name="occupation"
+          onChange={(e) => inputChangeHandler(e, setData)}
+          isRequired
+        />
         <Input
           label="Address"
           placeholder="No. 4, B Close, A State"
@@ -102,6 +137,14 @@ const FleetInsuranceForm = ({
           title="Select "
           selected={propertyType || data?.propertyType}
           setSelected={setPropertyType}
+        />
+
+        <Dropdown
+          label="State of Residence"
+          options={states}
+          title="Select State "
+          selected={state || data?.state}
+          setSelected={setState}
         />
 
         <TextArea
@@ -121,7 +164,10 @@ const FleetInsuranceForm = ({
               !data?.phone ||
               !data?.address ||
               !data?.propertyType ||
-              !data?.comment
+              !data?.comment ||
+              !data?.state ||
+              !data?.occupation ||
+              !data?.gender
             }
             onClick={(e) => {
               e.preventDefault();

@@ -16,6 +16,9 @@ import useError from "@/hooks/useError";
 import SuccessModalBody from "@/components/SuccessModalBody/SuccessModalBody";
 import Modal from "@/components/Modal/Modal";
 import { projectTime } from "@/helpers/projectTime";
+import { states } from "@/utilities/states";
+import { GENDERS } from "@/utilities/constants";
+import { capitalize } from "@/helpers/capitalize";
 
 const CorporateHmoForm = () => {
   // States
@@ -31,6 +34,8 @@ const CorporateHmoForm = () => {
     comments: "",
     startDate: "",
     endDate: "",
+    occupation: "",
+    gender: "",
   });
   const [corportePolicyFormData, setCorporatePolicyFormData] = useState(
     new FormData()
@@ -43,6 +48,8 @@ const CorporateHmoForm = () => {
   const [modals, setModals] = useState<modalGenericType>({
     policyCreated: false,
   });
+  const [state, setState] = useState("");
+  const [gender, setGender] = useState("");
 
   // Hooks
   const { errorFlowFunction } = useError();
@@ -90,6 +97,8 @@ const CorporateHmoForm = () => {
           phone: user?.phone,
           address: user?.address,
           state: user?.state,
+          occupation: user?.occupation,
+          gender: user?.gender,
         };
       });
     }
@@ -107,6 +116,12 @@ const CorporateHmoForm = () => {
     subCurporatePolicyFormData.append("phone", corportePolicyData?.phone);
     subCurporatePolicyFormData.append("address", corportePolicyData?.address);
     subCurporatePolicyFormData.append("state", corportePolicyData?.state);
+    subCurporatePolicyFormData.append(
+      "occupation",
+      corportePolicyData?.occupation
+    );
+    subCurporatePolicyFormData.append("gender", corportePolicyData?.gender);
+
     subCurporatePolicyFormData.append(
       "nameOfOrganization",
       corportePolicyData?.nameOfOrganization
@@ -134,7 +149,27 @@ const CorporateHmoForm = () => {
         };
       });
     }
-  }, [corportePolicyData?.startDate]);
+
+    if (state) {
+      setCorporatePolicyData((prevState) => {
+        return {
+          ...prevState,
+          state,
+        };
+      });
+    }
+
+    if (gender) {
+      setCorporatePolicyData((prevState) => {
+        return {
+          ...prevState,
+          gender,
+        };
+      });
+    }
+  }, [corportePolicyData?.startDate, state, gender]);
+
+  console.log(corportePolicyData, "Coporare");
 
   return (
     <>
@@ -168,6 +203,7 @@ const CorporateHmoForm = () => {
             value={corportePolicyData?.firstName}
             name="firstName"
             onChange={(e) => inputChangeHandler(e, setCorporatePolicyData)}
+            isRequired
           />
 
           <Input
@@ -176,6 +212,7 @@ const CorporateHmoForm = () => {
             value={corportePolicyData?.lastName}
             name="lastName"
             onChange={(e) => inputChangeHandler(e, setCorporatePolicyData)}
+            isRequired
           />
 
           <Input
@@ -184,6 +221,7 @@ const CorporateHmoForm = () => {
             value={corportePolicyData?.email}
             name="email"
             onChange={(e) => inputChangeHandler(e, setCorporatePolicyData)}
+            isRequired
           />
 
           <Input
@@ -192,6 +230,42 @@ const CorporateHmoForm = () => {
             value={corportePolicyData?.phone}
             name="phone"
             onChange={(e) => inputChangeHandler(e, setCorporatePolicyData)}
+            isRequired
+          />
+
+          <Dropdown
+            label="Gender"
+            options={GENDERS.map((data) => capitalize(data) as string)}
+            title="Select Gender"
+            selected={gender}
+            setSelected={setGender}
+            isRequired
+          />
+
+          <Input
+            label="Occupation"
+            placeholder="Eg: Student"
+            value={corportePolicyData?.occupation}
+            name="occupation"
+            onChange={(e) => inputChangeHandler(e, setCorporatePolicyData)}
+            isRequired
+          />
+
+          <Dropdown
+            label="State of Residence"
+            options={states}
+            title="Select State"
+            selected={state}
+            setSelected={setState}
+          />
+
+          <Input
+            label="Address"
+            placeholder="Eg: +123 45 6789 0"
+            value={corportePolicyData?.address}
+            name="address"
+            onChange={(e) => inputChangeHandler(e, setCorporatePolicyData)}
+            isRequired
           />
 
           <Input
@@ -200,15 +274,9 @@ const CorporateHmoForm = () => {
             value={corportePolicyData?.nameOfOrganization}
             name="nameOfOrganization"
             onChange={(e) => inputChangeHandler(e, setCorporatePolicyData)}
+            isRequired
           />
-          <Input
-            label="Number of people in Organisation or Group"
-            placeholder="Eg. 10"
-            type="number"
-            value={corportePolicyData?.numberOfPeopleInOrganization}
-            name="numberOfPeopleInOrganization"
-            onChange={(e) => inputChangeHandler(e, setCorporatePolicyData)}
-          />
+
           <Input
             label="Start Date"
             placeholder="Eg. Eniola & Sons"
@@ -216,6 +284,7 @@ const CorporateHmoForm = () => {
             value={corportePolicyData?.startDate}
             name="startDate"
             onChange={(e) => inputChangeHandler(e, setCorporatePolicyData)}
+            isRequired
           />
           <Input
             label="End Date"
@@ -224,6 +293,18 @@ const CorporateHmoForm = () => {
             value={corportePolicyData?.endDate}
             name="endDate"
             onChange={(e) => inputChangeHandler(e, setCorporatePolicyData)}
+            isRequired
+            readOnly
+          />
+
+          <Input
+            label="Number of people in Organisation or Group"
+            placeholder="Eg. 10"
+            type="number"
+            value={corportePolicyData?.numberOfPeopleInOrganization}
+            name="numberOfPeopleInOrganization"
+            onChange={(e) => inputChangeHandler(e, setCorporatePolicyData)}
+            isRequired
           />
 
           <TextArea
@@ -232,6 +313,7 @@ const CorporateHmoForm = () => {
             value={corportePolicyData?.comments}
             name="comments"
             onChange={(e) => inputChangeHandler(e, setCorporatePolicyData)}
+            isRequired
           />
 
           <div>

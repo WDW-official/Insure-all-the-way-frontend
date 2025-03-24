@@ -16,6 +16,8 @@ import Modal from "@/components/Modal/Modal";
 import { setAllModalsFalse, setModalTrue } from "@/helpers/modalHandlers";
 import SuccessModalBody from "@/components/SuccessModalBody/SuccessModalBody";
 import PaymentModalBody from "../PaymentModalBody/PaymentModalBody";
+import { useCars } from "@/hooks/usePolicies";
+import { capitalize } from "@/helpers/capitalize";
 
 const ComprehensiveMotorInsurance = () => {
   // Context
@@ -33,12 +35,20 @@ const ComprehensiveMotorInsurance = () => {
       phone: "",
       state: "",
       registrationNumber: "",
+      chassisNumber: "",
       coverPeriod: "1 year",
       vehicleValue: "",
       premium: "",
       startDate: "",
       endDate: "",
+      gender: "",
+      occupation: "",
+      address: "",
+      makeOfVehicle: "",
+      yearOfMake: "",
+      modelOfVehicle: "",
     });
+
   const [comprehensiceFormDataFormData, setCOmprehensiveFormDataFormData] =
     useState(new FormData());
   const [requestState, setRequestState] = useState<requestType>({
@@ -71,9 +81,12 @@ const ComprehensiveMotorInsurance = () => {
             registrationNumber: "",
             coverPeriod: "1 year",
             vehicleValue: "",
-            premium: "",
             startDate: "",
             endDate: "",
+            chassisNumber: "",
+            makeOfVehicle: "",
+            yearOfMake: "",
+            modelOfVehicle: "",
           };
         });
       },
@@ -94,6 +107,9 @@ const ComprehensiveMotorInsurance = () => {
           email: user?.email,
           phone: user?.phone,
           state: user?.state,
+          address: user?.address,
+          occupation: user?.occupation,
+          gender: user?.gender,
         };
       });
     }
@@ -132,6 +148,27 @@ const ComprehensiveMotorInsurance = () => {
     );
     subComprehensiveFormData.append("endDate", comprehensiveFormData?.endDate);
     subComprehensiveFormData.append("state", comprehensiveFormData?.state);
+    subComprehensiveFormData.append("gender", comprehensiveFormData?.gender);
+    subComprehensiveFormData.append(
+      "occupation",
+      comprehensiveFormData?.occupation
+    );
+    subComprehensiveFormData.append(
+      "chassisNumber",
+      comprehensiveFormData?.chassisNumber
+    );
+    subComprehensiveFormData.append(
+      "makeOfVehicle",
+      comprehensiveFormData?.makeOfVehicle
+    );
+    subComprehensiveFormData.append(
+      "modelOfVehicle",
+      comprehensiveFormData?.modelOfVehicle
+    );
+    subComprehensiveFormData.append(
+      "yearOfMake",
+      comprehensiveFormData?.yearOfMake
+    );
 
     setCOmprehensiveFormDataFormData(subComprehensiveFormData);
   }, [comprehensiveFormData]);
