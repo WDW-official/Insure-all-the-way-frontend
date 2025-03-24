@@ -1,5 +1,5 @@
 .container {
-  min-height: 700px;
+  min-height: 650px;
   display: flex;
   align-items: center;
   gap: 72px;
@@ -24,11 +24,12 @@
 
 .container > div:first-child > h1 > span {
   color: var(--yellow);
+  display: block;
 }
 
 .container > div:first-child > p {
   font-family: General Sans;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 400;
   line-height: 150%;
   text-align: left;
