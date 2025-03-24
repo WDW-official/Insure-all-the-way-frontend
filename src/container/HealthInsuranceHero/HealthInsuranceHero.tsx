@@ -24,7 +24,8 @@ const HealthInsuranceHero = () => {
     <section className={classes.container}>
       <div>
         <h1>
-          Health is Wealth <span>Invest In Yours Today</span>
+          Health is Wealth{" "}
+          <span className={classes.block}>Invest In Yours Today</span>
         </h1>
         <p>
           Cover your family from uncertainity with reliable health insurance.

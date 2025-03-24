@@ -1,5 +1,5 @@
 .container {
-  padding: 40px 73px 40px 40px;
+  padding: 20px 43px 20px 20px;
   border-radius: 30px;
   background-color: var(--blue5);
   transition: all 0.3s ease-in-out;
@@ -13,20 +13,20 @@
 
 .container > h4 {
   font-family: General Sans;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 600;
-  line-height: 37.8px;
+  line-height: 150%;
   text-align: left;
   margin-bottom: 10px;
 }
 
 .container > p:nth-child(2) {
   font-family: General Sans;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 500;
   line-height: 150%;
   text-align: left;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
 .container > p:nth-child(3) {

@@ -8,6 +8,7 @@ import { comprehensiveeFormDataTypes, requestType } from "@/utilities/types";
 import { inputChangeHandler } from "@/helpers/inputChangeHandler";
 import moment from "moment";
 import { TODAY } from "@/utilities/constants";
+import { formatCurrency } from "@/helpers/formatAmount";
 
 type ComprehensiveMotorInsuranceFormTypes = {
   data: comprehensiveeFormDataTypes;
@@ -125,9 +126,8 @@ const ComprehensiveMotorInsuranceForm = ({
         <Input
           label="Premium"
           placeholder="Eg: 200,000"
-          type="number"
           readOnly
-          value={data?.premium}
+          value={`₦${formatCurrency(data?.premium)}`}
         />
 
         <div>

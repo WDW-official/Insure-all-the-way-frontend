@@ -63,7 +63,19 @@ const ComprehensiveMotorInsurance = () => {
       state: requestState,
       setState: setRequestState,
       successFunction(res) {
-        setModalTrue(setModals, "payment");
+        setModalTrue(setModals, "insuranceSuccess");
+
+        setComprehensiveFormData((prevState) => {
+          return {
+            ...prevState,
+            registrationNumber: "",
+            coverPeriod: "1 year",
+            vehicleValue: "",
+            premium: "",
+            startDate: "",
+            endDate: "",
+          };
+        });
       },
       errorFunction(err) {
         errorFlowFunction(err);
@@ -153,6 +165,7 @@ const ComprehensiveMotorInsurance = () => {
                 setModalTrue(setModals, "success");
               }}
               data={comprehensiveFormData as any}
+              onClose={() => setAllModalsFalse(setModals)}
             />
           }
         />

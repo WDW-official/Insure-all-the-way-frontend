@@ -2,8 +2,8 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  gap: 16px;
-  padding: 40px 141px;
+  gap: 60px;
+  padding: 40px 80px;
   background-color: var(--grey1);
 }
 
@@ -38,7 +38,7 @@
 
 .info > div > h4 {
   font-family: General Sans;
-  font-size: 64px;
+  font-size: 54px;
   font-weight: 600;
   line-height: 86.4px;
   text-align: left;
@@ -67,7 +67,7 @@
 
 .container > div:nth-child(2) > h2 {
   font-family: General Sans;
-  font-size: 64px;
+  font-size: 54px;
   font-weight: 500;
   line-height: 110%;
   letter-spacing: -1px;

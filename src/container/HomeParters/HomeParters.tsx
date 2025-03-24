@@ -14,7 +14,12 @@ const partnerLogos = [
 
 const HomeParters = () => {
   // Utils
-  const extendedLogos = [...partnerLogos, ...partnerLogos];
+  const extendedLogos = [
+    ...partnerLogos,
+    ...partnerLogos,
+    ...partnerLogos,
+    ...partnerLogos,
+  ];
 
   // Refs
   const carouselRef = useRef<HTMLDivElement | null>(null);

@@ -1,11 +1,11 @@
 .container {
-  padding: 50px 100px;
+  padding: 50px 80px;
   background-color: var(--white);
 }
 
 .container > h4 {
   font-family: General Sans;
-  font-size: 64px;
+  font-size: 54px;
   font-weight: 600;
   line-height: 86.4px;
   text-align: center;
@@ -23,7 +23,7 @@
 
 .container > p {
   font-family: General Sans;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   line-height: 120%;
   text-align: center;

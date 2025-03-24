@@ -1,9 +1,9 @@
 .container {
-  margin: 70px 120px;
+  margin: 70px 80px;
   border-radius: 32px;
   display: flex;
   align-items: center;
-  padding: 135px 77px;
+  padding: 135px 40px;
   gap: 193px;
   background-color: var(--blue);
   color: var(--black);
@@ -38,9 +38,9 @@
 
 .container > h4 {
   font-family: General Sans;
-  font-size: 64px;
+  font-size: 54px;
   font-weight: 500;
-  line-height: 87px;
+  line-height: 120%;
   letter-spacing: -1px;
   text-align: left;
   color: var(--black);

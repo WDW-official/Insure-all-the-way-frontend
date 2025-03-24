@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   gap: 72px;
-  padding: 0px 141px 30px 141px;
+  padding: 0px 80px 30px 80px;
 }
 
 .container > div {
@@ -12,9 +12,9 @@
 
 .container > div:first-child > h1 {
   font-family: General Sans;
-  font-size: 76px;
+  font-size: 68px;
   font-weight: 600;
-  line-height: 98.5px;
+  line-height: 100%;
   letter-spacing: -4px;
   text-align: left;
   text-underline-position: from-font;
@@ -28,7 +28,7 @@
 
 .container > div:first-child > p {
   font-family: General Sans;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 400;
   line-height: 150%;
   text-align: left;

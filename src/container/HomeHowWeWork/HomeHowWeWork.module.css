@@ -1,29 +1,32 @@
 .container {
   display: flex;
-  justify-content: center;
-  padding: 50px 120px 20px 120px;
+  justify-content: space-between;
+  padding: 50px 80px 20px 80px;
   gap: 151px;
   background-color: var(--grey5);
 }
 
+.container > div {
+  flex: 1;
+}
+
 .container > div:nth-child(1) > h2 {
   font-family: General Sans;
-  font-size: 64px;
+  font-size: 54px;
   font-weight: 500;
   line-height: 86.4px;
   letter-spacing: -1px;
   text-align: left;
-  margin-bottom: 1rem;
 }
 
 .container > div:nth-child(1) > h4 {
   font-family: General Sans;
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 500;
   line-height: 150%;
   letter-spacing: -1px;
   text-align: left;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .container > div:nth-child(1) > p {
@@ -34,6 +37,7 @@
   text-align: left;
   margin-bottom: 42px;
   color: var(--grey4);
+  width: 500px;
 }
 
 .container > div:nth-child(1) > img {

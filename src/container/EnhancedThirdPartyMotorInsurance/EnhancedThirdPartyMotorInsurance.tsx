@@ -241,6 +241,7 @@ const EnhancedThirdPartyMotorInsurance = () => {
                 setModalTrue(setModals, "success");
               }}
               data={data as any}
+              onClose={() => setAllModalsFalse(setModals)}
             />
           }
         />

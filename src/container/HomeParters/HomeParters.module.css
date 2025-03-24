@@ -1,5 +1,5 @@
 .container {
-  padding: 78px 120px;
+  padding: 78px 80px;
 }
 
 .container > h4 {
@@ -17,7 +17,7 @@
 .container > div {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 24px;
   overflow-x: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -29,7 +29,7 @@
 
 .container > div > img {
   min-width: 273px;
-  height: 118px;
+  height: 78px;
   flex-shrink: 0;
 }
 

@@ -1,5 +1,5 @@
 .container {
-  padding: 94px 120px;
+  padding: 94px 80px;
 }
 
 .header {
@@ -10,7 +10,7 @@
 
 .header > h4 {
   font-family: General Sans;
-  font-size: 64px;
+  font-size: 44px;
   font-weight: 500;
   line-height: 86.4px;
   letter-spacing: -1px;
@@ -21,8 +21,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 85px;
-  height: 85px;
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.2s ease-in-out;

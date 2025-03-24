@@ -27,9 +27,14 @@ type PaymentModalBodyType = {
   data: thirdPartyInsuranceFormTypes &
     enhancedThirdPartyInsuranceFormTypes &
     comprehensiveeFormDataTypes;
+  onClose: () => void;
 };
 
-const PaymentModalBody = ({ onSuccess, data }: PaymentModalBodyType) => {
+const PaymentModalBody = ({
+  onSuccess,
+  data,
+  onClose,
+}: PaymentModalBodyType) => {
   // Requests
   const { isLoading, data: policySubtypeData } = usePolicyTypeBySubtype(
     "motor-insurance",
@@ -68,7 +73,7 @@ const PaymentModalBody = ({ onSuccess, data }: PaymentModalBodyType) => {
 
   return (
     <div className={classes.container}>
-      <Close />
+      <Close onClick={onClose} />
       <h4>Please confirm your payment details</h4>
 
       <Input
