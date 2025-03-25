@@ -228,8 +228,6 @@ const ThirdPartyInsuranceForm = ({
     }
   }, [submitState?.data]);
 
-  console.log(data, "Agent");
-
   return (
     <>
       {modals.insuranceCreated && (

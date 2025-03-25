@@ -2,7 +2,7 @@ import RateCard from "@/components/RateCard/RateCard";
 import classes from "./ThirdPartyMotorInsuranceHero.module.css";
 import {
   policySubtypeType,
-  thirdPartyInsuranceFormTypes,
+  thirdPartyInsuranceFormType,
 } from "@/utilities/types";
 import Loader from "@/components/Loader/Loader";
 import { Dispatch, SetStateAction } from "react";
@@ -10,7 +10,7 @@ import { Dispatch, SetStateAction } from "react";
 type ThirdPartyMotorInsuranceHeroType = {
   data: policySubtypeType;
   loading: boolean;
-  setData: Dispatch<SetStateAction<thirdPartyInsuranceFormTypes>>;
+  setData: Dispatch<SetStateAction<thirdPartyInsuranceFormType>>;
 };
 
 const ThirdPartyMotorInsuranceHero = ({
