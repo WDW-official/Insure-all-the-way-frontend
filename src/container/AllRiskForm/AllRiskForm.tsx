@@ -314,7 +314,7 @@ const AllRiskForm = () => {
             value={allRiskFormData?.startDate}
             name="startDate"
             onChange={(e) => inputChangeHandler(e, setAllRiskFormData)}
-            min={TODAY}
+            // min={TODAY}
             isRequired
           />
           <Input

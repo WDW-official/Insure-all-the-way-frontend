@@ -42,7 +42,6 @@ const ThirdPartyMotorInsurance = () => {
       product: "",
       registrationNumber: "",
       chasisNumber: "",
-      vehicleColor: "",
       roadWorthiness: "",
       firstName: "",
       lastName: "",
@@ -78,7 +77,6 @@ const ThirdPartyMotorInsurance = () => {
             ...prevState,
             registrationNumber: "",
             chasisNumber: "",
-            vehicleColor: "",
             roadWorthiness: "",
             startDate: "",
             endDate: "",
@@ -101,17 +99,10 @@ const ThirdPartyMotorInsurance = () => {
       thirdPartyFormData?.registrationNumber
     );
     subThirdPartyFormData.append(
-      "vehicleColor",
-      thirdPartyFormData?.vehicleColor
-    );
-    subThirdPartyFormData.append(
       "chasisNumber",
       thirdPartyFormData?.chasisNumber
     );
-    subThirdPartyFormData.append(
-      "vehicleColor",
-      thirdPartyFormData?.vehicleColor
-    );
+
     subThirdPartyFormData.append(
       "roadWorthiness",
       thirdPartyFormData?.roadWorthiness

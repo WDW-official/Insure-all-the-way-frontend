@@ -163,7 +163,7 @@ const EnhancedThordPartyMortrInsuranceForm1 = ({
         label="Start Date"
         isRequired
         type="date"
-        min={today}
+        // min={today}
         value={data?.startDate}
         onChange={(e) => inputChangeHandler(e, setData)}
         name="startDate"
@@ -192,13 +192,7 @@ const EnhancedThordPartyMortrInsuranceForm1 = ({
         onChange={(e) => inputChangeHandler(e, setData)}
         name="chasisNumber"
       />
-      <Dropdown
-        label="Vehicle Color"
-        options={carColors}
-        isRequired
-        selected={color || data?.color}
-        setSelected={setColor}
-      />
+
       <Dropdown
         label="Vehicle Type"
         options={vehicleTypes}

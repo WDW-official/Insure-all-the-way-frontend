@@ -265,7 +265,7 @@ const BuildingForm = () => {
             value={buildingFormData?.startDate}
             name="startDate"
             onChange={(e) => inputChangeHandler(e, setBuildingFormData)}
-            min={TODAY}
+            // min={TODAY}
           />
           <Input
             label="End Date"

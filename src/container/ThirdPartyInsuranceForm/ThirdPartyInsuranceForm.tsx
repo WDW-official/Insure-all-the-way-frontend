@@ -9,10 +9,9 @@ import {
   requestType,
   thirdPartyInsuranceFormType,
 } from "@/utilities/types";
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { inputChangeHandler } from "@/helpers/inputChangeHandler";
 import { requestHandler } from "@/helpers/requestHandler";
-import useError from "@/hooks/useError";
 import moment from "moment";
 import { carColors } from "@/utilities/motorInsuranceData";
 import { areAllValuesFilled } from "@/helpers/validateObjectValues";
@@ -39,13 +38,11 @@ const ThirdPartyInsuranceForm = ({
   setData,
   onSubmit,
   submitState,
-  setSubmitState,
 }: ThirdPartyInsuranceFormTypes) => {
   // Requests
   const { isLoading, data: carData } = useCars();
 
   // States
-  const [vehicleColor, setVehicleColor] = useState("");
   const [state, setState] = useState("");
   const [roadWorthiness, setRoadWorthiness] = useState("");
   const [title, setTitle] = useState("");
@@ -164,12 +161,6 @@ const ThirdPartyInsuranceForm = ({
   }, [data?.startDate]);
 
   useEffect(() => {
-    if (vehicleColor) {
-      setData((prevState: thirdPartyInsuranceFormType) => {
-        return { ...prevState, vehicleColor };
-      });
-    }
-
     if (state) {
       setData((prevState: thirdPartyInsuranceFormType) => {
         return { ...prevState, state };
@@ -212,7 +203,6 @@ const ThirdPartyInsuranceForm = ({
       });
     }
   }, [
-    vehicleColor,
     state,
     roadWorthiness,
     title,
@@ -303,11 +293,11 @@ const ThirdPartyInsuranceForm = ({
             name="registrationNumber"
             value={data?.registrationNumber}
             onChange={(e) => inputChangeHandler(e, setData)}
-            onBlur={() => {
-              if (data?.registrationNumber) {
-                askNiidHandler(data?.registrationNumber);
-              }
-            }}
+            // onBlur={() => {
+            //   if (data?.registrationNumber) {
+            //     askNiidHandler(data?.registrationNumber);
+            //   }
+            // }}
             loading={requestState?.isLoading}
             isRequired
           />
@@ -344,22 +334,13 @@ const ThirdPartyInsuranceForm = ({
             setSelected={setModelOfVehidle}
           />
 
-          <Dropdown
-            label="Vehicle Colour"
-            options={carColors}
-            title="Select"
-            selected={vehicleColor}
-            setSelected={setVehicleColor}
-            isRequired
-          />
-
           <Input
             label="Start Date"
             name="startDate"
             value={data?.startDate}
             onChange={(e) => inputChangeHandler(e, setData)}
             type="date"
-            min={todaysDate}
+            // min={todaysDate}
             isRequired
           />
 

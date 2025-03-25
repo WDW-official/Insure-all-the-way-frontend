@@ -35,7 +35,7 @@
   box-shadow: #edd0142c 0px 5px 15px;
   background-color: var(--white);
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   flex-wrap: wrap;
   gap: 1.5rem;
   position: relative;

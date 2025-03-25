@@ -37,7 +37,6 @@ const EnhancedThirdPartyMotorInsurance = () => {
       registrationNumber: "",
       engineNumber: "",
       chasisNumber: "",
-      color: "",
       vehicleType: "",
       proofOfOwnership: null,
       plan: "",
@@ -88,7 +87,7 @@ const EnhancedThirdPartyMotorInsurance = () => {
       state: requestState,
       setState: setRequestState,
       successFunction(res) {
-        setModalTrue(setModals, "payment");
+        setModalTrue(setModals, "insuranceCreated");
       },
       errorFunction(err) {
         errorFlowFunction(err);
@@ -144,10 +143,7 @@ const EnhancedThirdPartyMotorInsurance = () => {
       "chasisNumber",
       enhancedThirdPartyFormData?.chasisNumber
     );
-    subEnhancedThirdPartyFormData.append(
-      "color",
-      enhancedThirdPartyFormData?.color
-    );
+
     subEnhancedThirdPartyFormData.append(
       "vehicleType",
       enhancedThirdPartyFormData?.vehicleType
@@ -280,7 +276,6 @@ const EnhancedThirdPartyMotorInsurance = () => {
                     registrationNumber: "",
                     engineNumber: "",
                     chasisNumber: "",
-                    color: "",
                     vehicleType: "",
                     proofOfOwnership: null,
                     plan: "",

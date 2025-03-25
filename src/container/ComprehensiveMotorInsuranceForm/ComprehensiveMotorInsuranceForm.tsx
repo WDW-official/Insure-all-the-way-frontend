@@ -274,6 +274,7 @@ const ComprehensiveMotorInsuranceForm = ({
           name="vehicleValue"
           isRequired
         />
+
         <Input
           label="Premium"
           placeholder="Eg: 200,000"

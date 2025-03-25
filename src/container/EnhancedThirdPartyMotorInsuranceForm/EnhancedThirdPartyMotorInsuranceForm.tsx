@@ -105,7 +105,6 @@ const EnhancedThirdPartyMotorInsuranceForm = ({
               !data?.registrationNumber ||
               !data?.engineNumber ||
               !data?.chasisNumber ||
-              !data?.color ||
               !data?.vehicleType
             : step === "3"
             ? !data?.proofOfOwnership || !data?.id

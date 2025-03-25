@@ -63,11 +63,6 @@ const EnhancedThirdPartyMotorInsurancePreview = ({
       </div>
 
       <div className={classes.info}>
-        <h4>Vehicle Color</h4>
-        <p>{data?.color || "N/A"}</p>
-      </div>
-
-      <div className={classes.info}>
         <h4>Vehicle Type</h4>
         <p>{data?.vehicleType || "N/A"}</p>
       </div>

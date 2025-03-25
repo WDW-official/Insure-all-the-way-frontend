@@ -59,7 +59,6 @@ export type thirdPartyInsuranceFormType = userType & {
   product: string;
   registrationNumber: string;
   chasisNumber: string;
-  vehicleColor: string;
   roadWorthiness: string;
   startDate: string;
   endDate: string;
@@ -77,7 +76,6 @@ export type enhancedThirdPartyInsuranceFormTypes = userType & {
   registrationNumber: string;
   engineNumber: string;
   chasisNumber: string;
-  color: string;
   vehicleType: string;
   proofOfOwnership: null | File;
   plan: string;
