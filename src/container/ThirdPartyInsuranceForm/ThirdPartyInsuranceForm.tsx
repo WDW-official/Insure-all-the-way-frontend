@@ -228,6 +228,8 @@ const ThirdPartyInsuranceForm = ({
     }
   }, [submitState?.data]);
 
+  console.log(data, "Agent");
+
   return (
     <>
       {modals.insuranceCreated && (
@@ -303,11 +305,11 @@ const ThirdPartyInsuranceForm = ({
             name="registrationNumber"
             value={data?.registrationNumber}
             onChange={(e) => inputChangeHandler(e, setData)}
-            // onBlur={() => {
-            //   if (data?.registrationNumber) {
-            //     askNiidHandler(data?.registrationNumber);
-            //   }
-            // }}
+            onBlur={() => {
+              if (data?.registrationNumber) {
+                askNiidHandler(data?.registrationNumber);
+              }
+            }}
             loading={requestState?.isLoading}
             isRequired
           />
