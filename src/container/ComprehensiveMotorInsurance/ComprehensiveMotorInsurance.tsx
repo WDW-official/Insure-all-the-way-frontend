@@ -80,7 +80,6 @@ const ComprehensiveMotorInsurance = () => {
             ...prevState,
             registrationNumber: "",
             coverPeriod: "1 year",
-            vehicleValue: "",
             startDate: "",
             endDate: "",
             chassisNumber: "",
