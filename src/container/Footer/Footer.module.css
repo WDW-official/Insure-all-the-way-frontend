@@ -1,10 +1,12 @@
 .container {
   display: flex;
   align-items: center;
-  gap: 125px;
+  column-gap: 125px;
   padding: 50px 100px;
   background-color: var(--black);
   color: var(--white);
+  flex-wrap: wrap;
+  row-gap: 4rem;
 }
 
 .container > p,
@@ -22,6 +24,28 @@
   margin-left: auto;
 }
 
+.logos {
+  flex-basis: 100%;
+}
+
+.logos > h4 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-family: General Sans;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 150%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.logos > div {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  justify-content: center;
+}
+
 @media screen and (max-width: 767px) {
   .container {
     gap: 2rem;
@@ -31,5 +55,20 @@
 
   .container > a:nth-child(2) {
     margin-left: 0;
+  }
+
+  .logos > h4 {
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+
+  .logos > div {
+    gap: 2rem;
+    justify-content: center;
+  }
+
+  .logos > div > a > img {
+    width: 50px;
+    height: 50px;
   }
 }

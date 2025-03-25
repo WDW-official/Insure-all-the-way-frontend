@@ -8,6 +8,7 @@ import useUpdateSearchParams from "@/hooks/useUpdateSearchParams";
 import Modal from "@/components/Modal/Modal";
 import Auth from "@/container/Auth/Auth";
 import ContactUsModalBody from "@/container/ContactUsModalBody/ContactUsModalBody";
+import ForgotPassword from "@/container/ForgotPassword/ForgotPassword";
 
 type ApppLayoutTypes = {
   children: React.ReactNode;
@@ -27,12 +28,21 @@ const ApppLayout = ({ children, className }: ApppLayoutTypes) => {
       <Header />
       <section className={className}>{children}</section>
       <Footer />
-      {auth && (
+      {auth === "sign-in" && (
         <Modal
           onClick={() => {
             updateSearchParams("auth", undefined, "delete");
           }}
           body={<Auth />}
+        />
+      )}
+
+      {auth === "forgot-password" && (
+        <Modal
+          onClick={() => {
+            updateSearchParams("auth", undefined, "delete");
+          }}
+          body={<ForgotPassword />}
         />
       )}
 

@@ -1,13 +1,9 @@
 .container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   padding: 50px 80px 20px 80px;
-  gap: 151px;
+  gap: 200px;
   background-color: var(--grey5);
-}
-
-.container > div {
-  flex: 1;
 }
 
 .container > div:nth-child(1) > h2 {

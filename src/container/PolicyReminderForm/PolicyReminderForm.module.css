@@ -13,7 +13,7 @@
   margin-bottom: 1rem;
 }
 
-.container > p {
+.container > p:not(.forgot) {
   font-family: General Sans;
   font-size: 18px;
   font-weight: 400;
@@ -47,6 +47,21 @@
 
 .container > button {
   margin-top: 2rem;
+}
+
+.forgot {
+  margin-top: 2rem;
+  text-align: left;
+  font-family: General Sans;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 150%;
+}
+
+.forgot > span {
+  color: var(--yellow);
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 @media screen and (max-width: 767px) {

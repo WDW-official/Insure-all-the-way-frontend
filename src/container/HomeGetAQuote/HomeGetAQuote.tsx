@@ -14,10 +14,6 @@ const HomeGetAQuote = () => {
         <hr />
       </h4>
       <p>Looking for hassle free insurance? get a quote in just few clicks. </p>
-      <p>
-        Choose from our tailored insurance plans. Click on our products to get
-        started or contact us for personalised assistance.
-      </p>
 
       <div>
         {insuranceProducts?.map((data, i) => (

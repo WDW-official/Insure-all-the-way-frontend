@@ -13,6 +13,7 @@ import useError from "@/hooks/useError";
 import { LOCAL_STORAGE_AUTH_KEY } from "@/utilities/constants";
 import { useToast } from "@/context/ToastContext";
 import { AuthContext } from "@/context/AuthContext";
+import useUpdateSearchParams from "@/hooks/useUpdateSearchParams";
 
 const SignIn = () => {
   // Router
@@ -33,6 +34,9 @@ const SignIn = () => {
 
   // Context
   const { setUser } = useContext(AuthContext);
+
+  // Router
+  const { updateSearchParams } = useUpdateSearchParams();
 
   // Hooks
   const { errorFlowFunction } = useError();
@@ -135,6 +139,15 @@ const SignIn = () => {
       >
         Sign In
       </Button>
+
+      <p
+        className={classes.forgot}
+        onClick={() => {
+          updateSearchParams("auth", "forgot-password", "set");
+        }}
+      >
+        Forgot Password? <span>Reset Password</span>
+      </p>
     </div>
   );
 
