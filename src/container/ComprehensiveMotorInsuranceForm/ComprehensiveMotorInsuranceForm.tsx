@@ -190,6 +190,14 @@ const ComprehensiveMotorInsuranceForm = ({
           setSelected={setGender}
           isRequired
         />
+        <Input
+          label="Address"
+          placeholder="Eg: ABC Close"
+          value={data?.address}
+          name="address"
+          onChange={(e) => inputChangeHandler(e, setData)}
+          isRequired
+        />
 
         <Input
           label="Occupation"
@@ -287,7 +295,8 @@ const ComprehensiveMotorInsuranceForm = ({
               !data?.premium ||
               !data?.makeOfVehicle ||
               !data?.yearOfMake ||
-              !data?.modelOfVehicle
+              !data?.modelOfVehicle ||
+              !data?.address
             }
             loading={requestState?.isLoading}
             onClick={(e) => {

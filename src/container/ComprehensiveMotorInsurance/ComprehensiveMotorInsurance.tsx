@@ -142,6 +142,8 @@ const ComprehensiveMotorInsurance = () => {
       comprehensiveFormData?.vehicleValue
     );
     subComprehensiveFormData.append("premium", comprehensiveFormData?.premium);
+    subComprehensiveFormData.append("address", comprehensiveFormData?.address);
+
     subComprehensiveFormData.append(
       "startDate",
       comprehensiveFormData?.startDate
