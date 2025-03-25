@@ -147,7 +147,6 @@ const ComprehensiveMotorInsurance = () => {
       comprehensiveFormData?.startDate
     );
     subComprehensiveFormData.append("endDate", comprehensiveFormData?.endDate);
-    subComprehensiveFormData.append("state", comprehensiveFormData?.state);
     subComprehensiveFormData.append("gender", comprehensiveFormData?.gender);
     subComprehensiveFormData.append(
       "occupation",
