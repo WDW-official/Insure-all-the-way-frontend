@@ -35,3 +35,21 @@ export const useCars = () => {
 
   return useGetHook(url);
 };
+
+export const useCarMakes = () => {
+  const url = `/externals/cars/make`;
+
+  return useGetHook(url);
+};
+
+export const useCarModels = (make: string) => {
+  const url = make ? `/externals/cars/models/${make}` : null;
+
+  return useGetHook(url);
+};
+
+export const useCarYearsByMakeAndModel = (make: string, model: string) => {
+  const url = make && model ? `/externals/cars/models/${make}/${model}` : null;
+
+  return useGetHook(url);
+};

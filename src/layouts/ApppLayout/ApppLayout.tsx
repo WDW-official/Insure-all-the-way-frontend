@@ -9,6 +9,7 @@ import Modal from "@/components/Modal/Modal";
 import Auth from "@/container/Auth/Auth";
 import ContactUsModalBody from "@/container/ContactUsModalBody/ContactUsModalBody";
 import ForgotPassword from "@/container/ForgotPassword/ForgotPassword";
+import ResetPassword from "@/container/ResetPassword/ResetPassword";
 
 type ApppLayoutTypes = {
   children: React.ReactNode;
@@ -43,6 +44,15 @@ const ApppLayout = ({ children, className }: ApppLayoutTypes) => {
             updateSearchParams("auth", undefined, "delete");
           }}
           body={<ForgotPassword />}
+        />
+      )}
+
+      {auth === "reset-password" && (
+        <Modal
+          onClick={() => {
+            updateSearchParams("auth", undefined, "delete");
+          }}
+          body={<ResetPassword />}
         />
       )}
 

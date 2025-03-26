@@ -1,7 +1,7 @@
 import Dropdown from "@/components/Dropdown/Dropdown";
 import Input from "@/components/Input/Input";
 import { inputChangeHandler } from "@/helpers/inputChangeHandler";
-import { TODAY } from "@/utilities/constants";
+// import { TODAY } from "@/utilities/constants";
 import { states } from "@/utilities/states";
 import { enhancedThirdPartyInsuranceFormTypes } from "@/utilities/types";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -48,7 +48,7 @@ const EnhancedThirdPartyMotorInsuranceForm3 = ({
         name="dateForInspection"
         value={data?.dateForInspection}
         onChange={(e) => inputChangeHandler(e, setData)}
-        min={TODAY}
+        // min={TODAY}
       />
       <Input
         label="Contact Name"

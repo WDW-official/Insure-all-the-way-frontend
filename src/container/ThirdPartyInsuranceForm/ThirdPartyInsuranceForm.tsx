@@ -9,11 +9,10 @@ import {
   requestType,
   thirdPartyInsuranceFormType,
 } from "@/utilities/types";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { inputChangeHandler } from "@/helpers/inputChangeHandler";
 import { requestHandler } from "@/helpers/requestHandler";
 import moment from "moment";
-import { carColors } from "@/utilities/motorInsuranceData";
 import { areAllValuesFilled } from "@/helpers/validateObjectValues";
 import Modal from "@/components/Modal/Modal";
 import { setAllModalsFalse, setModalTrue } from "@/helpers/modalHandlers";
@@ -21,9 +20,16 @@ import SuccessModalBody from "@/components/SuccessModalBody/SuccessModalBody";
 import PaymentModalBody from "../PaymentModalBody/PaymentModalBody";
 import Loader from "@/components/Loader/Loader";
 import { projectTime } from "@/helpers/projectTime";
-import { Alert, capitalize } from "@mui/material";
+import { Alert, cardClasses } from "@mui/material";
 import { GENDERS } from "@/utilities/constants";
-import { useCars } from "@/hooks/usePolicies";
+import {
+  useCarMakes,
+  useCarModels,
+  useCars,
+  useCarYearsByMakeAndModel,
+} from "@/hooks/usePolicies";
+import { mutate } from "swr";
+import { capitalize } from "@/helpers/capitalize";
 
 type ThirdPartyInsuranceFormTypes = {
   data: thirdPartyInsuranceFormType;
@@ -39,9 +45,6 @@ const ThirdPartyInsuranceForm = ({
   onSubmit,
   submitState,
 }: ThirdPartyInsuranceFormTypes) => {
-  // Requests
-  const { isLoading, data: carData } = useCars();
-
   // States
   const [state, setState] = useState("");
   const [roadWorthiness, setRoadWorthiness] = useState("");
@@ -56,12 +59,35 @@ const ThirdPartyInsuranceForm = ({
     payment: false,
     paymentSuccess: false,
   });
+
   const [gender, setGender] = useState("");
   const [makeOfVehicle, setMakeOfVehicle] = useState("");
   const [modelOfVehicle, setModelOfVehidle] = useState("");
   const [yearOfMake, setYearOfMake] = useState("");
-  const [carManufacturers, setCarManufacturers] = useState([]);
-  const [carModels, setCarModels] = useState([]);
+
+  // Requests
+  const { isLoading: carMakesIsLoading, data: carMakesData } = useCarMakes();
+  const { isLoading: modelsIsLoading, data: carModelsData } = useCarModels(
+    makeOfVehicle as string
+  );
+  const { isLoading: yearsIsLoading, data: yearsData } =
+    useCarYearsByMakeAndModel(
+      makeOfVehicle as string,
+      modelOfVehicle as string
+    );
+
+  // Memos
+  const carMakes = useMemo(() => {
+    return carMakesData?.data?.makes?.map((data: string) => capitalize(data));
+  }, [carMakesData]);
+
+  const carModels = useMemo(() => {
+    return carModelsData?.data?.models?.map((data: string) => capitalize(data));
+  }, [carModelsData]);
+
+  const carYears = useMemo(() => {
+    return yearsData?.data?.years;
+  }, [yearsData]);
 
   // Requests
   const askNiidHandler = (regNumber: string) => {
@@ -82,57 +108,29 @@ const ThirdPartyInsuranceForm = ({
   );
   const todaysDate = moment().format("YYYY-MM-DD");
 
-  function getCarManufacturers(carsData: any) {
-    const manufacturersMap: any = {};
-
-    carsData.forEach((car: any) => {
-      const { make, model } = car;
-      if (!manufacturersMap[make]) {
-        manufacturersMap[make] = new Set();
-      }
-      manufacturersMap[make].add(model);
-    });
-
-    const manufacturersArray = Object.entries(manufacturersMap).map(
-      ([make, modelsSet]) => ({
-        make,
-        models: Array.from(modelsSet as any),
-      })
-    );
-
-    return manufacturersArray;
-  }
-
-  const currentYear = Number(moment().format("YYYY"));
-
-  let years = [];
-
-  for (let i = currentYear; i >= 1980; i--) {
-    years.push(String(i));
-  }
-
   // Effects
+
   useEffect(() => {
-    if (carData?.data) {
-      setCarManufacturers(
-        getCarManufacturers(carData?.data)?.map((data) =>
-          capitalize(data?.make)
-        ) as any
-      );
+    if (makeOfVehicle) {
+      mutate(`/externals/cars/models/${makeOfVehicle}`);
     }
-  }, [carData?.data]);
 
-  useEffect(() => {
-    if (carData?.data) {
-      const newCarModels = getCarManufacturers(carData?.data)
-        ?.find((car) => {
-          return car?.make?.toLowerCase() === makeOfVehicle?.toLowerCase();
-        })
-        ?.models?.map((data) => capitalize(data as string));
-
-      setCarModels(newCarModels as any);
+    if (makeOfVehicle && modelOfVehicle) {
+      mutate(`/externals/cars/models/${makeOfVehicle}/${modelOfVehicle}`);
     }
   }, [makeOfVehicle]);
+
+  useEffect(() => {
+    if (submitState?.data && submitState?.id === "submit-form") {
+      setGender("");
+      setMakeOfVehicle("");
+      setModelOfVehidle("");
+      setYearOfMake("");
+      setState("");
+      setRoadWorthiness("");
+      setTitle("");
+    }
+  }, [submitState?.data]);
 
   useEffect(() => {
     if (existingThirdPartyPolicies?.length > 0) {
@@ -312,26 +310,31 @@ const ThirdPartyInsuranceForm = ({
 
           <Dropdown
             label="Make of Vehicle"
-            options={carManufacturers}
+            options={carMakes}
             selected={makeOfVehicle}
             setSelected={setMakeOfVehicle}
-            isLoading={isLoading}
+            isLoading={carMakesIsLoading}
             isRequired
-          />
-          <Dropdown
-            label="Year of make"
-            options={years}
-            isRequired
-            selected={yearOfMake}
-            setSelected={setYearOfMake}
           />
 
           <Dropdown
             label="Model of Vehicle"
             options={(carModels as any) || []}
             isRequired
+            isLoading={modelsIsLoading}
             selected={modelOfVehicle}
             setSelected={setModelOfVehidle}
+            disabled={!makeOfVehicle}
+          />
+
+          <Dropdown
+            label="Year of make"
+            options={carYears}
+            isLoading={yearsIsLoading}
+            isRequired
+            selected={yearOfMake}
+            setSelected={setYearOfMake}
+            disabled={!makeOfVehicle || !modelOfVehicle}
           />
 
           <Input

@@ -1,7 +1,13 @@
 import Button from "@/components/Button/Button";
 import Dropdown from "@/components/Dropdown/Dropdown";
 import Input from "@/components/Input/Input";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import classes from "./ComprehensiveMotorInsuranceForm.module.css";
 import { states } from "@/utilities/states";
 import { comprehensiveeFormDataTypes, requestType } from "@/utilities/types";
@@ -9,8 +15,14 @@ import { inputChangeHandler } from "@/helpers/inputChangeHandler";
 import moment from "moment";
 import { GENDERS, TODAY } from "@/utilities/constants";
 import { formatCurrency } from "@/helpers/formatAmount";
-import { useCars } from "@/hooks/usePolicies";
+import {
+  useCarMakes,
+  useCarModels,
+  useCars,
+  useCarYearsByMakeAndModel,
+} from "@/hooks/usePolicies";
 import { capitalize } from "@/helpers/capitalize";
+import { mutate } from "swr";
 
 type ComprehensiveMotorInsuranceFormTypes = {
   data: comprehensiveeFormDataTypes;
@@ -25,49 +37,60 @@ const ComprehensiveMotorInsuranceForm = ({
   onSubmit,
   requestState,
 }: ComprehensiveMotorInsuranceFormTypes) => {
-  // Requests
-  const { isLoading, data: carData } = useCars();
-
   // States
   const [coverPeriod, setCoverPeriod] = useState("");
   const [state, setState] = useState("");
   const [makeOfVehicle, setMakeOfVehicle] = useState("");
   const [modelOfVehicle, setModelOfVehidle] = useState("");
   const [yearOfMake, setYearOfMake] = useState("");
-  const [carManufacturers, setCarManufacturers] = useState([]);
-  const [carModels, setCarModels] = useState([]);
   const [gender, setGender] = useState("");
 
-  // Utils
-  function getCarManufacturers(carsData: any) {
-    const manufacturersMap: any = {};
-
-    carsData.forEach((car: any) => {
-      const { make, model } = car;
-      if (!manufacturersMap[make]) {
-        manufacturersMap[make] = new Set();
-      }
-      manufacturersMap[make].add(model);
-    });
-
-    const manufacturersArray = Object.entries(manufacturersMap).map(
-      ([make, modelsSet]) => ({
-        make,
-        models: Array.from(modelsSet as any),
-      })
+  // Requests
+  const { isLoading: carMakesIsLoading, data: carMakesData } = useCarMakes();
+  const { isLoading: modelsIsLoading, data: carModelsData } = useCarModels(
+    makeOfVehicle as string
+  );
+  const { isLoading: yearsIsLoading, data: yearsData } =
+    useCarYearsByMakeAndModel(
+      makeOfVehicle as string,
+      modelOfVehicle as string
     );
 
-    return manufacturersArray;
-  }
+  // Memos
+  const carMakes = useMemo(() => {
+    return carMakesData?.data?.makes?.map((data: string) => capitalize(data));
+  }, [carMakesData]);
 
-  let years = [];
-  const currentYear = Number(moment().format("YYYY"));
+  const carModels = useMemo(() => {
+    return carModelsData?.data?.models?.map((data: string) => capitalize(data));
+  }, [carModelsData]);
 
-  for (let i = currentYear; i >= 1980; i--) {
-    years.push(String(i));
-  }
+  const carYears = useMemo(() => {
+    return yearsData?.data?.years;
+  }, [yearsData]);
 
   // Effects
+  useEffect(() => {
+    if (makeOfVehicle) {
+      mutate(`/externals/cars/models/${makeOfVehicle}`);
+    }
+
+    if (makeOfVehicle && modelOfVehicle) {
+      mutate(`/externals/cars/models/${makeOfVehicle}/${modelOfVehicle}`);
+    }
+  }, [makeOfVehicle]);
+
+  useEffect(() => {
+    if (requestState?.data && requestState?.id === "submit-form") {
+      setCoverPeriod("");
+      setState("");
+      setMakeOfVehicle("");
+      setModelOfVehidle("");
+      setYearOfMake("");
+      setGender("");
+    }
+  }, [requestState?.data]);
+
   useEffect(() => {
     if (coverPeriod || state || data?.vehicleValue) {
       const period = coverPeriod === "6 Months" ? 6 : 12;
@@ -89,28 +112,6 @@ const ComprehensiveMotorInsuranceForm = ({
       });
     }
   }, [coverPeriod, state, data.vehicleValue]);
-
-  useEffect(() => {
-    if (carData?.data) {
-      setCarManufacturers(
-        getCarManufacturers(carData?.data)?.map((data) =>
-          capitalize(data?.make)
-        ) as any
-      );
-    }
-  }, [carData?.data]);
-
-  useEffect(() => {
-    if (carData?.data) {
-      const newCarModels = getCarManufacturers(carData?.data)
-        ?.find((car) => {
-          return car?.make?.toLowerCase() === makeOfVehicle?.toLowerCase();
-        })
-        ?.models?.map((data) => capitalize(data as string));
-
-      setCarModels(newCarModels as any);
-    }
-  }, [makeOfVehicle]);
 
   useEffect(() => {
     if (makeOfVehicle) {
@@ -234,26 +235,31 @@ const ComprehensiveMotorInsuranceForm = ({
 
         <Dropdown
           label="Make of Vehicle"
-          options={carManufacturers}
+          options={carMakes}
           selected={makeOfVehicle}
           setSelected={setMakeOfVehicle}
-          isLoading={isLoading}
+          isLoading={carMakesIsLoading}
           isRequired
-        />
-        <Dropdown
-          label="Year of make"
-          options={years}
-          isRequired
-          selected={yearOfMake}
-          setSelected={setYearOfMake}
         />
 
         <Dropdown
           label="Model of Vehicle"
           options={(carModels as any) || []}
           isRequired
+          isLoading={modelsIsLoading}
           selected={modelOfVehicle}
           setSelected={setModelOfVehidle}
+          disabled={!makeOfVehicle}
+        />
+
+        <Dropdown
+          label="Year of make"
+          options={carYears}
+          isLoading={yearsIsLoading}
+          isRequired
+          selected={yearOfMake}
+          setSelected={setYearOfMake}
+          disabled={!makeOfVehicle || !modelOfVehicle}
         />
 
         <Dropdown

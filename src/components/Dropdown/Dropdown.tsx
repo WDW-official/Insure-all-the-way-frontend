@@ -16,6 +16,7 @@ export type DropdownProps = {
   errorMessage?: string;
   onOpen?: () => void;
   maxHeight?: string;
+  disabled?: boolean;
 };
 
 const Dropdown = (props: DropdownProps) => {
@@ -93,7 +94,9 @@ const Dropdown = (props: DropdownProps) => {
       >
         <div
           // tabIndex={0}
-          className={classes.dropdownButton}
+          className={`${classes.dropdownButton} ${
+            props.disabled ? classes.disabled : classes.abled
+          }`}
           onClick={() => {
             setIsActive(!isActive);
             if (props.onOpen) {
@@ -113,7 +116,9 @@ const Dropdown = (props: DropdownProps) => {
             const optionsCopy =
               props.options &&
               props.options.filter((data) => {
-                return data?.toString().toLowerCase().charAt(0) === event.key;
+                return (
+                  String(data?.toString().toLowerCase().charAt(0)) === event.key
+                );
               });
             setOptionsState(optionsCopy);
             if (event.key === "Backspace") {
@@ -124,26 +129,39 @@ const Dropdown = (props: DropdownProps) => {
           {props?.selected ||
             props?.title ||
             `Select ${props.label?.toLowerCase()}`}
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            style={
-              isActive
-                ? { transform: "rotate(-90deg)" }
-                : { transform: "rotate(0deg)" }
-            }
-          >
-            <path
-              d="M4 6L8 10L12 6"
-              stroke="black"
-              strokeWidth="1.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+          {props.isLoading ? (
+            <CircularProgress
+              size="1rem"
+              color="inherit"
+              style={{
+                color: "#e5c300",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
             />
-          </svg>
+          ) : (
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              style={
+                isActive
+                  ? { transform: "rotate(-90deg)" }
+                  : { transform: "rotate(0deg)" }
+              }
+            >
+              <path
+                d="M4 6L8 10L12 6"
+                stroke="black"
+                strokeWidth="1.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          )}
         </div>
         {isActive && (
           <div
@@ -167,8 +185,8 @@ const Dropdown = (props: DropdownProps) => {
               optionsState
                 ?.filter((option) => {
                   return keyPressedValue.toLowerCase() === ""
-                    ? option
-                    : option
+                    ? String(option)
+                    : String(option)
                         ?.toLowerCase()
                         ?.includes(keyPressedValue?.toLowerCase());
                 })
@@ -194,9 +212,14 @@ const Dropdown = (props: DropdownProps) => {
             ) : (
               <div className={classes.loadingContainer}>
                 <CircularProgress
-                  size="2rem"
+                  size="3rem"
                   color="inherit"
-                  style={{ color: "#e5c300" }}
+                  style={{
+                    color: "#e5c300",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
                 />
               </div>
             )}
