@@ -45,8 +45,6 @@ const MotorClaimsForm = ({
     }
   }, [data?.registrationNumber]);
 
-  console.log(data, "Check");
-
   return (
     <div className={classes.container}>
       <h4>Motor Claim Form</h4>
