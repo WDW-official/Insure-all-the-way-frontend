@@ -10,7 +10,7 @@ import {
   useCarModels,
   useCarYearsByMakeAndModel,
 } from "@/hooks/usePolicies";
-import { capitalize } from "@/helpers/capitalize";
+import { capitalize, capitalizeEachWord } from "@/helpers/capitalize";
 import { inputChangeHandler } from "@/helpers/inputChangeHandler";
 import { projectTime } from "@/helpers/projectTime";
 import { mutate } from "swr";
@@ -28,7 +28,6 @@ const EnhancedThordPartyMortrInsuranceForm1 = ({
   const [makeOfVehicle, setMakeOfVehicle] = useState("");
   const [modelOfVehicle, setModelOfVehidle] = useState("");
   const [yearOfMake, setYearOfMake] = useState("");
-  const [carManufacturers, setCarManufacturers] = useState([]);
   const [color, setColor] = useState("");
   const [vehicleType, setVehicleType] = useState("");
 
@@ -45,7 +44,9 @@ const EnhancedThordPartyMortrInsuranceForm1 = ({
 
   // Memos
   const carMakes = useMemo(() => {
-    return carMakesData?.data?.makes?.map((data: string) => capitalize(data));
+    return carMakesData?.data?.makes?.map((data: string) =>
+      capitalizeEachWord(data)
+    );
   }, [carMakesData]);
 
   const carModels = useMemo(() => {

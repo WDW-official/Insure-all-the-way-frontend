@@ -21,7 +21,7 @@ import {
   useCars,
   useCarYearsByMakeAndModel,
 } from "@/hooks/usePolicies";
-import { capitalize } from "@/helpers/capitalize";
+import { capitalize, capitalizeEachWord } from "@/helpers/capitalize";
 import { mutate } from "swr";
 
 type ComprehensiveMotorInsuranceFormTypes = {
@@ -58,7 +58,9 @@ const ComprehensiveMotorInsuranceForm = ({
 
   // Memos
   const carMakes = useMemo(() => {
-    return carMakesData?.data?.makes?.map((data: string) => capitalize(data));
+    return carMakesData?.data?.makes?.map((data: string) =>
+      capitalizeEachWord(data)
+    );
   }, [carMakesData]);
 
   const carModels = useMemo(() => {

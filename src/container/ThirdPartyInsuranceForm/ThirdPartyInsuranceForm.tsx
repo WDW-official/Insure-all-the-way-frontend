@@ -29,7 +29,7 @@ import {
   useCarYearsByMakeAndModel,
 } from "@/hooks/usePolicies";
 import { mutate } from "swr";
-import { capitalize } from "@/helpers/capitalize";
+import { capitalize, capitalizeEachWord } from "@/helpers/capitalize";
 
 type ThirdPartyInsuranceFormTypes = {
   data: thirdPartyInsuranceFormType;
@@ -78,7 +78,9 @@ const ThirdPartyInsuranceForm = ({
 
   // Memos
   const carMakes = useMemo(() => {
-    return carMakesData?.data?.makes?.map((data: string) => capitalize(data));
+    return carMakesData?.data?.makes?.map((data: string) =>
+      capitalizeEachWord(data)
+    );
   }, [carMakesData]);
 
   const carModels = useMemo(() => {
@@ -109,7 +111,6 @@ const ThirdPartyInsuranceForm = ({
   const todaysDate = moment().format("YYYY-MM-DD");
 
   // Effects
-
   useEffect(() => {
     if (makeOfVehicle) {
       mutate(`/externals/cars/models/${makeOfVehicle}`);
