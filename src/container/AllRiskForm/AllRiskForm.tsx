@@ -278,7 +278,7 @@ const AllRiskForm = () => {
           <Dropdown
             label="What type of device would you like to insure"
             title="Select"
-            options={["Laptop", "Phone"]}
+            options={["Laptop", "Phone", "Laptop & Phone"]}
             selected={deviceType}
             setSelected={setDeviceType}
             isRequired
