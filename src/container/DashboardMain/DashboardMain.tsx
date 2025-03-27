@@ -37,7 +37,9 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
   // Effects
   useEffect(() => {
     if (userPolicies?.length > 0) {
-      const newUserPolicies = userPolicies?.map((data) => {
+      const newUserPolicies = userPolicies?.map((data: any) => {
+        console.log(data, "Wyd");
+
         return {
           policyHeld: structureWords(data?.insuranceType),
           exporationDate: moment(data?.endDate)?.format("Do MMMM, YYYY"),
@@ -46,6 +48,14 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
           isActive: false,
           id: data?._id,
           tracker: data?.isTrackerInstalled,
+          firstName: data?.user?.firstName,
+          lastName: data?.user?.lastName,
+          plan: data?.plan,
+          insuranceType: data?.insuranceType,
+          email: data?.user?.email,
+          registrationNumber: data?.registrationNumber,
+          chasisNumber: data?.chasisNumber,
+          phone: data?.user?.phone,
         };
       });
 
@@ -64,19 +74,12 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
         }
       },
     },
-    // {
-    //   text: "Renew Policy",
-    //   action: () => {},
-    // },
+
     {
-      text: "Download Policy",
+      text: "Download Policy Certificate",
       action: () => {},
       isActive: true,
     },
-    // {
-    //   text: "Renew Vehicle Papers",
-    //   action: () => {},
-    // },
   ];
 
   return (

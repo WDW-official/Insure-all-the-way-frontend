@@ -45,6 +45,30 @@
   justify-content: flex-end;
 }
 
+.buttonSection > a {
+  display: flex;
+  padding: 16px 32px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: "General Sans";
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 22.8px;
+  letter-spacing: -0.02em;
+  text-align: center;
+  user-select: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0px 67.49px 84.37px 0px #a6a6a61a;
+  border-radius: calc(infinity * 1px);
+  border-radius: 10px;
+  min-width: 100px;
+  background-color: var(--white);
+  color: var(--black);
+}
+
 @media screen and (max-width: 767px) {
   .container {
     padding: 2rem 1rem;

@@ -45,6 +45,8 @@ const MotorClaimsForm = ({
     }
   }, [data?.registrationNumber]);
 
+  console.log(data, "Check");
+
   return (
     <div className={classes.container}>
       <h4>Motor Claim Form</h4>
@@ -80,10 +82,14 @@ const MotorClaimsForm = ({
           name="narration"
         />
         <div className={classes.buttonSection}>
-          <Button type="bordered">
+          <a
+            href={`tel:${data?.agent?.phone}`}
+            style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
+          >
             <Phone />
-            <span>Call Your Agent</span>
-          </Button>
+            <span>Call your Agent</span>
+          </a>
+
           <Button
             disabled={!areAllValuesFilled(claimsData)}
             onClick={(e) => {

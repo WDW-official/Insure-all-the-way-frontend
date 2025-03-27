@@ -58,7 +58,8 @@ const PaymentModalBody = ({
       ),
     [policySubtypeData]
   );
-  console.log(policySubtypeData, data, "Check");
+
+  console.log(policyData, "Policy");
 
   // Utils
   const componentProps = {
@@ -98,6 +99,18 @@ const PaymentModalBody = ({
         value={data?.email}
       />
       <Input label="Phone" type="phone" readOnly value={data?.phone} />
+
+      {policyType?.includes("motor") && data?.registrationNumber && (
+        <>
+          <Input
+            label="Registration Number"
+            readOnly
+            value={data?.registrationNumber}
+          />
+          <Input label="Chassis Number" readOnly value={data?.chasisNumber} />
+        </>
+      )}
+
       <Input
         label="Amount"
         readOnly

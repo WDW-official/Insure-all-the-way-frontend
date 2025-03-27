@@ -1,7 +1,7 @@
 .container {
   height: 100svh;
   padding-block: 54px;
-  padding-inline: 128px;
+  padding-inline: 100px;
   position: relative;
 }
 

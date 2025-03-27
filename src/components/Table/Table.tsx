@@ -1,6 +1,6 @@
 "use client";
 
-import { capitalize } from "@/helpers/capitalize";
+import { capitalize, capitalizeEachWord } from "@/helpers/capitalize";
 import classes from "./Table.module.css";
 import ArrowDown from "@/assets/svgIcons/ArrowDown";
 import {
@@ -17,6 +17,7 @@ import moment from "moment";
 import { useRouter } from "next/navigation";
 import { routes } from "@/utilities/routes";
 import ClaimsForm from "@/container/ClaimsForm/ClaimsForm";
+import PaymentModalBody from "@/container/PaymentModalBody/PaymentModalBody";
 
 type TableType = {
   headers: string[];
@@ -31,8 +32,11 @@ const Table = ({ header, data, headers, options }: TableType) => {
   const [modals, setModals] = useState<modalGenericType>({
     info: false,
     claim: false,
+    revewPolicy: false,
+    success: false,
   });
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [singleData, setSingleData] = useState<any>(null);
 
   //   Ref
   const optionsDiv = useRef<HTMLDivElement | null>(null);
@@ -76,6 +80,8 @@ const Table = ({ header, data, headers, options }: TableType) => {
     }
   }, [data?.length]);
 
+  console.log(singleData, "Data");
+
   return (
     <>
       {modals.info && (
@@ -97,6 +103,34 @@ const Table = ({ header, data, headers, options }: TableType) => {
             <ClaimsForm
               onClose={() => setAllModalsFalse(setModals)}
               selectedPolicyId={activeId}
+            />
+          }
+        />
+      )}
+
+      {modals.revewPolicy && (
+        <Modal
+          onClick={() => setAllModalsFalse(setModals)}
+          body={
+            <PaymentModalBody
+              onClose={() => setAllModalsFalse(setModals)}
+              data={singleData as any}
+              policyType={
+                singleData?.policyHeld?.toLowerCase()?.includes("motor")
+                  ? "motor-insurance"
+                  : singleData?.insuranceType?.toLowerCase() === "building"
+                  ? "property-insurance"
+                  : singleData?.insuranceType?.toLowerCase() === "all-risk"
+                  ? "property-insurance"
+                  : singleData?.insuranceType === "all-risks"
+                  ? "property-insurance"
+                  : "health-insurance"
+              }
+              policySubType={singleData?.insuranceType as any}
+              onSuccess={() => {
+                setAllModalsFalse(setModals);
+                setModalTrue(setModals, "success");
+              }}
             />
           }
         />
@@ -124,6 +158,7 @@ const Table = ({ header, data, headers, options }: TableType) => {
                     onClick={() => {
                       setActiveId(item?.id);
                       setModalTrue(setModals, "info");
+                      setSingleData(item);
                     }}
                   >
                     {headers.map((_, colIndex) => {
@@ -143,6 +178,7 @@ const Table = ({ header, data, headers, options }: TableType) => {
                                   dataState,
                                   setDataState
                                 );
+                                setSingleData(item);
                               }}
                             >
                               <span>Options</span>
@@ -151,6 +187,7 @@ const Table = ({ header, data, headers, options }: TableType) => {
                                 <div
                                   className={classes.options}
                                   ref={optionsDiv}
+                                  onClick={(e) => e.stopPropagation()}
                                 >
                                   {options?.map((option) => {
                                     return (
@@ -165,13 +202,19 @@ const Table = ({ header, data, headers, options }: TableType) => {
                                       </span>
                                     );
                                   })}
+                                  {moment(endDate).diff(today) < 14 && (
+                                    <span
+                                      onClick={() => {
+                                        setModalTrue(setModals, "revewPolicy");
+                                      }}
+                                    >
+                                      Renew Policy
+                                    </span>
+                                  )}
+
                                   {(
                                     String(Object.values(item)[0]) as string
                                   ).includes("Motor") && (
-                                    <span>Renew Vehicle Papers</span>
-                                  )}
-
-                                  {moment(endDate).diff(today) < 14 && (
                                     <span>Renew Vehicle Papers</span>
                                   )}
 
@@ -194,7 +237,7 @@ const Table = ({ header, data, headers, options }: TableType) => {
                       return (
                         <span key={colIndex} className={classes?.tableBody}>
                           <span>
-                            {capitalize(
+                            {capitalizeEachWord(
                               String(
                                 Object.values(item)[colIndex] as string
                               ) as string

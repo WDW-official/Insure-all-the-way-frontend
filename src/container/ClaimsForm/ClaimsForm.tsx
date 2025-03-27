@@ -35,6 +35,15 @@ const ClaimsForm = ({ onClose, selectedPolicyId }: ClaimsFormTypes) => {
     narration: "",
   });
 
+  const [propertyClaimsData, setPropertyClaimsData] = useState<claimsDataType>({
+    dateAndTime: "",
+    location: "",
+    narration: "",
+    type: "",
+    estimate: "",
+    property: "",
+  });
+
   const [requestState, setRequestState] = useState<requestType>({
     isLoading: false,
     data: null,
@@ -47,7 +56,8 @@ const ClaimsForm = ({ onClose, selectedPolicyId }: ClaimsFormTypes) => {
     [policyData]
   );
 
-  // Hooks
+  console.log(policy, "Policy");
+
   // Hooks
   const { errorFlowFunction } = useError();
   const { showToast } = useToast();
@@ -56,7 +66,12 @@ const ClaimsForm = ({ onClose, selectedPolicyId }: ClaimsFormTypes) => {
   const claimsHandler = () => {
     requestHandler({
       url: "/policies/policy/claim",
-      data: { insuranceId: selectedPolicyId, ...claimsData },
+      data:
+        policy?.insuranceType === "building" ||
+        policy?.insuranceType === "all-risk" ||
+        policy?.insuranceType === "all-risks"
+          ? { insuranceId: selectedPolicyId, ...propertyClaimsData }
+          : { insuranceId: selectedPolicyId, ...claimsData },
       method: "POST",
       id: "claim-policy",
       state: requestState,
@@ -93,7 +108,14 @@ const ClaimsForm = ({ onClose, selectedPolicyId }: ClaimsFormTypes) => {
           claimsHandler={claimsHandler}
         />
       ) : (
-        <PropertyClaimForm onClose={onClose} />
+        <PropertyClaimForm
+          onClose={onClose}
+          data={policy}
+          requestState={requestState}
+          claimsData={propertyClaimsData}
+          setClaimsData={setPropertyClaimsData}
+          claimsHandler={claimsHandler}
+        />
       )}
     </form>
   );
