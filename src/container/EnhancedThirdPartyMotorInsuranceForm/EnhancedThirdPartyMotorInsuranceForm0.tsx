@@ -39,7 +39,7 @@ const EnhancedThirdPartyMotorInsuranceForm0 = ({
           firstName: user?.firstName,
           lastName: user?.lastName,
           email: user?.email,
-          phoneNumber: user?.phone,
+          phone: user?.phone,
           address: user?.address,
           state: user?.state,
           gender: user?.gender,
@@ -71,6 +71,7 @@ const EnhancedThirdPartyMotorInsuranceForm0 = ({
         value={data?.firstName}
         onChange={(e) => inputChangeHandler(e, setData)}
         name="firstName"
+        isRequired
       />
       <Input
         label="Last name"
@@ -78,6 +79,7 @@ const EnhancedThirdPartyMotorInsuranceForm0 = ({
         value={data?.lastName}
         onChange={(e) => inputChangeHandler(e, setData)}
         name="lastName"
+        isRequired
       />
       <Input
         label="Email Address"
@@ -86,6 +88,7 @@ const EnhancedThirdPartyMotorInsuranceForm0 = ({
         value={data?.email}
         onChange={(e) => inputChangeHandler(e, setData)}
         name="email"
+        isRequired
       />
       <Input
         label="Phone Number"
@@ -94,6 +97,7 @@ const EnhancedThirdPartyMotorInsuranceForm0 = ({
         value={data?.phone}
         onChange={(e) => inputChangeHandler(e, setData)}
         name="phone"
+        isRequired
       />
 
       <Dropdown

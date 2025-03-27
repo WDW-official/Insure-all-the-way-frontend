@@ -84,6 +84,7 @@ const FleetInsuranceForm = ({
           name="firstName"
           value={data?.firstName}
           onChange={(e) => inputChangeHandler(e, setData)}
+          isRequired
         />
         <Input
           label="Last Name"
@@ -91,6 +92,7 @@ const FleetInsuranceForm = ({
           name="lastName"
           value={data?.lastName}
           onChange={(e) => inputChangeHandler(e, setData)}
+          isRequired
         />
         <Input
           label="Email"
@@ -99,6 +101,7 @@ const FleetInsuranceForm = ({
           name="email"
           value={data?.email}
           onChange={(e) => inputChangeHandler(e, setData)}
+          isRequired
         />
         <Input
           label="Phone Number"
@@ -106,6 +109,7 @@ const FleetInsuranceForm = ({
           name="phone"
           value={data?.phone}
           onChange={(e) => inputChangeHandler(e, setData)}
+          isRequired
         />
         <Dropdown
           label="Gender"
@@ -130,6 +134,7 @@ const FleetInsuranceForm = ({
           name="address"
           value={data?.address}
           onChange={(e) => inputChangeHandler(e, setData)}
+          isRequired
         />
         <Dropdown
           label="Property Type"
@@ -137,6 +142,7 @@ const FleetInsuranceForm = ({
           title="Select "
           selected={propertyType || data?.propertyType}
           setSelected={setPropertyType}
+          isRequired
         />
 
         <Dropdown
@@ -145,6 +151,7 @@ const FleetInsuranceForm = ({
           title="Select State "
           selected={state || data?.state}
           setSelected={setState}
+          isRequired
         />
 
         <TextArea
@@ -153,6 +160,7 @@ const FleetInsuranceForm = ({
           name="comment"
           value={data?.comment}
           onChange={(e) => inputChangeHandler(e, setData)}
+          isRequired
         />
 
         <div>

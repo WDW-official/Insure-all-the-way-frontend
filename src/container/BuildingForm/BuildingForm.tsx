@@ -192,6 +192,7 @@ const BuildingForm = () => {
             value={buildingFormData?.firstName}
             name="firstName"
             onChange={(e) => inputChangeHandler(e, setBuildingFormData)}
+            isRequired
           />
           <Input
             label="Last Name"
@@ -199,6 +200,7 @@ const BuildingForm = () => {
             value={buildingFormData?.lastName}
             name="lastName"
             onChange={(e) => inputChangeHandler(e, setBuildingFormData)}
+            isRequired
           />{" "}
           <Input
             label="Email"
@@ -206,6 +208,7 @@ const BuildingForm = () => {
             value={buildingFormData?.email}
             name="email"
             onChange={(e) => inputChangeHandler(e, setBuildingFormData)}
+            isRequired
           />{" "}
           <Input
             label="Phone Number"
@@ -213,6 +216,7 @@ const BuildingForm = () => {
             value={buildingFormData?.phone}
             name="phone"
             onChange={(e) => inputChangeHandler(e, setBuildingFormData)}
+            isRequired
           />{" "}
           <Dropdown
             label="Gender"
@@ -236,6 +240,7 @@ const BuildingForm = () => {
             value={buildingFormData?.address}
             name="address"
             onChange={(e) => inputChangeHandler(e, setBuildingFormData)}
+            isRequired
           />{" "}
           <Input
             label="Location Of Property"
@@ -243,6 +248,7 @@ const BuildingForm = () => {
             value={buildingFormData?.locationOfProperty}
             name="locationOfProperty"
             onChange={(e) => inputChangeHandler(e, setBuildingFormData)}
+            isRequired
           />{" "}
           <Input
             label="Value Of Property"
@@ -251,6 +257,7 @@ const BuildingForm = () => {
             value={buildingFormData?.valueOfProperty}
             name="valueOfProperty"
             onChange={(e) => inputChangeHandler(e, setBuildingFormData)}
+            isRequired
           />{" "}
           <Dropdown
             label="State"
@@ -258,6 +265,7 @@ const BuildingForm = () => {
             title="Select"
             selected={state}
             setSelected={setState}
+            isRequired
           />
           <Input
             label="Start Date"
@@ -266,6 +274,7 @@ const BuildingForm = () => {
             name="startDate"
             onChange={(e) => inputChangeHandler(e, setBuildingFormData)}
             // min={TODAY}
+            isRequired
           />
           <Input
             label="End Date"

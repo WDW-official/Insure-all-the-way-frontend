@@ -34,6 +34,7 @@ const EnhancedThirdPartyMotorInsuranceForm3 = ({
         label="Inspection State"
         selected={inspectionState}
         setSelected={setInspectionState}
+        isRequired
       />
       <Input
         label="Inspection Address"
@@ -41,6 +42,7 @@ const EnhancedThirdPartyMotorInsuranceForm3 = ({
         name="inspectionAddress"
         value={data?.inspectionAddress}
         onChange={(e) => inputChangeHandler(e, setData)}
+        isRequired
       />
       <Input
         label="Preferred Date for Inspection"
@@ -48,6 +50,8 @@ const EnhancedThirdPartyMotorInsuranceForm3 = ({
         name="dateForInspection"
         value={data?.dateForInspection}
         onChange={(e) => inputChangeHandler(e, setData)}
+        isRequired
+
         // min={TODAY}
       />
       <Input
@@ -56,6 +60,7 @@ const EnhancedThirdPartyMotorInsuranceForm3 = ({
         name="contactName"
         value={data?.contactName}
         onChange={(e) => inputChangeHandler(e, setData)}
+        isRequired
       />
       <Input
         label="Phone Number"
@@ -64,6 +69,7 @@ const EnhancedThirdPartyMotorInsuranceForm3 = ({
         name="contactPhone"
         value={data?.contactPhone}
         onChange={(e) => inputChangeHandler(e, setData)}
+        isRequired
       />
     </form>
   );
