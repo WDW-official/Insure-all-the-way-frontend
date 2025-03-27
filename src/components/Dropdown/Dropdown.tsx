@@ -112,17 +112,20 @@ const Dropdown = (props: DropdownProps) => {
           }}
           tabIndex={0}
           onKeyDown={(event) => {
-            setKEyPressedValue(event.key);
-            const optionsCopy =
-              props.options &&
-              props.options.filter((data) => {
-                return (
-                  String(data?.toString().toLowerCase().charAt(0)) === event.key
-                );
-              });
-            setOptionsState(optionsCopy);
-            if (event.key === "Backspace") {
-              setOptionsState(props.options);
+            if (props.options && props?.options?.length > 8) {
+              setKEyPressedValue(event.key);
+              const optionsCopy =
+                props.options &&
+                props.options.filter((data) => {
+                  return (
+                    String(data?.toString().toLowerCase().charAt(0)) ===
+                    event.key
+                  );
+                });
+              setOptionsState(optionsCopy);
+              if (event.key === "Backspace") {
+                setOptionsState(props.options);
+              }
             }
           }}
         >
@@ -175,7 +178,9 @@ const Dropdown = (props: DropdownProps) => {
                   placeholder="Search"
                   value={keyPressedValue}
                   onChange={(e) => {
-                    setKEyPressedValue(e.target.value);
+                    if (props?.options && props?.options?.length > 8) {
+                      setKEyPressedValue(e.target.value);
+                    }
                   }}
                   ref={searchInput}
                 />
@@ -184,7 +189,8 @@ const Dropdown = (props: DropdownProps) => {
             {optionsState && optionsState.length > 0 ? (
               optionsState
                 ?.filter((option) => {
-                  return keyPressedValue.toLowerCase() === ""
+                  return keyPressedValue.toLowerCase() === "" ||
+                    (props?.options && props?.options?.length <= 8)
                     ? String(option)
                     : String(option)
                         ?.toLowerCase()
