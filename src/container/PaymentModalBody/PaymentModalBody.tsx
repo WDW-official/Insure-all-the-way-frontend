@@ -59,8 +59,6 @@ const PaymentModalBody = ({
     [policySubtypeData]
   );
 
-  console.log(policyData, "Policy");
-
   // Utils
   const componentProps = {
     email: data?.email,
