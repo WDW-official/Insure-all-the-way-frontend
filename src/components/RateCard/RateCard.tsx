@@ -5,6 +5,7 @@ import Button from "../Button/Button";
 import classes from "./RateCard.module.css";
 import { useRouter } from "next/navigation";
 import { formatCurrency } from "@/helpers/formatAmount";
+import { structureWords } from "@/helpers/capitalize";
 
 type RateCardTypes = {
   title: string;
@@ -32,7 +33,7 @@ const RateCard = ({
 
   return (
     <div className={classes.container} style={{ border: `2px solid ${theme}` }}>
-      <h4>{title}</h4>
+      <h4>{structureWords(title)}</h4>
       <p>{description}</p>
       <h3 style={{ color: theme }}>
         {price
