@@ -59,7 +59,7 @@ const PaymentModalBody = ({
     [policySubtypeData]
   );
 
-  console.log(policyData, "Policy");
+  console.log(policyData, data?.plan, "Policy");
 
   // Utils
   const componentProps = {
