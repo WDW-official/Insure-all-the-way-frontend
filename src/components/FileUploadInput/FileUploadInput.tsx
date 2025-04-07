@@ -12,6 +12,7 @@ type FileUploadInputTypes = {
   title: string;
   id?: string;
   accept?: string;
+  notShowFiles?: boolean;
 };
 
 const FileUploadInput = ({
@@ -20,6 +21,7 @@ const FileUploadInput = ({
   title,
   id,
   accept,
+  notShowFiles,
 }: FileUploadInputTypes) => {
   // States
   const [isDraggingOver, setIsDraggingOver] = useState(false);
@@ -90,7 +92,7 @@ const FileUploadInput = ({
         <p>Supported formates: JPEG, PNG</p>
       </div>
 
-      {files?.length > 0 && (
+      {!notShowFiles && files?.length > 0 && (
         <div className={classes.uploaded}>
           <h4>Uploaded File</h4>
 

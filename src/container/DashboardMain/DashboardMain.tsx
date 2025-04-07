@@ -38,8 +38,6 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
   useEffect(() => {
     if (userPolicies?.length > 0) {
       const newUserPolicies = userPolicies?.map((data: any) => {
-        console.log(data, "Wyd");
-
         return {
           policyHeld: structureWords(data?.insuranceType),
           exporationDate: moment(data?.endDate)?.format("Do MMMM, YYYY"),
@@ -56,6 +54,7 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
           registrationNumber: data?.registrationNumber,
           chasisNumber: data?.chasisNumber,
           phone: data?.user?.phone,
+          valueOfProperty: Number(data?.valueOfProperty),
         };
       });
 

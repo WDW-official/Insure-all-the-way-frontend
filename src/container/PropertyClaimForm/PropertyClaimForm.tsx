@@ -49,11 +49,11 @@ const PropertyClaimForm = ({
     }
   }, [type]);
 
-  console.log(claimsData, "Datatt");
+  console.log(data, "Datatt");
 
   return (
     <div className={classes.container}>
-      <h4>All Risk Claim Form</h4>
+      <h4>Property Claim Form</h4>
       <p>Please fill the form below so we can serve you better</p>
       <Close onClick={onClose} />
       <form action="">
@@ -62,6 +62,7 @@ const PropertyClaimForm = ({
           options={["Theft", "Accident"]}
           selected={type}
           setSelected={setType}
+          isRequired
         />
         <Input
           label="Location of Claim"
@@ -69,6 +70,7 @@ const PropertyClaimForm = ({
           value={claimsData?.location}
           onChange={(e) => inputChangeHandler(e, setClaimsData)}
           name="location"
+          isRequired
         />
         <Input
           label="Date and Time of Occurence"
@@ -78,6 +80,7 @@ const PropertyClaimForm = ({
           name="dateAndTime"
           min={minDate}
           max={maxDate}
+          isRequired
         />
         <Input
           label="Estimation of Repairs"
@@ -85,6 +88,7 @@ const PropertyClaimForm = ({
           value={claimsData?.estimate}
           onChange={(e) => inputChangeHandler(e, setClaimsData)}
           name="estimate"
+          isRequired
         />
 
         <TextArea
@@ -93,6 +97,7 @@ const PropertyClaimForm = ({
           value={claimsData?.property}
           onChange={(e) => inputChangeHandler(e, setClaimsData)}
           name="property"
+          isRequired
         />
         <TextArea
           label="Provide the circumstances of loss or damage"
@@ -100,6 +105,7 @@ const PropertyClaimForm = ({
           value={claimsData?.narration}
           onChange={(e) => inputChangeHandler(e, setClaimsData)}
           name="narration"
+          isRequired
         />
 
         <div className={classes.buttonSection}>

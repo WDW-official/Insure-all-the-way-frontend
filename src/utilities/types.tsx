@@ -146,13 +146,15 @@ export type userPoliciesType = {
 };
 
 export type claimsDataType = {
-  dateAndTime: string;
+  dateAndTime?: string;
   registrationNumber?: string;
-  location: string;
-  narration: string;
+  location?: string;
+  narration?: string;
   type?: string;
   estimate?: string;
   property?: string;
+  enroleeId?: string;
+  attachments?: File[];
 };
 
 export type allRiskDataTypes = userType & {

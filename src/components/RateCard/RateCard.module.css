@@ -72,6 +72,11 @@
   margin-bottom: 0.5rem;
 }
 
+.container > ul > li > svg {
+  flex-shrink: 0;
+  border: 2px solid var(--black);
+}
+
 .container:hover {
   scale: 1.05;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
