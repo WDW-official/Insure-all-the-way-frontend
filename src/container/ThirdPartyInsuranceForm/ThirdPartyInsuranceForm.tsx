@@ -21,7 +21,7 @@ import PaymentModalBody from "../PaymentModalBody/PaymentModalBody";
 import Loader from "@/components/Loader/Loader";
 import { projectTime } from "@/helpers/projectTime";
 import { Alert, cardClasses } from "@mui/material";
-import { GENDERS } from "@/utilities/constants";
+import { GENDERS, TODAY } from "@/utilities/constants";
 import {
   useCarMakes,
   useCarModels,
@@ -104,12 +104,6 @@ const ThirdPartyInsuranceForm = ({
     });
   };
 
-  // Utils
-  const existingThirdPartyPolicies = requestState?.data?.policyData?.filter(
-    (data: any) => data["type-of-cover"]?.toLowerCase() === "third party"
-  );
-  const todaysDate = moment().format("YYYY-MM-DD");
-
   // Effects
   useEffect(() => {
     if (makeOfVehicle) {
@@ -134,19 +128,26 @@ const ThirdPartyInsuranceForm = ({
   }, [submitState?.data]);
 
   useEffect(() => {
-    if (existingThirdPartyPolicies?.length > 0) {
-      const thirdPartyPolicy = existingThirdPartyPolicies[0];
+    const thirdPartyPolicy = requestState?.data?.policyData;
 
+    if (
+      thirdPartyPolicy?.type_of_cover?.toLowerCase().includes("third party")
+    ) {
       setData((prevState: thirdPartyInsuranceFormType) => {
         return {
           ...prevState,
-
-          startDate: moment(thirdPartyPolicy["valid-to"], "D MMMM YYYY").format(
-            "YYYY-MM-DD"
-          ),
-          chasisNumber: thirdPartyPolicy["chassis-no"],
+          startDate: moment(
+            thirdPartyPolicy["issue_date"],
+            "D MMMM YYYY"
+          ).format("YYYY-MM-DD"),
+          chasisNumber: thirdPartyPolicy["chassis_number"],
+          makeOfVehicle: thirdPartyPolicy["vehicle_make"],
+          modelOfVehicle: thirdPartyPolicy["vehicle_model"],
         };
       });
+
+      setMakeOfVehicle(thirdPartyPolicy["vehicle_make"]);
+      setModelOfVehidle(thirdPartyPolicy["vehicle_model"]);
     }
   }, [requestState?.data]);
 
@@ -368,14 +369,7 @@ const ThirdPartyInsuranceForm = ({
           />
 
           <h4>Tell us About Yourself</h4>
-          <Dropdown
-            label="Title"
-            options={["Mr.", "Mrs.", "Miss"]}
-            title="Select"
-            selected={title}
-            setSelected={setTitle}
-            isRequired
-          />
+
           <Input
             label="First Name"
             placeholder="Eg: John"
