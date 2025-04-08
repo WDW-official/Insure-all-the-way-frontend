@@ -56,6 +56,8 @@ const ThirdPartyMotorInsurance = () => {
       makeOfVehicle: "",
       yearOfMake: "",
       modelOfVehicle: "",
+      vehicleLicense: null,
+      roadWorthinessFile: null,
     });
 
   // Requests
@@ -77,7 +79,6 @@ const ThirdPartyMotorInsurance = () => {
             ...prevState,
             registrationNumber: "",
             chasisNumber: "",
-            roadWorthiness: "",
             startDate: "",
             endDate: "",
             makeOfVehicle: "",
@@ -103,11 +104,6 @@ const ThirdPartyMotorInsurance = () => {
       "chasisNumber",
       thirdPartyFormData?.chasisNumber
     );
-
-    subThirdPartyFormData.append(
-      "roadWorthiness",
-      thirdPartyFormData?.roadWorthiness
-    );
     subThirdPartyFormData.append(
       "makeOfVehicle",
       thirdPartyFormData?.makeOfVehicle
@@ -128,6 +124,14 @@ const ThirdPartyMotorInsurance = () => {
     subThirdPartyFormData.append("state", thirdPartyFormData?.state);
     subThirdPartyFormData.append("gender", thirdPartyFormData?.gender);
     subThirdPartyFormData.append("occupation", thirdPartyFormData?.occupation);
+    subThirdPartyFormData.append(
+      "roadWorthiness",
+      thirdPartyFormData?.roadWorthinessFile as File
+    );
+    subThirdPartyFormData.append(
+      "vehicleLicense",
+      thirdPartyFormData?.vehicleLicense as File
+    );
 
     setThirdPartyFormDataFormdata(subThirdPartyFormData);
   }, [thirdPartyFormData]);

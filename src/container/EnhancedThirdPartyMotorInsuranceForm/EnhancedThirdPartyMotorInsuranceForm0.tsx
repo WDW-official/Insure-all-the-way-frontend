@@ -106,7 +106,6 @@ const EnhancedThirdPartyMotorInsuranceForm0 = ({
         title="Select Gender"
         selected={gender || data?.gender}
         setSelected={setGender}
-        isRequired
       />
 
       <Input
@@ -115,7 +114,6 @@ const EnhancedThirdPartyMotorInsuranceForm0 = ({
         value={data?.occupation}
         name="occupation"
         onChange={(e) => inputChangeHandler(e, setData)}
-        isRequired
       />
 
       <Input

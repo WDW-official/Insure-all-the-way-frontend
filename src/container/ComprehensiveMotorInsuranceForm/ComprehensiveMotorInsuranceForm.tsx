@@ -8,7 +8,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import classes from "./ComprehensiveMotorInsuranceForm.module.css";
+import classes from "../ThirdPartyInsuranceForm/ThirdPartyInsuranceForm.module.css";
 import { states } from "@/utilities/states";
 import { comprehensiveeFormDataTypes, requestType } from "@/utilities/types";
 import { inputChangeHandler } from "@/helpers/inputChangeHandler";
@@ -23,6 +23,10 @@ import {
 } from "@/hooks/usePolicies";
 import { capitalize, capitalizeEachWord } from "@/helpers/capitalize";
 import { mutate } from "swr";
+import { requestHandler } from "@/helpers/requestHandler";
+import { Alert } from "@mui/material";
+import FileUploadInput from "@/components/FileUploadInput/FileUploadInput";
+import Loader from "@/components/Loader/Loader";
 
 type ComprehensiveMotorInsuranceFormTypes = {
   data: comprehensiveeFormDataTypes;
@@ -44,6 +48,14 @@ const ComprehensiveMotorInsuranceForm = ({
   const [modelOfVehicle, setModelOfVehidle] = useState("");
   const [yearOfMake, setYearOfMake] = useState("");
   const [gender, setGender] = useState("");
+  const [askNiidRequestState, setAskNiidRequestState] = useState<requestType>({
+    isLoading: false,
+    data: null,
+    error: null,
+  });
+  const [vehicleLicense, setVehicleLicense] = useState<File[]>([]);
+  const [roadWorthinessFile, setRoadWorthinessFile] = useState<File[]>([]);
+  const [roadWorthiness, setRoadWorthiness] = useState("");
 
   // Requests
   const { isLoading: carMakesIsLoading, data: carMakesData } = useCarMakes();
@@ -55,6 +67,20 @@ const ComprehensiveMotorInsuranceForm = ({
       makeOfVehicle as string,
       modelOfVehicle as string
     );
+  const askNiidHandler = (regNumber: string) => {
+    requestHandler({
+      method: "POST",
+      url: "/scrape/ask-niid",
+      id: "ask-niid",
+      data: { policyNumber: regNumber },
+      state: askNiidRequestState,
+      setState: setAskNiidRequestState,
+      requestCleanup: false,
+      errorFunction(err) {
+        console.log(err, "Error");
+      },
+    });
+  };
 
   // Memos
   const carMakes = useMemo(() => {
@@ -83,6 +109,30 @@ const ComprehensiveMotorInsuranceForm = ({
   }, [makeOfVehicle]);
 
   useEffect(() => {
+    const thirdPartyPolicy = askNiidRequestState?.data?.policyData;
+
+    if (
+      thirdPartyPolicy?.type_of_cover?.toLowerCase().includes("third party")
+    ) {
+      setData((prevState: comprehensiveeFormDataTypes) => {
+        return {
+          ...prevState,
+          startDate: moment(
+            thirdPartyPolicy["issue_date"],
+            "D MMMM YYYY"
+          ).format("YYYY-MM-DD"),
+          chassisNumber: thirdPartyPolicy["chassis_number"],
+          makeOfVehicle: thirdPartyPolicy["vehicle_make"],
+          modelOfVehicle: thirdPartyPolicy["vehicle_model"],
+        };
+      });
+
+      setMakeOfVehicle(thirdPartyPolicy["vehicle_make"]);
+      setModelOfVehidle(thirdPartyPolicy["vehicle_model"]);
+    }
+  }, [askNiidRequestState?.data]);
+
+  useEffect(() => {
     if (requestState?.data && requestState?.id === "submit-form") {
       setCoverPeriod("");
       setState("");
@@ -90,6 +140,8 @@ const ComprehensiveMotorInsuranceForm = ({
       setModelOfVehidle("");
       setYearOfMake("");
       setGender("");
+      setRoadWorthinessFile([]);
+      setVehicleLicense([]);
     }
   }, [requestState?.data]);
 
@@ -139,7 +191,26 @@ const ComprehensiveMotorInsuranceForm = ({
         return { ...prevState, gender };
       });
     }
-  }, [makeOfVehicle, modelOfVehicle, yearOfMake, gender]);
+
+    if (vehicleLicense?.length) {
+      setData((prevState) => {
+        return { ...prevState, vehicleLicense: vehicleLicense[0] };
+      });
+    }
+
+    if (roadWorthinessFile?.length) {
+      setData((prevState) => {
+        return { ...prevState, roadWorthinessFile: roadWorthinessFile[0] };
+      });
+    }
+  }, [
+    makeOfVehicle,
+    modelOfVehicle,
+    yearOfMake,
+    gender,
+    vehicleLicense,
+    roadWorthinessFile,
+  ]);
 
   return (
     <section className={classes.container} id="insurance-form">
@@ -152,6 +223,23 @@ const ComprehensiveMotorInsuranceForm = ({
       </div>
 
       <form>
+        <Input
+          label="Registration Number"
+          placeholder="Eg: 12346"
+          value={data?.registrationNumber}
+          onChange={(e) => inputChangeHandler(e, setData)}
+          name="registrationNumber"
+          isRequired
+          onBlur={() => {
+            if (data?.registrationNumber) {
+              askNiidHandler(data?.registrationNumber);
+            }
+          }}
+          loading={askNiidRequestState?.isLoading}
+        />
+
+        <h4>Tell us About Yourself</h4>
+
         <Input
           label="First Name"
           placeholder="Eg: John"
@@ -191,7 +279,6 @@ const ComprehensiveMotorInsuranceForm = ({
           title="Select Gender"
           selected={gender || data?.gender}
           setSelected={setGender}
-          isRequired
         />
         <Input
           label="Address"
@@ -199,7 +286,6 @@ const ComprehensiveMotorInsuranceForm = ({
           value={data?.address}
           name="address"
           onChange={(e) => inputChangeHandler(e, setData)}
-          isRequired
         />
 
         <Input
@@ -218,77 +304,117 @@ const ComprehensiveMotorInsuranceForm = ({
           setSelected={setState}
           isRequired
         />
-        <Input
-          label="Registration Number"
-          placeholder="Eg: 12346"
-          value={data?.registrationNumber}
-          onChange={(e) => inputChangeHandler(e, setData)}
-          name="registrationNumber"
-          isRequired
-        />
-        <Input
-          label="Chassis Number"
-          placeholder="Eg: 12346"
-          value={data?.chassisNumber}
-          onChange={(e) => inputChangeHandler(e, setData)}
-          name="chassisNumber"
-          isRequired
-        />
 
-        <Dropdown
-          label="Make of Vehicle"
-          options={carMakes}
-          selected={makeOfVehicle}
-          setSelected={setMakeOfVehicle}
-          isLoading={carMakesIsLoading}
-          isRequired
-        />
+        <h4>Kindly Confirm Your Vehicle and Policy Details</h4>
 
-        <Dropdown
-          label="Model of Vehicle"
-          options={(carModels as any) || []}
-          isRequired
-          isLoading={modelsIsLoading}
-          selected={modelOfVehicle}
-          setSelected={setModelOfVehidle}
-          disabled={!makeOfVehicle}
-        />
+        {askNiidRequestState?.data && !askNiidRequestState?.isLoading && (
+          <div className={classes.alert}>
+            <Alert severity="warning">
+              It appears you have an existing Third Party Policy. We can begin
+              this renewal process!
+            </Alert>
+          </div>
+        )}
 
-        <Dropdown
-          label="Year of make"
-          options={carYears}
-          isLoading={yearsIsLoading}
-          isRequired
-          selected={yearOfMake}
-          setSelected={setYearOfMake}
-          disabled={!makeOfVehicle || !modelOfVehicle}
-        />
+        {askNiidRequestState?.isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <Input
+              label="Chassis Number"
+              placeholder="Eg: 12346"
+              value={data?.chassisNumber}
+              onChange={(e) => inputChangeHandler(e, setData)}
+              name="chassisNumber"
+              isRequired
+            />
 
-        <Dropdown
-          label="Cover Period"
-          options={["6 Months", "1 Year"]}
-          title="Select"
-          selected={coverPeriod || data?.coverPeriod}
-          setSelected={setCoverPeriod}
-          isRequired
-        />
+            <Dropdown
+              label="Make of Vehicle"
+              options={carMakes}
+              selected={makeOfVehicle}
+              setSelected={setMakeOfVehicle}
+              isLoading={carMakesIsLoading}
+              isRequired
+            />
 
-        <Input
-          label="Vehicle Value"
-          placeholder="Eg: 200,000"
-          type="number"
-          value={data?.vehicleValue}
-          onChange={(e) => inputChangeHandler(e, setData)}
-          name="vehicleValue"
-          isRequired
-        />
+            <Dropdown
+              label="Model of Vehicle"
+              options={(carModels as any) || []}
+              isRequired
+              isLoading={modelsIsLoading}
+              selected={modelOfVehicle}
+              setSelected={setModelOfVehidle}
+              disabled={!makeOfVehicle}
+            />
 
-        <Input
-          label="Premium"
-          placeholder="Eg: 200,000"
-          readOnly
-          value={`₦${formatCurrency(data?.premium)}`}
-        />
+            <Dropdown
+              label="Year of make"
+              options={carYears}
+              isLoading={yearsIsLoading}
+              isRequired
+              selected={yearOfMake}
+              setSelected={setYearOfMake}
+              disabled={!makeOfVehicle || !modelOfVehicle}
+            />
+
+            <Dropdown
+              label="Cover Period"
+              options={["6 Months", "1 Year"]}
+              title="Select"
+              selected={coverPeriod || data?.coverPeriod}
+              setSelected={setCoverPeriod}
+              isRequired
+            />
+
+            <Input
+              label="Vehicle Value"
+              placeholder="Eg: 200,000"
+              type="number"
+              value={data?.vehicleValue}
+              onChange={(e) => inputChangeHandler(e, setData)}
+              name="vehicleValue"
+              isRequired
+            />
+
+            <Input
+              label="Premium"
+              placeholder="Eg: 200,000"
+              readOnly
+              value={`₦${formatCurrency(data?.premium)}`}
+            />
+
+            <Dropdown
+              label="Do you require assistance with vehicle license and/or road worthiness"
+              options={["Yes", "No"]}
+              title="Select"
+              selected={roadWorthiness}
+              setSelected={setRoadWorthiness}
+              isRequired
+            />
+
+            {roadWorthiness === "Yes" && (
+              <>
+                <h4>Upload Vehicle License and Road Worthiness</h4>
+                <FileUploadInput
+                  title="Upload Vehicle License"
+                  files={vehicleLicense}
+                  setFiles={setVehicleLicense}
+                  id="vehicleLicense"
+                  accept=".pdf"
+                />
+
+                <FileUploadInput
+                  title="Upload Road Worthiness Document"
+                  files={roadWorthinessFile}
+                  setFiles={setRoadWorthinessFile}
+                  id="roadWorthinessFile"
+                  accept=".pdf"
+                />
+              </>
+            )}
+          </>
+        )}
 
         <div>
           <Button
@@ -305,7 +431,10 @@ const ComprehensiveMotorInsuranceForm = ({
               !data?.makeOfVehicle ||
               !data?.yearOfMake ||
               !data?.modelOfVehicle ||
-              !data?.address
+              !data?.address ||
+              (data?.roadWorthiness === "Yes" &&
+                !data?.vehicleLicense &&
+                !data?.roadWorthinessFile)
             }
             loading={requestState?.isLoading}
             onClick={(e) => {

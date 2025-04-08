@@ -65,6 +65,8 @@ export type thirdPartyInsuranceFormType = userType & {
   makeOfVehicle: string;
   yearOfMake: string;
   modelOfVehicle: string;
+  vehicleLicense?: File | null;
+  roadWorthinessFile?: File | null;
 };
 
 export type enhancedThirdPartyInsuranceFormTypes = userType & {
@@ -85,6 +87,9 @@ export type enhancedThirdPartyInsuranceFormTypes = userType & {
   dateForInspection: string;
   contactName: string;
   contactPhone: string;
+  vehicleLicense?: File | null;
+  roadWorthinessFile?: File | null;
+  roadWorthiness: string;
 };
 
 export type comprehensiveeFormDataTypes = userType & {
@@ -98,6 +103,9 @@ export type comprehensiveeFormDataTypes = userType & {
   yearOfMake: string;
   modelOfVehicle: string;
   chassisNumber: string;
+  vehicleLicense?: File | null;
+  roadWorthinessFile?: File | null;
+  roadWorthiness: string;
 };
 
 export type fleetFormDataTypes = userType & {

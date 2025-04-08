@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import { routes } from "@/utilities/routes";
 import ClaimsForm from "@/container/ClaimsForm/ClaimsForm";
 import PaymentModalBody from "@/container/PaymentModalBody/PaymentModalBody";
+import RenewVehiclePapersModalBody from "@/container/RenewVehiclePapersModalBody/RenewVehiclePapersModalBody";
 
 type TableType = {
   headers: string[];
@@ -34,6 +35,7 @@ const Table = ({ header, data, headers, options }: TableType) => {
     claim: false,
     revewPolicy: false,
     success: false,
+    renewVehiclePapers: false,
   });
   const [activeId, setActiveId] = useState<string | null>(null);
   const [singleData, setSingleData] = useState<any>(null);
@@ -80,7 +82,7 @@ const Table = ({ header, data, headers, options }: TableType) => {
     }
   }, [data?.length]);
 
-  console.log(singleData, "Data");
+  console.log(activeId, "Active Id");
 
   return (
     <>
@@ -135,6 +137,18 @@ const Table = ({ header, data, headers, options }: TableType) => {
           }
         />
       )}
+
+      {modals.renewVehiclePapers && (
+        <Modal
+          onClick={() => setAllModalsFalse(setModals)}
+          body={
+            <RenewVehiclePapersModalBody
+              onClose={() => setAllModalsFalse(setModals)}
+              id={activeId as string}
+            />
+          }
+        />
+      )}
       <div>
         <div className={classes.header}>{header}</div>
 
@@ -179,6 +193,7 @@ const Table = ({ header, data, headers, options }: TableType) => {
                                   setDataState
                                 );
                                 setSingleData(item);
+                                setActiveId(item?.id);
                               }}
                             >
                               <span>Options</span>
@@ -215,7 +230,16 @@ const Table = ({ header, data, headers, options }: TableType) => {
                                   {(
                                     String(Object.values(item)[0]) as string
                                   ).includes("Motor") && (
-                                    <span>Renew Vehicle Papers</span>
+                                    <span
+                                      onClick={() => {
+                                        setModalTrue(
+                                          setModals,
+                                          "renewVehiclePapers"
+                                        );
+                                      }}
+                                    >
+                                      Renew Vehicle Papers
+                                    </span>
                                   )}
 
                                   {String(Object.values(item)[6]) ===

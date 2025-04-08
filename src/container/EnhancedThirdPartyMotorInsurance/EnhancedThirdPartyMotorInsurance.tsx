@@ -54,6 +54,9 @@ const EnhancedThirdPartyMotorInsurance = () => {
       contactPhone: "",
       occupation: "",
       gender: "",
+      vehicleLicense: null,
+      roadWorthinessFile: null,
+      roadWorthiness: "",
     });
 
   const [requestState, setRequestState] = useState<requestType>({
@@ -214,6 +217,14 @@ const EnhancedThirdPartyMotorInsurance = () => {
       "gender",
       enhancedThirdPartyFormData?.gender
     );
+    subEnhancedThirdPartyFormData.append(
+      "roadWorthiness",
+      enhancedThirdPartyFormData?.roadWorthinessFile as File
+    );
+    subEnhancedThirdPartyFormData.append(
+      "vehicleLicense",
+      enhancedThirdPartyFormData?.vehicleLicense as File
+    );
 
     setEnhancedThirdPartyFormDataFormdata(subEnhancedThirdPartyFormData);
   }, [enhancedThirdPartyFormData]);
@@ -250,6 +261,12 @@ const EnhancedThirdPartyMotorInsurance = () => {
               onClose={() => setAllModalsFalse(setModals)}
               policyType="motor-insurance"
               policySubType="enhanced-third-party-motor-insurance"
+              hasLicenseRenewal={
+                enhancedThirdPartyFormData?.vehicleLicense ? true : false
+              }
+              hasRoadWorthinessRevnewal={
+                enhancedThirdPartyFormData?.roadWorthinessFile ? true : false
+              }
             />
           }
         />
