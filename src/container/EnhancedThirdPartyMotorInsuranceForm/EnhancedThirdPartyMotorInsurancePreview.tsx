@@ -107,6 +107,20 @@ const EnhancedThirdPartyMotorInsurancePreview = ({
         <p>{data?.contactPhone || "N/A"}</p>
       </div>
 
+      {data?.vehicleLicense && (
+        <div className={classes.info}>
+          <h4>Valid Means of ID</h4>
+          <p>{data?.vehicleLicense?.name || "N/A"}</p>
+        </div>
+      )}
+
+      {data?.roadWorthinessFile && (
+        <div className={classes.info}>
+          <h4>Valid Means of ID</h4>
+          <p>{data?.roadWorthinessFile?.name || "N/A"}</p>
+        </div>
+      )}
+
       <div className={classes.buttonSection}>
         <Button
           type="bordered"

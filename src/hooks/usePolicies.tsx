@@ -19,7 +19,7 @@ export const useUserPolicy = () => {
 };
 
 export const useUserPolicyById = (id: string) => {
-  const url = `/policies/user/policy/${id}`;
+  const url = id ? `/policies/user/policy/${id}` : null;
 
   return useGetHook(url);
 };

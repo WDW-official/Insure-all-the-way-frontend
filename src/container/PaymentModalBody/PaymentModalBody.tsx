@@ -18,6 +18,10 @@ import { formatCurrency } from "@/helpers/formatAmount";
 import { PAYSTACK_PUBLIC_KEY } from "@/config/paystack";
 import dynamic from "next/dynamic";
 import { hyphenateAndLowerCase } from "@/helpers/capitalize";
+import {
+  ROADWORTHINESS_PRICE,
+  VEHICLE_LICENSE_PRICE,
+} from "@/utilities/constants";
 
 const PaystackButton = dynamic(
   () => import("react-paystack").then((mod) => mod.PaystackButton),
@@ -33,6 +37,8 @@ type PaymentModalBodyType = {
   onClose: () => void;
   policyType?: string;
   policySubType?: string;
+  hasLicenseRenewal?: boolean;
+  hasRoadWorthinessRevnewal?: boolean;
 };
 
 const PaymentModalBody = ({
@@ -41,12 +47,16 @@ const PaymentModalBody = ({
   onClose,
   policyType,
   policySubType,
+  hasRoadWorthinessRevnewal,
+  hasLicenseRenewal,
 }: PaymentModalBodyType) => {
   // Requests
   const { isLoading, data: policySubtypeData } = usePolicyTypeBySubtype(
     policyType || "motor-insurance",
     policySubType || "third-party-motor-insurance"
   );
+
+  console.log(hasRoadWorthinessRevnewal, hasLicenseRenewal, "License");
 
   // Memos
   const policyData = useMemo(
@@ -61,13 +71,27 @@ const PaymentModalBody = ({
     [policySubtypeData]
   );
 
+  const basePrice =
+    Number(policyData?.price) ||
+    Number(data?.premium) ||
+    Number(data?.valueOfProperty);
+
+  const basePriceWithLicenseRenewal = basePrice + VEHICLE_LICENSE_PRICE;
+  const basePriceWithRoadWorthinessRenewal = basePrice + ROADWORTHINESS_PRICE;
+  const basePriceWithVehicleLicenseRenewalAndRoadWorthinessRenewal =
+    basePrice + VEHICLE_LICENSE_PRICE + ROADWORTHINESS_PRICE;
+
   // Utils
   const componentProps = {
     email: data?.email,
     amount:
-      (Number(policyData?.price) ||
-        Number(data?.premium) ||
-        Number(data?.valueOfProperty)) * 100,
+      hasLicenseRenewal && !hasRoadWorthinessRevnewal
+        ? basePriceWithLicenseRenewal * 100
+        : !hasLicenseRenewal && hasRoadWorthinessRevnewal
+        ? basePriceWithRoadWorthinessRenewal * 100
+        : hasLicenseRenewal && hasLicenseRenewal
+        ? basePriceWithVehicleLicenseRenewalAndRoadWorthinessRenewal * 100
+        : basePrice * 100,
     metadata: {
       name: `${data?.lastName} ${data?.firstName}`,
       phone: data?.phone,
@@ -79,8 +103,6 @@ const PaymentModalBody = ({
     },
     publicKey: PAYSTACK_PUBLIC_KEY as string,
   };
-
-  console.log(data, "Checkss");
 
   if (isLoading) {
     return <Loader />;
@@ -120,7 +142,13 @@ const PaymentModalBody = ({
         label="Amount"
         readOnly
         value={`₦${formatCurrency(
-          policyData?.price || data?.premium || data?.valueOfProperty
+          hasLicenseRenewal && !hasRoadWorthinessRevnewal
+            ? basePriceWithLicenseRenewal
+            : !hasLicenseRenewal && hasRoadWorthinessRevnewal
+            ? basePriceWithRoadWorthinessRenewal
+            : hasLicenseRenewal && hasRoadWorthinessRevnewal
+            ? basePriceWithVehicleLicenseRenewalAndRoadWorthinessRenewal
+            : basePrice
         )}`}
       />
 

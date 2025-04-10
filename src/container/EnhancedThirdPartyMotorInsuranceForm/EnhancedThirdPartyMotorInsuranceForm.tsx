@@ -91,8 +91,6 @@ const EnhancedThirdPartyMotorInsuranceForm = ({
               !data?.lastName ||
               !data?.email ||
               !data?.phone ||
-              !data?.gender ||
-              !data?.occupation ||
               !data?.address ||
               !data?.state ||
               !data?.plan
@@ -105,7 +103,10 @@ const EnhancedThirdPartyMotorInsuranceForm = ({
               !data?.registrationNumber ||
               !data?.engineNumber ||
               !data?.chasisNumber ||
-              !data?.vehicleType
+              !data?.vehicleType ||
+              (data?.roadWorthiness === "Yes" &&
+                !data?.vehicleLicense &&
+                !data?.roadWorthinessFile)
             : step === "3"
             ? !data?.proofOfOwnership || !data?.id
             : step === "4"

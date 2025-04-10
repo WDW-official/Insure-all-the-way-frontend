@@ -47,6 +47,9 @@ const ComprehensiveMotorInsurance = () => {
       makeOfVehicle: "",
       yearOfMake: "",
       modelOfVehicle: "",
+      vehicleLicense: null,
+      roadWorthinessFile: null,
+      roadWorthiness: "",
     });
 
   const [comprehensiceFormDataFormData, setCOmprehensiveFormDataFormData] =
@@ -169,6 +172,14 @@ const ComprehensiveMotorInsurance = () => {
       "yearOfMake",
       comprehensiveFormData?.yearOfMake
     );
+    subComprehensiveFormData.append(
+      "roadWorthiness",
+      comprehensiveFormData?.roadWorthinessFile as File
+    );
+    subComprehensiveFormData.append(
+      "vehicleLicense",
+      comprehensiveFormData?.vehicleLicense as File
+    );
 
     setCOmprehensiveFormDataFormData(subComprehensiveFormData);
   }, [comprehensiveFormData]);
@@ -203,6 +214,12 @@ const ComprehensiveMotorInsurance = () => {
               }}
               data={comprehensiveFormData as any}
               onClose={() => setAllModalsFalse(setModals)}
+              hasLicenseRenewal={
+                comprehensiveFormData?.vehicleLicense ? true : false
+              }
+              hasRoadWorthinessRevnewal={
+                comprehensiveFormData?.roadWorthinessFile ? true : false
+              }
             />
           }
         />

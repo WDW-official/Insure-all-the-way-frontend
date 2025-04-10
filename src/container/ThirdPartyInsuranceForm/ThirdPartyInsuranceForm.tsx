@@ -21,7 +21,7 @@ import PaymentModalBody from "../PaymentModalBody/PaymentModalBody";
 import Loader from "@/components/Loader/Loader";
 import { projectTime } from "@/helpers/projectTime";
 import { Alert, cardClasses } from "@mui/material";
-import { GENDERS } from "@/utilities/constants";
+import { GENDERS, TODAY } from "@/utilities/constants";
 import {
   useCarMakes,
   useCarModels,
@@ -30,6 +30,7 @@ import {
 } from "@/hooks/usePolicies";
 import { mutate } from "swr";
 import { capitalize, capitalizeEachWord } from "@/helpers/capitalize";
+import FileUploadInput from "@/components/FileUploadInput/FileUploadInput";
 
 type ThirdPartyInsuranceFormTypes = {
   data: thirdPartyInsuranceFormType;
@@ -64,6 +65,8 @@ const ThirdPartyInsuranceForm = ({
   const [makeOfVehicle, setMakeOfVehicle] = useState("");
   const [modelOfVehicle, setModelOfVehidle] = useState("");
   const [yearOfMake, setYearOfMake] = useState("");
+  const [vehicleLicense, setVehicleLicense] = useState<File[]>([]);
+  const [roadWorthinessFile, setRoadWorthinessFile] = useState<File[]>([]);
 
   // Requests
   const { isLoading: carMakesIsLoading, data: carMakesData } = useCarMakes();
@@ -101,14 +104,11 @@ const ThirdPartyInsuranceForm = ({
       state: requestState,
       setState: setRequestState,
       requestCleanup: false,
+      errorFunction(err) {
+        console.log(err, "Error");
+      },
     });
   };
-
-  // Utils
-  const existingThirdPartyPolicies = requestState?.data?.policyData?.filter(
-    (data: any) => data["type-of-cover"]?.toLowerCase() === "third party"
-  );
-  const todaysDate = moment().format("YYYY-MM-DD");
 
   // Effects
   useEffect(() => {
@@ -130,23 +130,32 @@ const ThirdPartyInsuranceForm = ({
       setState("");
       setRoadWorthiness("");
       setTitle("");
+      setRoadWorthinessFile([]);
+      setVehicleLicense([]);
     }
   }, [submitState?.data]);
 
   useEffect(() => {
-    if (existingThirdPartyPolicies?.length > 0) {
-      const thirdPartyPolicy = existingThirdPartyPolicies[0];
+    const thirdPartyPolicy = requestState?.data?.policyData;
 
+    if (
+      thirdPartyPolicy?.type_of_cover?.toLowerCase().includes("third party")
+    ) {
       setData((prevState: thirdPartyInsuranceFormType) => {
         return {
           ...prevState,
-
-          startDate: moment(thirdPartyPolicy["valid-to"], "D MMMM YYYY").format(
-            "YYYY-MM-DD"
-          ),
-          chasisNumber: thirdPartyPolicy["chassis-no"],
+          startDate: moment(
+            thirdPartyPolicy["issue_date"],
+            "D MMMM YYYY"
+          ).format("YYYY-MM-DD"),
+          chasisNumber: thirdPartyPolicy["chassis_number"],
+          makeOfVehicle: thirdPartyPolicy["vehicle_make"],
+          modelOfVehicle: thirdPartyPolicy["vehicle_model"],
         };
       });
+
+      setMakeOfVehicle(thirdPartyPolicy["vehicle_make"]);
+      setModelOfVehidle(thirdPartyPolicy["vehicle_model"]);
     }
   }, [requestState?.data]);
 
@@ -201,6 +210,18 @@ const ThirdPartyInsuranceForm = ({
         return { ...prevState, yearOfMake };
       });
     }
+
+    if (vehicleLicense?.length) {
+      setData((prevState) => {
+        return { ...prevState, vehicleLicense: vehicleLicense[0] };
+      });
+    }
+
+    if (roadWorthinessFile?.length) {
+      setData((prevState) => {
+        return { ...prevState, roadWorthinessFile: roadWorthinessFile[0] };
+      });
+    }
   }, [
     state,
     roadWorthiness,
@@ -209,6 +230,8 @@ const ThirdPartyInsuranceForm = ({
     makeOfVehicle,
     modelOfVehicle,
     yearOfMake,
+    vehicleLicense,
+    roadWorthinessFile,
   ]);
 
   useEffect(() => {
@@ -216,6 +239,8 @@ const ThirdPartyInsuranceForm = ({
       setModalTrue(setModals, "insuranceCreated");
     }
   }, [submitState?.data]);
+
+  console.log(data?.vehicleLicense, data?.roadWorthinessFile, "Files");
 
   return (
     <>
@@ -247,6 +272,10 @@ const ThirdPartyInsuranceForm = ({
               }}
               data={data as any}
               onClose={() => setAllModalsFalse(setModals)}
+              hasLicenseRenewal={data?.vehicleLicense ? true : false}
+              hasRoadWorthinessRevnewal={
+                data?.roadWorthinessFile ? true : false
+              }
             />
           }
         />
@@ -278,14 +307,6 @@ const ThirdPartyInsuranceForm = ({
         </div>
 
         <form>
-          {requestState?.data && (
-            <div className={classes.alert}>
-              <Alert severity="warning">
-                It appears you have an existing Third Party Policy. We can begin
-                this renewal process!
-              </Alert>
-            </div>
-          )}
           <Input
             label="Registration Number"
             placeholder="Eg: 12346"
@@ -300,82 +321,9 @@ const ThirdPartyInsuranceForm = ({
             loading={requestState?.isLoading}
             isRequired
           />
-          <Input
-            label="Chassis Number"
-            placeholder="Eg: 12346"
-            name="chasisNumber"
-            value={data?.chasisNumber}
-            onChange={(e) => inputChangeHandler(e, setData)}
-            isRequired
-          />
-
-          <Dropdown
-            label="Make of Vehicle"
-            options={carMakes}
-            selected={makeOfVehicle}
-            setSelected={setMakeOfVehicle}
-            isLoading={carMakesIsLoading}
-            isRequired
-          />
-
-          <Dropdown
-            label="Model of Vehicle"
-            options={(carModels as any) || []}
-            isRequired
-            isLoading={modelsIsLoading}
-            selected={modelOfVehicle}
-            setSelected={setModelOfVehidle}
-            disabled={!makeOfVehicle}
-          />
-
-          <Dropdown
-            label="Year of make"
-            options={carYears}
-            isLoading={yearsIsLoading}
-            isRequired
-            selected={yearOfMake}
-            setSelected={setYearOfMake}
-            disabled={!makeOfVehicle || !modelOfVehicle}
-          />
-
-          <Input
-            label="Start Date"
-            name="startDate"
-            value={data?.startDate}
-            onChange={(e) => inputChangeHandler(e, setData)}
-            type="date"
-            // min={todaysDate}
-            isRequired
-          />
-
-          <Input
-            label="End Date"
-            name="endDate"
-            value={data?.endDate}
-            onChange={(e) => inputChangeHandler(e, setData)}
-            type="date"
-            readOnly
-            isRequired
-          />
-
-          <Dropdown
-            label="Do you require assistance with vehicle license and/or road worthiness"
-            options={["Yes", "No"]}
-            title="Select"
-            selected={roadWorthiness}
-            setSelected={setRoadWorthiness}
-            isRequired
-          />
 
           <h4>Tell us About Yourself</h4>
-          <Dropdown
-            label="Title"
-            options={["Mr.", "Mrs.", "Miss"]}
-            title="Select"
-            selected={title}
-            setSelected={setTitle}
-            isRequired
-          />
+
           <Input
             label="First Name"
             placeholder="Eg: John"
@@ -416,7 +364,6 @@ const ThirdPartyInsuranceForm = ({
             title="Select Gender"
             selected={gender}
             setSelected={setGender}
-            isRequired
           />
 
           <Input
@@ -425,7 +372,6 @@ const ThirdPartyInsuranceForm = ({
             value={data?.occupation}
             name="occupation"
             onChange={(e) => inputChangeHandler(e, setData)}
-            isRequired
           />
 
           <Input
@@ -445,9 +391,131 @@ const ThirdPartyInsuranceForm = ({
             isRequired
           />
 
+          <h4>Kindly Confirm Your Vehicle Details</h4>
+
+          {requestState?.data && !requestState?.isLoading && (
+            <div className={classes.alert}>
+              <Alert severity="warning">
+                It appears you have an existing Third Party Policy. We can begin
+                this renewal process!
+              </Alert>
+            </div>
+          )}
+
+          {requestState?.isLoading ? (
+            <Loader />
+          ) : (
+            <>
+              <Input
+                label="Chassis Number"
+                placeholder="Eg: 12346"
+                name="chasisNumber"
+                value={data?.chasisNumber}
+                onChange={(e) => inputChangeHandler(e, setData)}
+                isRequired
+              />
+
+              <Dropdown
+                label="Make of Vehicle"
+                options={carMakes}
+                selected={makeOfVehicle}
+                setSelected={setMakeOfVehicle}
+                isLoading={carMakesIsLoading}
+                isRequired
+              />
+
+              <Dropdown
+                label="Model of Vehicle"
+                options={(carModels as any) || []}
+                isRequired
+                isLoading={modelsIsLoading}
+                selected={modelOfVehicle}
+                setSelected={setModelOfVehidle}
+                disabled={!makeOfVehicle}
+              />
+
+              <Dropdown
+                label="Year of make"
+                options={carYears}
+                isLoading={yearsIsLoading}
+                isRequired
+                selected={yearOfMake}
+                setSelected={setYearOfMake}
+                disabled={!makeOfVehicle || !modelOfVehicle}
+              />
+
+              <Input
+                label="Start Date"
+                name="startDate"
+                value={data?.startDate}
+                onChange={(e) => inputChangeHandler(e, setData)}
+                type="date"
+                // min={todaysDate}
+                isRequired
+              />
+
+              <Input
+                label="End Date"
+                name="endDate"
+                value={data?.endDate}
+                onChange={(e) => inputChangeHandler(e, setData)}
+                type="date"
+                readOnly
+                isRequired
+              />
+
+              <Dropdown
+                label="Do you require assistance with vehicle license and/or road worthiness"
+                options={["Yes", "No"]}
+                title="Select"
+                selected={roadWorthiness}
+                setSelected={setRoadWorthiness}
+                isRequired
+              />
+              {roadWorthiness === "Yes" && (
+                <>
+                  <h4>Upload Vehicle License and Road Worthiness</h4>
+                  <FileUploadInput
+                    title="Upload Vehicle License"
+                    files={vehicleLicense}
+                    setFiles={setVehicleLicense}
+                    id="vehicleLicense"
+                    accept=".pdf"
+                  />
+
+                  <FileUploadInput
+                    title="Upload Road Worthiness Document"
+                    files={roadWorthinessFile}
+                    setFiles={setRoadWorthinessFile}
+                    id="roadWorthinessFile"
+                    accept=".pdf"
+                  />
+                </>
+              )}
+            </>
+          )}
+
           <div>
             <Button
-              disabled={!areAllValuesFilled(data)}
+              disabled={
+                !data?.registrationNumber ||
+                !data?.firstName ||
+                !data?.lastName ||
+                !data?.email ||
+                !data?.phone ||
+                !data?.address ||
+                !data?.state ||
+                !data?.chasisNumber ||
+                !data?.makeOfVehicle ||
+                !data?.modelOfVehicle ||
+                !data?.yearOfMake ||
+                !data?.startDate ||
+                !data?.endDate ||
+                !data?.product ||
+                (data?.roadWorthiness === "Yes" &&
+                  !data?.vehicleLicense &&
+                  !data?.roadWorthinessFile)
+              }
               onClick={(e) => {
                 e.preventDefault();
                 onSubmit();
@@ -457,16 +525,6 @@ const ThirdPartyInsuranceForm = ({
               {requestState?.data ? "Renew" : "Submit"}
             </Button>
           </div>
-
-          {requestState?.isLoading && (
-            <div className={classes.loader}>
-              <Loader />
-              <p>
-                Checking to see if you have an existing third party insurance
-                policy...
-              </p>
-            </div>
-          )}
         </form>
       </section>
     </>
