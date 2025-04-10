@@ -106,6 +106,8 @@ const AllRiskForm = () => {
           phone: user?.phone,
           address: user?.address,
           state: user?.state,
+          gender: user?.gender,
+          occupation: user?.occupation,
         };
       });
     }
