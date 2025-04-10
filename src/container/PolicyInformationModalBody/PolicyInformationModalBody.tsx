@@ -48,11 +48,11 @@ const PolicyInformationModalBody = ({
 
       <div className={classes.body}>
         {policyInfo?.map((data, i) => {
-          if (data?.title.includes("Date")) {
+          if (data?.title.includes("Date") || data?.title.includes("Updated")) {
             return (
               <div key={i}>
                 <h4>{data?.title}</h4>
-                <p>{capitalize(data?.value)}</p>
+                <p>{moment(data?.value).format("Do MMMM, YYYY. hh:MM a")}</p>
               </div>
             );
           }

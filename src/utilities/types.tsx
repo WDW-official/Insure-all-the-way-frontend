@@ -107,6 +107,16 @@ export type fleetFormDataTypes = userType & {
   endDate: string;
 };
 
+export type individualAndFamilyHmoDataTypes = userType & {
+  plan: string;
+  genotype: string;
+  bloodGroup: string;
+  weight: string;
+  height: string;
+  startDate: string;
+  endDate: string;
+};
+
 export type userType = {
   email: string;
   firstName: string;
@@ -136,13 +146,15 @@ export type userPoliciesType = {
 };
 
 export type claimsDataType = {
-  dateAndTime: string;
+  dateAndTime?: string;
   registrationNumber?: string;
-  location: string;
-  narration: string;
+  location?: string;
+  narration?: string;
   type?: string;
   estimate?: string;
   property?: string;
+  enroleeId?: string;
+  attachments?: File[];
 };
 
 export type allRiskDataTypes = userType & {

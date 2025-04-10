@@ -1,0 +1,132 @@
+.container {
+  padding: 2rem;
+  position: relative;
+}
+
+.container > svg {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+}
+
+.container > h4 {
+  font-family: General Sans;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 140%;
+  margin-bottom: 1rem;
+}
+
+.container > p {
+  font-family: General Sans;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 140%;
+  margin-bottom: 1rem;
+}
+
+.container > form {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.container > form > div:not(.buttonSection) {
+  flex-basis: calc(100% - 2rem);
+}
+
+.buttonSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.buttonSection > a {
+  display: flex;
+  padding: 16px 32px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: "General Sans";
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 22.8px;
+  letter-spacing: -0.02em;
+  text-align: center;
+  user-select: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0px 67.49px 84.37px 0px #a6a6a61a;
+  border-radius: calc(infinity * 1px);
+  border-radius: 10px;
+  min-width: 100px;
+  background-color: var(--white);
+  color: var(--black);
+}
+
+.files > h4 {
+  font-family: General Sans;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 140%;
+  margin-bottom: 1rem;
+}
+
+.fileName {
+  border: 2px solid var(--yellow);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+@media screen and (max-width: 767px) {
+  .container {
+    padding: 2rem 1rem;
+    min-width: 90vw;
+  }
+
+  .container > svg {
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .container > h4 {
+    font-size: 20px;
+    line-height: 140%;
+    margin-bottom: 1rem;
+  }
+
+  .container > p {
+    font-size: 16px;
+    margin-bottom: 1rem;
+  }
+
+  .container > form {
+    gap: 0rem;
+    margin-top: 1rem;
+  }
+
+  .container > form > div {
+    flex-basis: 100%;
+  }
+
+  .buttonSection {
+    gap: 1rem;
+    flex-direction: column;
+    margin-top: 2rem;
+  }
+
+  .buttonSection > button {
+    flex-basis: 100%;
+    width: 100%;
+  }
+}

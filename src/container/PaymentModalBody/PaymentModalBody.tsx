@@ -6,6 +6,7 @@ import Input from "@/components/Input/Input";
 import Button from "@/components/Button/Button";
 import Close from "@/assets/svgIcons/Close";
 import {
+  buildingDataTypes,
   comprehensiveeFormDataTypes,
   enhancedThirdPartyInsuranceFormTypes,
   policySubTypePlansType,
@@ -27,7 +28,8 @@ type PaymentModalBodyType = {
   onSuccess: () => void;
   data: thirdPartyInsuranceFormType &
     enhancedThirdPartyInsuranceFormTypes &
-    comprehensiveeFormDataTypes;
+    comprehensiveeFormDataTypes &
+    buildingDataTypes;
   onClose: () => void;
   policyType?: string;
   policySubType?: string;
@@ -59,12 +61,13 @@ const PaymentModalBody = ({
     [policySubtypeData]
   );
 
-  console.log(policyData, "Policy");
-
   // Utils
   const componentProps = {
     email: data?.email,
-    amount: (Number(policyData?.price) || Number(data?.premium)) * 100,
+    amount:
+      (Number(policyData?.price) ||
+        Number(data?.premium) ||
+        Number(data?.valueOfProperty)) * 100,
     metadata: {
       name: `${data?.lastName} ${data?.firstName}`,
       phone: data?.phone,
@@ -76,6 +79,8 @@ const PaymentModalBody = ({
     },
     publicKey: PAYSTACK_PUBLIC_KEY as string,
   };
+
+  console.log(data, "Checkss");
 
   if (isLoading) {
     return <Loader />;
@@ -114,7 +119,9 @@ const PaymentModalBody = ({
       <Input
         label="Amount"
         readOnly
-        value={`₦${formatCurrency(policyData?.price || data?.premium)}`}
+        value={`₦${formatCurrency(
+          policyData?.price || data?.premium || data?.valueOfProperty
+        )}`}
       />
 
       <PaystackButton

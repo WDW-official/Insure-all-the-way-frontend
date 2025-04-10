@@ -53,3 +53,11 @@ export const useCarYearsByMakeAndModel = (make: string, model: string) => {
 
   return useGetHook(url);
 };
+
+export const useHealthPlans = (partner: string) => {
+  const url = partner
+    ? `/policies/policy/health-insurance/individual-and-family-hmo/${partner}`
+    : null;
+
+  return useGetHook(url);
+};

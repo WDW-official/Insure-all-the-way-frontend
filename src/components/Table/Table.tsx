@@ -202,15 +202,15 @@ const Table = ({ header, data, headers, options }: TableType) => {
                                       </span>
                                     );
                                   })}
-                                  {moment(endDate).diff(today) < 14 && (
-                                    <span
-                                      onClick={() => {
-                                        setModalTrue(setModals, "revewPolicy");
-                                      }}
-                                    >
-                                      Renew Policy
-                                    </span>
-                                  )}
+                                  {/* {moment(endDate).diff(today) < 14 && ( */}
+                                  <span
+                                    onClick={() => {
+                                      setModalTrue(setModals, "revewPolicy");
+                                    }}
+                                  >
+                                    Renew Policy
+                                  </span>
+                                  {/* )} */}
 
                                   {(
                                     String(Object.values(item)[0]) as string
