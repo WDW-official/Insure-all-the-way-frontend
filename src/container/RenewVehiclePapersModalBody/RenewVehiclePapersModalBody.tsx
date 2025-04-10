@@ -11,6 +11,7 @@ import FileUploadInput from "@/components/FileUploadInput/FileUploadInput";
 import { requestHandler } from "@/helpers/requestHandler";
 import useError from "@/hooks/useError";
 import { useToast } from "@/context/ToastContext";
+import Download from "@/assets/svgIcons/Download";
 
 type RenewVehidlePapersModalBodyTypes = {
   onClose?: () => void;
@@ -97,7 +98,9 @@ const RenewVehiclePapersModalBody = ({
             <h4>Vehicle License</h4>
             <p className={classes.url}>
               <span>
-                {policyInfo?.vehicleLicense ? "Edit File" : "Upload File"}
+                {policyInfo?.vehicleLicense
+                  ? "Edit/Download File"
+                  : "Upload File"}
               </span>
               <span
                 onClick={() =>
@@ -107,6 +110,14 @@ const RenewVehiclePapersModalBody = ({
                 }
               >
                 {policyInfo?.vehicleLicense ? <Edit /> : <Upload />}
+              </span>
+
+              <span
+                onClick={() => [
+                  downloadFile(policyInfo?.vehicleLicense, "Vehicle License"),
+                ]}
+              >
+                <Download />
               </span>
             </p>
           </div>
@@ -127,7 +138,9 @@ const RenewVehiclePapersModalBody = ({
             <h4>Road Worthiness</h4>
             <p className={classes.url}>
               <span>
-                {policyInfo?.roadWorthiness ? "Edit File" : "Upload File"}
+                {policyInfo?.roadWorthiness
+                  ? "Edit/Download File"
+                  : "Upload File"}
               </span>
               <span
                 onClick={() =>
@@ -137,6 +150,13 @@ const RenewVehiclePapersModalBody = ({
                 }
               >
                 {policyInfo?.roadWorthiness ? <Edit /> : <Upload />}
+              </span>
+              <span
+                onClick={() => [
+                  downloadFile(policyInfo?.roadWorthiness, "Road Worthiness"),
+                ]}
+              >
+                <Download />
               </span>
             </p>
           </div>

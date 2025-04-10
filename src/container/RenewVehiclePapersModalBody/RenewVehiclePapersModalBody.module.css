@@ -60,8 +60,8 @@
   color: var(--grey4);
   display: flex;
   align-items: center;
-  justify-content: space-between;
   width: 100%;
+  gap: 0.5rem;
 }
 
 .url {
@@ -90,6 +90,10 @@
   border-radius: 50%;
   background-color: green;
   cursor: pointer;
+}
+
+.container > div > div > p > span:nth-child(2) {
+  margin-left: auto;
 }
 
 @media screen and (max-width: 767px) {
