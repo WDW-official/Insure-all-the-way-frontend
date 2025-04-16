@@ -167,7 +167,7 @@
   .tableHeader,
   .tableBody {
     flex: 0 0 1;
-    font-size: 14px;
+    font-size: 12px;
     padding: 0.5rem 1rem;
     flex-shrink: 0;
     width: 33%;
@@ -196,5 +196,21 @@
 
   .options {
     right: 0;
+  }
+
+  .header > input {
+    padding: 0.25rem 0.5rem;
+    font-size: 12px;
+    padding: 10px;
+    width: 150px;
+    min-width: 50px;
+  }
+
+  .options > span {
+    font-size: 12px;
+  }
+
+  .more {
+    font-size: 12px;
   }
 }
