@@ -146,7 +146,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                               : classes.early
                           }`}
                         >
-                          {moment(row[field])?.format("YYYY-MM-DD")}
+                          {moment(row[field])?.format("DD-MM-YY")}
                         </span>
                       </span>
                     );
