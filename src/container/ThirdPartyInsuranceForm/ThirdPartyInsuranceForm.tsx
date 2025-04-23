@@ -512,6 +512,7 @@ const ThirdPartyInsuranceForm = ({
                 !data?.startDate ||
                 !data?.endDate ||
                 !data?.product ||
+                !data?.roadWorthiness ||
                 (data?.roadWorthiness === "Yes" &&
                   !data?.vehicleLicense &&
                   !data?.roadWorthinessFile)

@@ -104,6 +104,7 @@ const EnhancedThirdPartyMotorInsuranceForm = ({
               !data?.engineNumber ||
               !data?.chasisNumber ||
               !data?.vehicleType ||
+              !data?.roadWorthiness ||
               (data?.roadWorthiness === "Yes" &&
                 !data?.vehicleLicense &&
                 !data?.roadWorthinessFile)

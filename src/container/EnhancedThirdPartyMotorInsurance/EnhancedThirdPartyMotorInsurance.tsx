@@ -225,6 +225,10 @@ const EnhancedThirdPartyMotorInsurance = () => {
       "vehicleLicense",
       enhancedThirdPartyFormData?.vehicleLicense as File
     );
+    subEnhancedThirdPartyFormData.append(
+      "vehiclePaperRenewal",
+      enhancedThirdPartyFormData?.roadWorthiness
+    );
 
     setEnhancedThirdPartyFormDataFormdata(subEnhancedThirdPartyFormData);
   }, [enhancedThirdPartyFormData]);

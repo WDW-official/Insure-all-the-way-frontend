@@ -142,11 +142,12 @@ const ComprehensiveMotorInsuranceForm = ({
       setGender("");
       setRoadWorthinessFile([]);
       setVehicleLicense([]);
+      setRoadWorthiness("");
     }
   }, [requestState?.data]);
 
   useEffect(() => {
-    if (coverPeriod || state || data?.vehicleValue) {
+    if (coverPeriod || data?.vehicleValue) {
       const period = coverPeriod === "6 Months" ? 6 : 12;
       const endDate = String(moment().add(period, "M").format("YYYY-MM-DD"));
       const startDate = TODAY;
@@ -160,7 +161,6 @@ const ComprehensiveMotorInsuranceForm = ({
           startDate: startDate as string,
           endDate: endDate as string,
           coverPeriod,
-          state,
           premium,
         };
       });
@@ -203,6 +203,12 @@ const ComprehensiveMotorInsuranceForm = ({
         return { ...prevState, roadWorthinessFile: roadWorthinessFile[0] };
       });
     }
+
+    if (roadWorthiness) {
+      setData((prevState) => {
+        return { ...prevState, roadWorthiness };
+      });
+    }
   }, [
     makeOfVehicle,
     modelOfVehicle,
@@ -210,6 +216,7 @@ const ComprehensiveMotorInsuranceForm = ({
     gender,
     vehicleLicense,
     roadWorthinessFile,
+    roadWorthiness,
   ]);
 
   return (
@@ -432,6 +439,7 @@ const ComprehensiveMotorInsuranceForm = ({
               !data?.yearOfMake ||
               !data?.modelOfVehicle ||
               !data?.address ||
+              !data?.roadWorthiness ||
               (data?.roadWorthiness === "Yes" &&
                 !data?.vehicleLicense &&
                 !data?.roadWorthinessFile)

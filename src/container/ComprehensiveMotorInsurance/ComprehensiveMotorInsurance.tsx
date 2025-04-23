@@ -180,6 +180,10 @@ const ComprehensiveMotorInsurance = () => {
       "vehicleLicense",
       comprehensiveFormData?.vehicleLicense as File
     );
+    subComprehensiveFormData.append(
+      "vehiclePaperRenewal",
+      comprehensiveFormData?.roadWorthiness
+    );
 
     setCOmprehensiveFormDataFormData(subComprehensiveFormData);
   }, [comprehensiveFormData]);

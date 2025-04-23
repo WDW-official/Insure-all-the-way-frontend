@@ -73,6 +73,11 @@ const EnhancedThirdPartyMotorInsurancePreview = ({
       </div>
 
       <div className={classes.info}>
+        <h4>Vehicle Paper Renewal</h4>
+        <p>{data?.roadWorthiness || "N/A"}</p>
+      </div>
+
+      <div className={classes.info}>
         <h4>Proof of Ownership</h4>
         <p>{data?.proofOfOwnership?.name || "N/A"}</p>
       </div>
