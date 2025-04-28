@@ -240,8 +240,6 @@ const ThirdPartyInsuranceForm = ({
     }
   }, [submitState?.data]);
 
-  console.log(data?.vehicleLicense, data?.roadWorthinessFile, "Files");
-
   return (
     <>
       {modals.insuranceCreated && (
