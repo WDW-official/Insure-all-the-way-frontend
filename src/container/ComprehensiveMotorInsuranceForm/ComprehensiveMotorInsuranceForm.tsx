@@ -27,6 +27,7 @@ import { requestHandler } from "@/helpers/requestHandler";
 import { Alert } from "@mui/material";
 import FileUploadInput from "@/components/FileUploadInput/FileUploadInput";
 import Loader from "@/components/Loader/Loader";
+import Image from "next/image";
 
 type ComprehensiveMotorInsuranceFormTypes = {
   data: comprehensiveeFormDataTypes;
@@ -244,6 +245,15 @@ const ComprehensiveMotorInsuranceForm = ({
           }}
           loading={askNiidRequestState?.isLoading}
         />
+
+        <div className={classes.formImage}>
+          <Image
+            src="https://res.cloudinary.com/dx3zrhslt/image/upload/v1745841449/Comprehensive_2_rrrhcm.svg"
+            alt="Comprehensive Motor Insurance"
+            width={200}
+            height={100}
+          />
+        </div>
 
         <h4>Tell us About Yourself</h4>
 

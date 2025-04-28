@@ -23,7 +23,7 @@ const Footer = () => {
 
           <a href="https://ciinigeria.org/" target="_blank" rel="noreferrer">
             <Image
-              src="https://res.cloudinary.com/dx3zrhslt/image/upload/v1742904542/CIIN_Logo_esaymj.svg"
+              src="https://res.cloudinary.com/dx3zrhslt/image/upload/v1745842570/CIIN_Logo_zadqj8.svg"
               alt="Chartered Insurance Institute of Nigeria Logo"
               height={70}
               width={70}

@@ -1,0 +1,120 @@
+.header > h4 {
+  font-family: General Sans;
+  font-size: 50px;
+  font-weight: 600;
+  line-height: 120%;
+  letter-spacing: -3px;
+  text-underline-position: from-font;
+  margin: 2rem auto;
+  text-align: center;
+  color: var(--white);
+}
+
+.container {
+  background-color: var(--grey1);
+  padding: 2rem 0;
+  background-image: url("https://res.cloudinary.com/dx3zrhslt/image/upload/v1745837143/All_Risks_tabvkn.svg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+}
+
+.header > p {
+  font-family: General Sans;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 150%;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  width: 750px;
+  margin: 0 auto;
+  color: var(--grey6);
+  text-align: center;
+}
+
+.container > form {
+  margin: 4rem auto;
+  width: 60%;
+  padding: 4rem 2rem;
+  border-radius: 14px;
+  box-shadow: #edd0142c 0px 5px 15px;
+  background-color: var(--white);
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.container > form > div:not(.container > form > div:last-child),
+.container > div > div:not(.container > div > div:last-child) {
+  flex-basis: calc(50% - 2rem);
+}
+
+.container > form > h4,
+.container > form > div:last-child {
+  flex-basis: 100%;
+}
+
+.container > form > h4 {
+  font-family: General Sans;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 120%;
+  letter-spacing: -3px;
+  text-underline-position: from-font;
+  margin: 2rem auto;
+  text-align: center;
+  text-align: left;
+  margin: 2rem 0;
+}
+
+@media screen and (max-width: 767px) {
+  .header > h4 {
+    font-family: General Sans;
+    font-size: 32px;
+    margin: 1rem auto;
+    text-align: center;
+  }
+
+  .container {
+    padding: 2rem 1rem;
+  }
+
+  .header > p {
+    font-family: General Sans;
+    font-size: 16px;
+    line-height: 150%;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .container > form {
+    margin: 2rem auto;
+    width: 100%;
+    padding: 1.5rem;
+    border-radius: 14px;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .container > form > div:not(.container > form > div:last-child),
+  .container > div > div:not(.container > div > div:last-child) {
+    flex-basis: 100%;
+    width: 100%;
+  }
+
+  .container > form > h4,
+  .container > form > div:last-child {
+    flex-basis: 100%;
+  }
+
+  .container > form > h4 {
+    font-size: 28px;
+    line-height: 120%;
+    letter-spacing: -2px;
+    margin: 1rem auto;
+  }
+}

@@ -306,6 +306,15 @@ const ThirdPartyInsuranceForm = ({
           </p>
         </div>
 
+        <div className={classes.imageSection}>
+          <Image
+            src="https://res.cloudinary.com/dx3zrhslt/image/upload/v1745841049/Third_Party_Fleet_Motor_y8ogou.svg"
+            alt="Third party Motor Insurance"
+            width={600}
+            height={300}
+          />
+        </div>
+
         <form>
           <Input
             label="Registration Number"

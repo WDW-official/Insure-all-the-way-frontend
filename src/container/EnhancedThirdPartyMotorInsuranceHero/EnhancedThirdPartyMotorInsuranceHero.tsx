@@ -16,6 +16,8 @@ type EnhancedThirdPartyMotorInsuranceHeroType = {
   setData: Dispatch<SetStateAction<enhancedThirdPartyInsuranceFormTypes>>;
 };
 
+const colors = ["#a7c7e7", "#ababab", "#edd014", "#909090"];
+
 const EnhancedThirdPartyMotorInsuranceHero = ({
   data,
   loading,
@@ -50,6 +52,7 @@ const EnhancedThirdPartyMotorInsuranceHero = ({
                     });
                   }}
                   key={i}
+                  theme={colors[i]}
                 />
               );
             })}

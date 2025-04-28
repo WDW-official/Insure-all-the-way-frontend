@@ -1,7 +1,7 @@
 "use client";
 
 import Dropdown from "@/components/Dropdown/Dropdown";
-import classes from "../IndividualAndFamilyHmoForm/IndividualAndFamilyHmoForm.module.css";
+import classes from "./BuildingForm.module.css";
 import Input from "@/components/Input/Input";
 import Button from "@/components/Button/Button";
 import { states } from "@/utilities/states";

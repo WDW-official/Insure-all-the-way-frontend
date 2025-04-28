@@ -7,11 +7,16 @@
   text-underline-position: from-font;
   margin: 2rem auto;
   text-align: center;
+  color: var(--white);
 }
 
 .container {
   background-color: var(--grey1);
   padding: 2rem 0;
+  background-image: url("https://res.cloudinary.com/dx3zrhslt/image/upload/v1745835312/HMO_grasyp.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
 }
 
 .header > p {
@@ -23,7 +28,7 @@
   text-decoration-skip-ink: none;
   width: 750px;
   margin: 0 auto;
-  color: var(--grey4);
+  color: var(--grey6);
   text-align: center;
 }
 

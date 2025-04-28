@@ -13,6 +13,8 @@ type ThirdPartyMotorInsuranceHeroType = {
   setData: Dispatch<SetStateAction<thirdPartyInsuranceFormType>>;
 };
 
+const colors = ["#a7c7e7", "#ababab", "#edd014", "#909090"];
+
 const ThirdPartyMotorInsuranceHero = ({
   data,
   loading,
@@ -33,7 +35,7 @@ const ThirdPartyMotorInsuranceHero = ({
         {loading ? (
           <Loader />
         ) : (
-          data?.plans?.map((data) => {
+          data?.plans?.map((data, i) => {
             return (
               <RateCard
                 title={data?.name}
@@ -46,6 +48,7 @@ const ThirdPartyMotorInsuranceHero = ({
                   })
                 }
                 key={data?.name}
+                theme={colors[i] || "#000"}
               />
             );
           })
