@@ -113,7 +113,7 @@ const ComprehensiveMotorInsuranceForm = ({
     const thirdPartyPolicy = askNiidRequestState?.data?.policyData;
 
     if (
-      thirdPartyPolicy?.type_of_cover?.toLowerCase().includes("third party")
+      thirdPartyPolicy?.type_of_cover?.toLowerCase().includes("comprehensive")
     ) {
       setData((prevState: comprehensiveeFormDataTypes) => {
         return {
@@ -327,8 +327,8 @@ const ComprehensiveMotorInsuranceForm = ({
         {askNiidRequestState?.data && !askNiidRequestState?.isLoading && (
           <div className={classes.alert}>
             <Alert severity="warning">
-              It appears you have an existing Third Party Policy. We can begin
-              this renewal process!
+              It appears you have an existing Comprehensive Vehicle Policy. We
+              can begin this renewal process!
             </Alert>
           </div>
         )}
