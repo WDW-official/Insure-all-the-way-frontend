@@ -182,8 +182,8 @@ const BuildingForm = () => {
         <div className={classes.header}>
           <h4>Building Insurance Policy Form</h4>
           <p>
-            Comprehensive Protection for Your Property. Building Insurance
-            Policy
+            Comprehensive Protection for Your Property - Building Insurance
+            Policy.
           </p>
         </div>
 

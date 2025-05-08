@@ -207,8 +207,8 @@ const AllRiskForm = () => {
         <div className={classes.header}>
           <h4>All Risks Policy Form</h4>
           <p>
-            Comprehensive Protection for Your Property. Building Insurance
-            Policy
+            Comprehensive Protection for Your Property - All Risks Insurance
+            Policy.
           </p>
         </div>
 

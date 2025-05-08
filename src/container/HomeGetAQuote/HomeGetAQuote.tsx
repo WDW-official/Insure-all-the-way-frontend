@@ -13,7 +13,7 @@ const HomeGetAQuote = () => {
         Get a Quote
         <hr />
       </h4>
-      <p>Looking for hassle free insurance? get a quote in just few clicks. </p>
+      <p>Looking for hassle free insurance? Get a quote in just few clicks.</p>
 
       <div>
         {insuranceProducts?.map((data, i) => (

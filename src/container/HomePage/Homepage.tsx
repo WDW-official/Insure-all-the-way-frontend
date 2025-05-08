@@ -8,6 +8,7 @@ import HomeGetAQuote from "../HomeGetAQuote/HomeGetAQuote";
 import ContactUsBanner from "../ContactUsBanner/ContactUsBanner";
 import HomeTestimonoals from "../HomeTestimonoals/HomeTestimonoals";
 import Faqs from "../Faqs/Faqs";
+import { faqs } from "@/utilities/faqs";
 
 const Homepage = () => {
   return (
@@ -19,7 +20,7 @@ const Homepage = () => {
       <HomeParters />
       <ContactUsBanner />
       <HomeTestimonoals />
-      <Faqs />
+      <Faqs faqs={faqs.slice(0, 4)} />
     </ApppLayout>
   );
 };

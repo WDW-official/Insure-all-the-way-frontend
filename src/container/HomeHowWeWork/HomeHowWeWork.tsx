@@ -36,9 +36,9 @@ const HomeHowWeWork = () => {
     <section className={classes.container}>
       <div>
         <h2>How It Works</h2>
-        <h4>Get Covered in 4 Easy Steps</h4>
+        <h4>Get Covered In 4 Easy Steps</h4>
         <p>
-          We've made getting insurance fast and hassle-free Follow these four
+          We’ve made getting insurance fast and hassle-free. Follow these four
           steps to secure your coverage today.
         </p>
 

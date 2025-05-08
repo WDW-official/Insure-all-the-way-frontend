@@ -90,6 +90,7 @@ const HygeiaPlans = () => {
 
   //   Utils
   const activeNav = navItems?.find((data) => data?.isActive);
+  const colors = ["#a7c7e7", "#ababab", "#edd014", "#909090"];
 
   // Memo
   const axaPlansMemo: policySubTypePlansType[] = useMemo(() => {
@@ -105,7 +106,7 @@ const HygeiaPlans = () => {
         {isLoading ? (
           <Loader />
         ) : (
-          axaPlansMemo?.map((data) => {
+          axaPlansMemo?.map((data, i) => {
             return (
               <RateCard
                 title={data?.name}
@@ -118,6 +119,7 @@ const HygeiaPlans = () => {
                   })
                 }
                 key={data?.name}
+                theme={colors[i % colors.length]}
               />
             );
           })

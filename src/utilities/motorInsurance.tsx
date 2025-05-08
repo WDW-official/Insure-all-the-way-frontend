@@ -82,7 +82,7 @@ export const healthInsuranceTypes = [
     title: "Corporate & Group <br /> HMO ",
     route: routes.CORPORATE_HMO,
     descriptions: [
-      "Empower your workforce with affordable, high-quality health insurance designed for SMEs, cooperative societies and businesses of all sizes. Our flexible plans provide comprehensive health coverage, ensuring your employees stay healthy and productive",
+      "Empower your workforce with affordable, high-quality health insurance designed for SMEs, cooperative societies and businesses of all sizes. Our flexible plans provide comprehensive health coverage, ensuring your employees stay healthy and productive.",
     ],
     list: [
       "Tailored Plans for Businesses & Groups",
@@ -121,7 +121,7 @@ export const propertyInsuranceTypes = [
     title: "Building",
     route: routes.BUILDING,
     descriptions: [
-      "Your home or commercial property is one of your most significant investments. Our Building Insurance policy provides comprehensive coverage against fire, flood, storm damage, vandalism, and other unforeseen risks that could impact your structure",
+      "Your home or commercial property is one of your most significant investments. Our Building Insurance policy provides comprehensive coverage against fire, flood, storm damage, vandalism, and other unforeseen risks that could impact your structure.",
     ],
     list: null,
     image:
@@ -132,7 +132,7 @@ export const propertyInsuranceTypes = [
     title: "All Risks",
     route: routes.ALL_RISK,
     descriptions: [
-      "All Risks Insurance provides broad coverage for loss or damage to insured property from various unforeseen events, except those specifically excluded. It offers more comprehensive protection than standard policies, covering risks like theft, fire, and accidental damage",
+      "All Risks Insurance provides broad coverage for loss or damage to insured property from various unforeseen events, except those specifically excluded. It offers more comprehensive protection than standard policies, covering risks like theft, fire, and accidental damage.",
     ],
     list: null,
     image:

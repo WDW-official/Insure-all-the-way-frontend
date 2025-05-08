@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import classes from "./FaqComponent.module.css";
 import Dash from "@/assets/svgIcons/Dash";
 import Plus from "@/assets/svgIcons/Plus";
@@ -27,10 +27,9 @@ const FaqComponent = ({ question, answer }: FaqComponentTypes) => {
       </div>
       <div
         className={classes.answer}
-        style={isActive ? { maxHeight: "200px" } : { maxHeight: "0px" }}
-      >
-        {answer}
-      </div>
+        style={isActive ? { maxHeight: "700px" } : { maxHeight: "0px" }}
+        dangerouslySetInnerHTML={{ __html: answer }}
+      ></div>
     </div>
   );
 };

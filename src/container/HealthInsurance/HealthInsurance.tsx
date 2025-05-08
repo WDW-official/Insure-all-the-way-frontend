@@ -5,6 +5,7 @@ import InsuranceTypes from "@/components/InsuranceTypes/InsuranceTypes";
 import { healthInsuranceTypes } from "@/utilities/motorInsurance";
 import ContactUsBanner from "../ContactUsBanner/ContactUsBanner";
 import Faqs from "../Faqs/Faqs";
+import { healthInsuranceFaqs } from "@/utilities/faqs";
 
 const HealthInsurance = () => {
   return (
@@ -17,7 +18,7 @@ const HealthInsurance = () => {
           caption="Health is Wealth! Invest in yours today. Our health insurance policies come with added value offerings that you will love. Who doesn't want a free gym membership or a spa date?"
         />
       </div>
-      <Faqs />
+      <Faqs faqs={healthInsuranceFaqs} />
     </ApppLayout>
   );
 };

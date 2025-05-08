@@ -5,6 +5,7 @@ import InsuranceTypes from "@/components/InsuranceTypes/InsuranceTypes";
 import { propertyInsuranceTypes } from "@/utilities/motorInsurance";
 import ContactUsBanner from "../ContactUsBanner/ContactUsBanner";
 import Faqs from "../Faqs/Faqs";
+import { propertyInsuranceFaqs } from "@/utilities/faqs";
 
 const PropertyInsurance = () => {
   return (
@@ -13,9 +14,9 @@ const PropertyInsurance = () => {
       <InsuranceTypes data={propertyInsuranceTypes} isNotHover />
       <ContactUsBanner
         title="Have questions about Property Insurance"
-        caption="Have questions about property insurance? Contact us for expert advice and personalized coverage."
+        caption="Have questions about property insurance? Contact us for expert advice and personalised coverage."
       />
-      <Faqs />
+      <Faqs faqs={propertyInsuranceFaqs} />
     </ApppLayout>
   );
 };

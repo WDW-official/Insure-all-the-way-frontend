@@ -11,6 +11,7 @@ import classes from "./MotorInsurance.module.css";
 import MotorInsurancePlans from "../MotorInsurancePlans/MotorInsurancePlans";
 import { usePolicyType } from "@/hooks/usePolicies";
 import { policyType } from "@/utilities/types";
+import { motorInsuranceFaqs } from "@/utilities/faqs";
 
 const MotorInsurance = () => {
   // Requests
@@ -32,7 +33,7 @@ const MotorInsurance = () => {
           caption="Speak to an agent now to find out about our motor insurance policies. No need to stress. Sit back and enjoy the ride. We have got you covered"
         />
       </div>
-      <Faqs />
+      <Faqs faqs={motorInsuranceFaqs} />
     </ApppLayout>
   );
 };

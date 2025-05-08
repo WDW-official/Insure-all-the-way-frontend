@@ -42,6 +42,15 @@
   transition: all 0.3s ease-in-out;
 }
 
+.answer > ul > li {
+  margin-bottom: 0.5rem;
+  list-style-type: disc;
+}
+
+.answer > ul > li > b {
+  font-weight: 600;
+}
+
 @media screen and (max-width: 767px) {
   .container {
     padding: 1rem;

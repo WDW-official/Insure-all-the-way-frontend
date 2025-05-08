@@ -4,12 +4,17 @@ import Button from "@/components/Button/Button";
 import FaqComponent from "@/components/FaqComponent/FaqComponent";
 import { faqs } from "@/utilities/faqs";
 import ArrowRight from "@/assets/svgIcons/ArrowRight";
+import { faqType } from "@/utilities/types";
 
-const Faqs = () => {
+type FaqsTypes = {
+  faqs: faqType[];
+};
+
+const Faqs = ({ faqs }: FaqsTypes) => {
   return (
     <section className={classes.container}>
       <div>
-        {faqs?.slice(0, 4)?.map((data) => {
+        {faqs?.map((data) => {
           return (
             <FaqComponent
               question={data?.question}

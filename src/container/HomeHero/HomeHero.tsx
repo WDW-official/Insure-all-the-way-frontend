@@ -22,8 +22,7 @@ const HomeHero = () => {
           the way you buy, manage, and claim your coverage.
         </p>
         <p>
-          Insure All The Way <b>Insure All The Way</b>, your satisfaction is our
-          priority!
+          <b>Insure All The Way</b>, your satisfaction is our priority!
         </p>
 
         <Button onClick={() => updateSearchParams("contact-us", "true", "set")}>

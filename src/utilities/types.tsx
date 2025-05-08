@@ -180,3 +180,8 @@ export type buildingDataTypes = userType & {
   startDate: string;
   endDate: string;
 };
+
+export type faqType = {
+  question: string;
+  answer: string;
+};

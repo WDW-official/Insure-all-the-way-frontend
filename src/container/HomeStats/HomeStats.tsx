@@ -5,7 +5,7 @@ import Reward from "@/assets/svgIcons/Reward";
 
 const features = [
   "<span><b>Instant Insurance Quotes</b>: Get quick, competitive rates, tailored to your needs.</span>",
-  "<span><b>Effortless policy management</b>: Access and manage your insurance policies anyday, anytime.</span>",
+  "<span><b>Effortless Policy Management</b>: Access and manage your insurance policies anyday, anytime.</span>",
   "<span><b>Fast Claims Processing</b>: Experience seamless and speedy claims handlingfor complete peace of mind</span>",
 ];
 
