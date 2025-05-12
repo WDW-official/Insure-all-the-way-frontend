@@ -94,6 +94,7 @@
     flex: 1;
     position: relative;
     z-index: 1;
+    width: 100%;
   }
 
   .container > h4 {
@@ -106,5 +107,9 @@
     font-weight: 500;
     line-height: 150%;
     margin-bottom: 2rem;
+  }
+
+  .container > div > button {
+    margin-inline: auto;
   }
 }
