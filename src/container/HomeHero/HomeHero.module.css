@@ -83,11 +83,20 @@
 
   .container > div:first-child > h1 {
     font-family: General Sans;
-    font-size: 48px;
+    font-size: 32px;
     line-height: 120%;
     letter-spacing: -2px;
     margin-top: 2rem;
     margin-bottom: 1rem;
+  }
+
+  .container > div:first-child > h1 > span {
+    padding-inline: 0.5rem;
+    padding-block: 0.25rem;
+    border-radius: 10px;
+    background-color: var(--yellow);
+    color: var(--white);
+    display: inline-block;
   }
 
   .container > div:first-child > p {

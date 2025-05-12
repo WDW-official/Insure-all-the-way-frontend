@@ -119,22 +119,21 @@
   }
 
   .container > div:first-child > div {
-    flex-direction: column;
+    flex-direction: row;
     gap: 16px;
   }
 
   .info {
     flex: 1;
-    padding: 16px;
+    padding: 10px;
     border-radius: 10px;
-    gap: 2rem;
-    justify-content: space-between;
+    gap: 0.5rem;
   }
 
   .info > div > h4 {
-    font-size: 32px;
+    font-size: 24px;
     line-height: 120%;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
 
   .info > div > p {
@@ -143,14 +142,14 @@
   }
 
   .info > div:nth-child(2) {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
   }
 
   .container > div:nth-child(2) > h2 {
     font-size: 40px;
-    line-height: 100%;
-    margin-bottom: 20px;
+    line-height: 120%;
+    margin-bottom: 16px;
   }
 
   .container > div:nth-child(2) > ul {

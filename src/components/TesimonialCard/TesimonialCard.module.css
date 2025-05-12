@@ -52,12 +52,12 @@
 
   .container > p:nth-child(2) {
     font-size: 18px;
-    line-height: 140%;
+    line-height: 120%;
     margin-bottom: 16px;
   }
 
   .container > p:nth-child(3) {
     font-size: 16px;
-    line-height: 32px;
+    line-height: 150%;
   }
 }
