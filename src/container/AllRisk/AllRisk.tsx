@@ -7,7 +7,7 @@ import { allRiskInsuranceFaqs } from "@/utilities/faqs";
 const AllRisk = () => {
   return (
     <ApppLayout>
-      <AllRiskHero />;
+      <AllRiskHero />
       <Faqs faqs={allRiskInsuranceFaqs} />
       <AllRiskForm />
     </ApppLayout>

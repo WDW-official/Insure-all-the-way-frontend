@@ -14,6 +14,8 @@ import React, {
 import classes from "./CustomTable.module.css";
 import { inputChangeHandler } from "@/helpers/inputChangeHandler";
 import moment from "moment";
+import Dropdown from "../Dropdown/Dropdown";
+import useUpdateSearchParams from "@/hooks/useUpdateSearchParams";
 
 export type TableOption = {
   text: string;
@@ -34,6 +36,8 @@ type CustomTableProps = {
   setSearchKey?: Dispatch<SetStateAction<string>>;
   sliceValue?: number;
   route?: string;
+  sortOptions?: { title: string; id: string }[];
+  notifications?: boolean;
 };
 
 const CustomTable: React.FC<CustomTableProps> = ({
@@ -49,9 +53,13 @@ const CustomTable: React.FC<CustomTableProps> = ({
   setSearchKey,
   sliceValue,
   route,
+  sortOptions,
+  notifications = false,
 }) => {
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [search, setSearch] = useState("");
+  const [keyActive, setKeyActive] = useState(false);
+  const [sortOption, setSortOption] = useState("");
 
   const toggleActiveRow = (index: number) => {
     setActiveRow(activeRow === index ? null : index);
@@ -59,6 +67,13 @@ const CustomTable: React.FC<CustomTableProps> = ({
 
   //   refs
   const optionsRef = useRef<HTMLDivElement | null>(null);
+  const keyRef = useRef<HTMLDivElement | null>(null);
+
+  // Utils
+  headers = notifications ? ["Notifications", ...headers] : [...headers];
+
+  // Hooks
+  const { updateSearchParams } = useUpdateSearchParams();
 
   //   Effects
   useEffect(() => {
@@ -66,6 +81,10 @@ const CustomTable: React.FC<CustomTableProps> = ({
       const removeDropdownHandler = (e: any) => {
         if (optionsRef && !optionsRef?.current?.contains(e.target)) {
           setActiveRow(null);
+        }
+
+        if (keyRef && !keyRef?.current?.contains(e.target)) {
+          setKeyActive(false);
         }
       };
       document.addEventListener("mousedown", removeDropdownHandler);
@@ -89,18 +108,51 @@ const CustomTable: React.FC<CustomTableProps> = ({
     }
   }, [search]);
 
+  useEffect(() => {
+    if (sortOption) {
+      const activeOption = sortOptions?.find(
+        (data) => data?.title === sortOption
+      );
+
+      if (sortOption.toLowerCase() !== "none") {
+        updateSearchParams(
+          "sortBy",
+          encodeURIComponent(activeOption?.id as string),
+          "set"
+        );
+      } else {
+        updateSearchParams("sortBy", undefined, "delete");
+      }
+    }
+  }, [sortOption]);
+
   return (
     <div className={classes.container}>
       <div className={classes.header}>
         <span>{header}</span>
-        {setSearchKey && (
-          <input
-            placeholder="Search"
-            value={search}
-            onChange={(e) => inputChangeHandler(e, setSearch, true)}
-            type="search"
-          />
-        )}
+
+        <div>
+          {setSearchKey && (
+            <input
+              placeholder="Search"
+              value={search}
+              onChange={(e) => inputChangeHandler(e, setSearch, true)}
+              type="search"
+            />
+          )}
+
+          {(sortOptions?.length as number) > 0 && (
+            <Dropdown
+              options={[
+                "None",
+                ...(sortOptions as any)?.map((data: any) => data?.title),
+              ]}
+              title="Sort By"
+              selected={sortOption}
+              setSelected={setSortOption}
+            />
+          )}
+        </div>
       </div>
 
       <div className={classes.tableHeaderContainer}>
@@ -156,7 +208,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                     <span key={colIndex} className={classes.tableBody}>
                       {row[field] !== undefined || row[field] !== null
                         ? structureWords(String(row[field]))
-                        : "No data"}
+                        : `No data`}
                     </span>
                   );
                 })}
@@ -196,8 +248,9 @@ const CustomTable: React.FC<CustomTableProps> = ({
             );
           })
         ) : (
-          data?.slice(0, sliceValue).map((row, rowIndex) => {
+          data?.map((row, rowIndex) => {
             const daysLeft = row?.daysLeft;
+
             return (
               <div
                 key={rowIndex}
@@ -221,7 +274,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                           }`}
                         >
                           {row[field] !== undefined && row[field] !== null
-                            ? capitalize(String(row[field]))
+                            ? moment(row[field])?.format("DD-MM-YY")
                             : ""}
                         </span>
                       </span>

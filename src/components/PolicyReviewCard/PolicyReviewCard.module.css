@@ -70,3 +70,78 @@
   height: 100%;
   border-radius: calc(infinity * 1px);
 }
+
+@media screen and (max-width: 767px) {
+  .policyReview {
+    padding: 1rem 0.5rem;
+    background-color: var(--grey);
+    border-radius: 10px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    flex-shrink: 0;
+    order: 2;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    transition: all 0.2s ease-in-out;
+    overflow: hidden;
+  }
+
+  .policyReview:hover {
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  }
+
+  .policyReview > p {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--grey5);
+    border-radius: 50%;
+    flex-shrink: 0;
+    font-weight: 500;
+    font-size: 14px;
+    font-family: General Sans;
+  }
+
+  .policyReview > div:nth-child(2) {
+    flex: 1;
+  }
+
+  .policyReview > div {
+    flex: 1;
+  }
+
+  .policyReview > div:nth-child(2) > h4 {
+    font-weight: 600;
+    font-size: 0.8rem;
+    font-family: General Sans;
+    line-height: 140%;
+  }
+
+  .policyReview > div:nth-child(2) > p {
+    font-weight: 400;
+    font-size: 16px;
+    font-family: General Sans;
+    line-height: 140%;
+    color: var(--grey4);
+    margin-top: 0.5rem;
+  }
+
+  .policyReview > div:last-child {
+    flex-basis: 100%;
+    height: 0.5rem;
+    border-radius: calc(infinity * 1px);
+    background-color: var(--grey2WithOpacity);
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .policyReview > div:last-child > div {
+    background-color: var(--blue);
+    height: 100%;
+    border-radius: calc(infinity * 1px);
+  }
+}

@@ -27,8 +27,8 @@
   .container > h2 {
     font-family: General Sans;
     font-weight: 500;
-    font-size: 18px;
+    font-size: 16px;
     color: var(--black);
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
   }
 }

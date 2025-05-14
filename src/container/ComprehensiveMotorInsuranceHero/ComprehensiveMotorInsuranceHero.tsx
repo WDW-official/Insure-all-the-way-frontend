@@ -19,8 +19,7 @@ const ComprehensiveMotorInsuranceHero = () => {
     <section className={classes.outerContainer}>
       <div className={classes.container}>
         <h1>
-          Get <span>Comprehensive Car Insurance</span> & Exclusive Rewards
-          Because, Your Satisfaction Is Our <span>Priority!</span>
+          <span>Comprehensive Vehicle Insurance</span> & Exclusive Rewards
         </h1>
 
         {stepsInfo.map((data, i) => {

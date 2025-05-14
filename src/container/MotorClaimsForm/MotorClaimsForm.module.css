@@ -94,10 +94,12 @@
   .container > form {
     gap: 0rem;
     margin-top: 1rem;
+    flex-direction: column;
   }
 
   .container > form > div {
     flex-basis: 100%;
+    width: 100%;
   }
 
   .buttonSection {

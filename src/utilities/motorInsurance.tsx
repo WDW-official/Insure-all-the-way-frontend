@@ -63,7 +63,7 @@ export const motorInsuranceTypes = [
 
 export const healthInsuranceTypes = [
   {
-    title: "Individual & Family <br />HMO  ",
+    title: "Individual & Family HMO  ",
     route: routes.INDIVIDUAL_AND_FAMILY_HMO,
     descriptions: [
       "Affordable Health Insurance for Individuals & Families",
@@ -79,7 +79,7 @@ export const healthInsuranceTypes = [
     bgImage: "",
   },
   {
-    title: "Corporate & Group <br /> HMO ",
+    title: "Corporate & Group  HMO ",
     route: routes.CORPORATE_HMO,
     descriptions: [
       "Empower your workforce with affordable, high-quality health insurance designed for SMEs, cooperative societies and businesses of all sizes. Our flexible plans provide comprehensive health coverage, ensuring your employees stay healthy and productive.",

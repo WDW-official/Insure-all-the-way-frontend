@@ -34,3 +34,39 @@
 .container > button {
   margin-inline: auto;
 }
+
+@media screen and (max-width: 767px) {
+  .container {
+    width: 90vw;
+    padding: 1rem;
+  }
+
+  .container > img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .container > svg {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+  }
+
+  .container > h2 {
+    font-family: General Sans;
+    font-weight: 600;
+    font-size: 20px;
+    margin-bottom: 1rem;
+  }
+
+  .container > p {
+    font-family: General Sans;
+    font-weight: 400;
+    font-size: 16px;
+    margin-bottom: 1.5rem;
+  }
+
+  .container > button {
+    margin-inline: auto;
+  }
+}

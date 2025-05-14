@@ -12,6 +12,10 @@ import ClaimsForm from "../ClaimsForm/ClaimsForm";
 import { useUserPolicy } from "@/hooks/usePolicies";
 import { structureWords } from "@/helpers/capitalize";
 import moment from "moment";
+import CustomTable from "@/components/CustomTable/CustomTable";
+import PolicyInformationModalBody from "../PolicyInformationModalBody/PolicyInformationModalBody";
+import PaymentModalBody from "../PaymentModalBody/PaymentModalBody";
+import RenewVehiclePapersModalBody from "../RenewVehiclePapersModalBody/RenewVehiclePapersModalBody";
 
 export const headers = [
   "Policy Held",
@@ -30,9 +34,14 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
   // States
   const [modals, setModals] = useState<modalGenericType>({
     claims: false,
+    info: false,
+    revewPolicy: false,
+    success: false,
+    renewVehiclePapers: false,
   });
   const [policies, setPolicies] = useState([]);
   const [selectedPolicyId, setSelectedPolicyId] = useState<string | null>(null);
+  const [singleData, setSingleData] = useState<any>(null);
 
   // Effects
   useEffect(() => {
@@ -40,7 +49,7 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
       const newUserPolicies = userPolicies?.map((data: any) => {
         return {
           policyHeld: structureWords(data?.insuranceType),
-          exporationDate: moment(data?.endDate)?.format("Do MMMM, YYYY"),
+          exporationDate: data?.endDate,
           agent: `${data?.agent?.firstName} ${data?.agent?.lastName}`,
           status: data?.status || "pending",
           isActive: false,
@@ -66,17 +75,41 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
   const options = [
     {
       text: "Claim",
-      action: (insuranceId?: string) => {
+      action: (insurance?: any) => {
         setModalTrue(setModals, "claims");
-        if (insuranceId) {
-          setSelectedPolicyId(insuranceId);
+        if (insurance) {
+          setSelectedPolicyId(insurance?.id);
         }
       },
     },
 
+    // {
+    //   text: "Download Policy Certificate",
+    //   action: () => {},
+    //   isActive: true,
+    // },
+
     {
-      text: "Download Policy Certificate",
-      action: () => {},
+      text: "Renew Policy ",
+      action: (insurance: any) => {
+        if (insurance) {
+          setSingleData(insurance);
+          setModalTrue(setModals, "revewPolicy");
+
+          setSelectedPolicyId(insurance?.id);
+        }
+      },
+      isActive: true,
+    },
+
+    {
+      text: "Renew Vehicle Papers",
+      action: (insurance: any) => {
+        if (insurance) {
+          setModalTrue(setModals, "renewVehiclePapers");
+          setSelectedPolicyId(insurance?.id);
+        }
+      },
       isActive: true,
     },
   ];
@@ -94,14 +127,81 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
           }
         />
       )}
+
+      {modals.info && (
+        <Modal
+          onClick={() => setAllModalsFalse(setModals)}
+          body={
+            <PolicyInformationModalBody
+              onClose={() => setAllModalsFalse(setModals)}
+              id={selectedPolicyId as string}
+            />
+          }
+        />
+      )}
+
+      {modals.revewPolicy && (
+        <Modal
+          onClick={() => setAllModalsFalse(setModals)}
+          body={
+            <PaymentModalBody
+              onClose={() => setAllModalsFalse(setModals)}
+              data={singleData as any}
+              policyType={
+                singleData?.policyHeld?.toLowerCase()?.includes("motor")
+                  ? "motor-insurance"
+                  : singleData?.insuranceType?.toLowerCase() === "building"
+                  ? "property-insurance"
+                  : singleData?.insuranceType?.toLowerCase() === "all-risk"
+                  ? "property-insurance"
+                  : singleData?.insuranceType === "all-risks"
+                  ? "property-insurance"
+                  : "health-insurance"
+              }
+              policySubType={singleData?.insuranceType as any}
+              onSuccess={() => {
+                setAllModalsFalse(setModals);
+                setModalTrue(setModals, "success");
+              }}
+            />
+          }
+        />
+      )}
+
+      {modals.renewVehiclePapers && (
+        <Modal
+          onClick={() => setAllModalsFalse(setModals)}
+          body={
+            <RenewVehiclePapersModalBody
+              onClose={() => setAllModalsFalse(setModals)}
+              id={selectedPolicyId as string}
+            />
+          }
+        />
+      )}
+
       <section className={`${classes.container} ${className}`}>
         <GreetingComponent />
         <DashboardPoliciesSummary />
-        <Table
+        {/* <Table
           header="Policies"
           data={policies}
           headers={headers}
           options={options}
+        /> */}
+
+        <CustomTable
+          header="Policies"
+          data={policies}
+          headers={headers?.filter((data) => data !== "Actions")}
+          options={options}
+          fields={["policyHeld", "exporationDate", "agent", "status"]}
+          isOptions
+          onRowClick={(data) => {
+            setSelectedPolicyId(data?.id);
+            setModalTrue(setModals, "info");
+            setSingleData(data);
+          }}
         />
       </section>
     </>

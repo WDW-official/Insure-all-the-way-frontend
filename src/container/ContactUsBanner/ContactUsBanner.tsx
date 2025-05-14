@@ -18,7 +18,7 @@ const ContactUsBanner = ({ title, caption }: ContactUsBannerTypes) => {
     <section className={classes.container}>
       <h4
         dangerouslySetInnerHTML={{
-          __html: title || "Any Questions? <span>Give us a call.</span>",
+          __html: title || "Any questions? <span>Give us a call.</span>",
         }}
       ></h4>
 

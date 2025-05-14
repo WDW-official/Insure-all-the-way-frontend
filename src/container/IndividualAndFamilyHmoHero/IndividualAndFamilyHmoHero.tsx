@@ -24,7 +24,7 @@ const IndividualAndFamilyHmoHero = () => {
             router.push("#partners");
           }}
         >
-          <span>Pick Now</span>
+          <span>Pick A Plan</span>
           <ArrowRight />
         </Button>
       </div>

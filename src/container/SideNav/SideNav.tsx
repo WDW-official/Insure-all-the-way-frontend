@@ -9,6 +9,7 @@ import { routes } from "@/utilities/routes";
 import Button from "@/components/Button/Button";
 import useUpdateSearchParams from "@/hooks/useUpdateSearchParams";
 import { useRouter } from "next/navigation";
+import Logo from "@/components/Logo/Logo";
 
 type SidenavTypes = {
   onClose: () => void;
@@ -27,10 +28,14 @@ const Sidenav = ({ onClose }: SidenavTypes) => {
   return (
     <section className={classes.container}>
       <div>
+        <Logo />
+        <p>Your satisfaction is our priority</p>
         <Close onClick={onClose} />
       </div>
+      {/* <div>
+        <Close onClick={onClose} />
+      </div> */}
       <nav>
-        <Link href={routes?.BASE_URL}>Home</Link>
         {navItems?.map((route, i) => {
           if (route.children) {
             return (
@@ -59,7 +64,7 @@ const Sidenav = ({ onClose }: SidenavTypes) => {
                               const updatedState = [...prevState];
                               if (
                                 updatedState[i]?.children &&
-                                updatedState[i].children[j]
+                                updatedState[i]?.children[j]
                               ) {
                                 updatedState[i].children[j].isActive =
                                   !updatedState[i].children[j].isActive;
@@ -72,7 +77,7 @@ const Sidenav = ({ onClose }: SidenavTypes) => {
                           <span>{data?.icon}</span>
                           <span
                             onClick={() => {
-                              router.push(data?.route);
+                              router.push(`${data?.route}`);
                             }}
                           >
                             {data?.title}

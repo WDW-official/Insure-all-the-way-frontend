@@ -1,10 +1,16 @@
+"use client";
+
 import Image from "next/image";
 import classes from "./IndividualAndFamilyHmoAbout.module.css";
 import Button from "@/components/Button/Button";
 import ArrowDown from "@/assets/svgIcons/ArrowDown";
 import ArrowHeadDown from "@/assets/svgIcons/ArrowHeadDown";
+import { useRouter } from "next/navigation";
 
 const IndividualAndFamilyHmoAbout = () => {
+  // Router
+  const router = useRouter();
+
   return (
     <section className={classes.outerContainer}>
       <div className={classes.container}>
@@ -33,10 +39,9 @@ const IndividualAndFamilyHmoAbout = () => {
           </div>
 
           <p>
-            Finding the perfect <b>health insurance plan </b>can feel
-            overwhelming, but we’re here to help! Tell us about your{" "}
-            <b>healthcare needs, budget, and lifestyle</b>, and we’ll recommend
-            a plan that fits <b>you and your family.</b>
+            Finding the perfect health insurance plan can feel overwhelming, but
+            we’re here to help! Tell us about your healthcare needs, budget, and
+            lifestyle, and we’ll recommend a plan that fits you and your family.
           </p>
           <p>
             Let us guide you toward an HMO plan that truly suits your needs,
@@ -44,7 +49,11 @@ const IndividualAndFamilyHmoAbout = () => {
             stress-free.
           </p>
 
-          <Button>
+          <Button
+            onClick={() => {
+              router.push("#recommendation-form");
+            }}
+          >
             <span>Recommend Plan</span>
             <ArrowHeadDown />
           </Button>

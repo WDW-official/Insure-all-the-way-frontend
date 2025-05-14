@@ -255,7 +255,7 @@ const ComprehensiveMotorInsuranceForm = ({
           />
         </div>
 
-        <h4>Tell us About Yourself</h4>
+        <h4>Tell Us About Yourself</h4>
 
         <Input
           label="First Name"

@@ -16,8 +16,9 @@ export const routes = Object.freeze({
   ENHANCED_THIRD_PARTY_MOTOR_INSURANCE: "/enhanced-third-party-motor-insurance",
   COMPREHENSIVE_MOTOR_INSTRANCE: "/comprehensive-motor-insurance",
   FLEET_MOTOR_INSURANCE: "/fleet-motor-insurance",
-  HEALTH_AND_INSURANCE_FRIENDLY_MATCH: "/health-and-insurance-friendly-match",
-  THE_TECH_TITANS: "/the-tech-titans",
+  HEALTH_AND_INSURANCE_FRIENDLY_MATCH:
+    "/lets-play/health-and-insurance-friendly-match",
+  THE_TECH_TITANS: "/lets-play//the-tech-titans",
   PRIVACY_POLICY: "/privacy-policy",
   TERMS_AND_CONDITIONS: "/terms-and-conditions",
   HEALTH_INSURANCE: "/health-insurance",

@@ -13,7 +13,7 @@ const PropertyInsurance = () => {
       <PropertyInsuranceHero />
       <InsuranceTypes data={propertyInsuranceTypes} isNotHover />
       <ContactUsBanner
-        title="Have questions about Property Insurance"
+        title="Have questions about Property Insurance?"
         caption="Have questions about property insurance? Contact us for expert advice and personalised coverage."
       />
       <Faqs faqs={propertyInsuranceFaqs} />

@@ -299,9 +299,7 @@ const ThirdPartyInsuranceForm = ({
       <section className={classes.container} id="insurance-form">
         <div className={classes.header}>
           <h4>Third Party Insurance Form</h4>
-          <p>
-            From Form to Coverage. Get Your Third Party Insurance in 5 Minutes
-          </p>
+          <p>Get Your Third Party Insurance in 5 Minutes.</p>
         </div>
 
         <div className={classes.imageSection}>

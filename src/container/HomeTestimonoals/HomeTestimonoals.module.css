@@ -74,18 +74,18 @@
     align-items: center;
     justify-content: center;
     column-gap: 20px;
-    row-gap: 42px;
+    row-gap: 16px;
     flex-wrap: wrap;
   }
 
   .header > h4 {
     font-family: General Sans;
-    font-size: 40px;
-    font-weight: 500;
-    line-height: 140%;
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 120%;
     letter-spacing: -1px;
-    text-align: left;
-    flex-basis: 100%;
+    text-align: center;
+    flex-basis: 80%;
   }
 
   .header > div {
@@ -94,11 +94,15 @@
   }
 
   .header > div:nth-child(2) {
-    margin-left: auto;
+    margin-left: 0px;
+  }
+
+  .testimonials {
+    margin-top: 32px;
   }
 
   .testimonials > div {
-    flex-basis: 313px;
+    flex-basis: 253px;
     max-height: 432px;
     gap: 19px;
   }

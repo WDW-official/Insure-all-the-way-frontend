@@ -17,3 +17,22 @@
 .container::-webkit-scrollbar {
   display: none;
 }
+
+@media screen and (max-width: 767px) {
+  .container {
+    display: flex;
+    margin-bottom: 1rem;
+    scrollbar-width: none;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    overflow-x: hidden;
+  }
+
+  .container > div {
+    scroll-snap-align: start;
+  }
+
+  .container::-webkit-scrollbar {
+    display: none;
+  }
+}

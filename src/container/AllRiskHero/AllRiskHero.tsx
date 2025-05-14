@@ -12,7 +12,10 @@ const AllRiskHero = () => {
   return (
     <section className={classes.container}>
       <div>
-        <h1>All Risks Insurance: Comprehensive Protection for Your Assets</h1>
+        <h1>
+          <span>All Risks Insurance:</span> Comprehensive protection for your
+          assets
+        </h1>
         <p>
           All Risks Insurance provides extensive coverage for loss or damage to
           your insured property due to unforeseen events except those
@@ -27,7 +30,7 @@ const AllRiskHero = () => {
           <b>Stay Covered, Stay Secure!</b>
         </p>
         <Button onClick={() => router.push("#insurance-form")}>
-          <span>Book Now</span>
+          <span>Buy Now</span>
           <ArrowRight />
         </Button>
       </div>

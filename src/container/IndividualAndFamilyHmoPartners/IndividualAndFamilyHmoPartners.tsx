@@ -32,7 +32,7 @@ const IndividualAndFamilyHmoPartners = () => {
     <section className={classes.container} id="partners">
       <div className={classes.header}>
         <p>Our Partners</p>
-        <h2>Meet Our Policy Providers</h2>
+        <h2>Our Policy Providers</h2>
       </div>
 
       <div className={classes.partnerSection}>

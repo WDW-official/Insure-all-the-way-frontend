@@ -26,18 +26,18 @@
 
 @media screen and (max-width: 767px) {
   .container {
-    padding-block: 2rem;
+    padding-block: 1rem;
   }
 
   .container > h1 {
     font-size: 32px;
     letter-spacing: -2px;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
 
   .container > p {
     font-size: 16px;
-    line-height: 140%;
+    line-height: 120%;
     letter-spacing: 1px;
     margin-bottom: 2rem;
     width: 90%;

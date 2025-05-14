@@ -10,10 +10,13 @@ const HomeGetAQuote = () => {
     <section className={classes.container}>
       <h4>
         <hr />
-        Get a Quote
+        Get A Quote
         <hr />
       </h4>
-      <p>Looking for hassle free insurance? Get a quote in just few clicks.</p>
+      <p>
+        Looking for hassle free insurance?
+        <br /> Get a quote in just few clicks.
+      </p>
 
       <div>
         {insuranceProducts?.map((data, i) => (

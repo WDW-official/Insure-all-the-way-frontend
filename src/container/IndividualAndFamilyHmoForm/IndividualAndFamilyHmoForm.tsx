@@ -5,10 +5,10 @@ import Button from "@/components/Button/Button";
 
 const IndividualAndFamilyHmoForm = () => {
   return (
-    <section className={classes.container}>
+    <section className={classes.container} id="recommendation-form">
       <div className={classes.header}>
         <h4>HMO Recommendation Form</h4>
-        <p>Chart Your Path to Better Health with Expert HMO Recommendations.</p>
+        <p>Chart your path to better health with expert HMO recommendations.</p>
       </div>
 
       <form>

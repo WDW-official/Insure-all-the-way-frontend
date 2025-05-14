@@ -27,6 +27,7 @@
   line-height: 150%;
   text-align: left;
   margin-bottom: 10px;
+  display: none;
 }
 
 .container > p:nth-child(3) {
@@ -45,7 +46,7 @@
   }
 
   .container > h4 {
-    font-size: 24px;
+    font-size: 22px;
     line-height: 140%;
     margin-bottom: 10px;
   }
@@ -57,7 +58,7 @@
   }
 
   .container > p:nth-child(3) {
-    font-size: 16px;
-    line-height: 150%;
+    font-size: 14px;
+    line-height: 130%;
   }
 }

@@ -21,6 +21,9 @@ const HomeParters = () => {
     ...partnerLogos,
     ...partnerLogos,
     ...partnerLogos,
+    ...partnerLogos,
+    ...partnerLogos,
+    ...partnerLogos,
   ];
 
   // Refs

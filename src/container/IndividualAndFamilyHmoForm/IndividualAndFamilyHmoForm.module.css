@@ -28,7 +28,7 @@
   text-decoration-skip-ink: none;
   width: 750px;
   margin: 0 auto;
-  color: var(--grey6);
+  color: var(--yellow);
   text-align: center;
 }
 
@@ -71,19 +71,20 @@
 @media screen and (max-width: 767px) {
   .header > h4 {
     font-family: General Sans;
-    font-size: 32px;
-    margin: 1rem auto;
+    font-size: 24px;
+    margin: 0.5rem auto;
     text-align: center;
+    letter-spacing: -1px;
   }
 
   .container {
-    padding: 2rem 1rem;
+    padding: 2rem 0.5rem;
   }
 
   .header > p {
     font-family: General Sans;
-    font-size: 16px;
-    line-height: 150%;
+    font-size: 14px;
+    line-height: 140%;
     width: 100%;
     margin: 0 auto;
   }
@@ -97,7 +98,11 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 0rem;
+  }
+
+  .container > form > div {
+    margin-bottom: 0.5rem;
   }
 
   .container > form > div:not(.container > form > div:last-child),

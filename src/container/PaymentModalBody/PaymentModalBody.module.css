@@ -46,3 +46,25 @@
   border: 1.5px solid var(--yellow);
   color: var(--white);
 }
+
+@media screen and (max-width: 767px) {
+  .container {
+    padding: 1rem;
+    width: 90vw;
+    position: relative;
+  }
+
+  .container > svg {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+  }
+
+  .container > h4 {
+    font-family: General Sans;
+    font-weight: 600;
+    font-size: 24px;
+    margin-bottom: 1.5rem;
+    width: 90%;
+  }
+}

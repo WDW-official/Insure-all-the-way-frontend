@@ -109,4 +109,10 @@
     transition: all 0.2s ease-in-out;
     margin-inline: auto;
   }
+
+  .container > div > img {
+    width: 65px;
+    margin-bottom: 0.5rem;
+    height: 65px;
+  }
 }

@@ -40,14 +40,13 @@
 
   .container > h4 {
     font-size: 28px;
-
-    margin-bottom: 52px;
+    margin-bottom: 22px;
   }
 
   .container > div {
     display: flex;
     align-items: center;
-    gap: 32px;
+    gap: 16px;
     overflow-x: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -58,8 +57,8 @@
   }
 
   .container > div > img {
-    min-width: 173px;
-    height: 78px;
+    min-width: 103px;
+    height: 48px;
     flex-shrink: 0;
   }
 }
