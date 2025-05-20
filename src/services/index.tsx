@@ -12,6 +12,7 @@ const getToken = () => {
 
 const axiosInstance = axios.create({
   baseURL: BASE_API_URL,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
     Authorization: `Bearer ${getToken()}`,

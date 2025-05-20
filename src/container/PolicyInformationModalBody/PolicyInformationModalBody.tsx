@@ -57,7 +57,7 @@ const PolicyInformationModalBody = ({
             );
           }
 
-          if (data?.value.includes("Https")) {
+          if (data?.value?.includes("Https")) {
             return (
               <div key={i}>
                 <h4>{data?.title}</h4>
