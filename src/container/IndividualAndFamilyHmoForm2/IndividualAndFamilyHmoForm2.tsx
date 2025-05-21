@@ -169,8 +169,6 @@ const IndividualAndFamilyHmoForm2 = ({
     }
   }, [user]);
 
-  console.log(data, "Datatt");
-
   return (
     <>
       {modals.insuranceSuccess && (

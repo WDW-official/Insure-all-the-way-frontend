@@ -28,6 +28,7 @@ import { Alert } from "@mui/material";
 import FileUploadInput from "@/components/FileUploadInput/FileUploadInput";
 import Loader from "@/components/Loader/Loader";
 import Image from "next/image";
+import useError from "@/hooks/useError";
 
 type ComprehensiveMotorInsuranceFormTypes = {
   data: comprehensiveeFormDataTypes;
@@ -58,6 +59,9 @@ const ComprehensiveMotorInsuranceForm = ({
   const [roadWorthinessFile, setRoadWorthinessFile] = useState<File[]>([]);
   const [roadWorthiness, setRoadWorthiness] = useState("");
 
+  // Hooks
+  const { errorFlowFunction } = useError();
+
   // Requests
   const { isLoading: carMakesIsLoading, data: carMakesData } = useCarMakes();
   const { isLoading: modelsIsLoading, data: carModelsData } = useCarModels(
@@ -78,7 +82,7 @@ const ComprehensiveMotorInsuranceForm = ({
       setState: setAskNiidRequestState,
       requestCleanup: false,
       errorFunction(err) {
-        console.log(err, "Error");
+        errorFlowFunction(err);
       },
     });
   };

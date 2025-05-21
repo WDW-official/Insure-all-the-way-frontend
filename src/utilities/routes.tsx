@@ -141,18 +141,13 @@ export const headerRoutes = [
     route: null,
     component: <ProductHeader />,
   },
-  {
-    title: "Contact Us",
-    route: routes.CONTACT_US,
-    children: null,
-    isActive: false,
-    component: null,
-  },
+
   {
     title: "Let's Play",
     route: routes.LETS_PLAY,
     isActive: false,
     component: <LetsPlayHeader />,
+
     children: [
       {
         title: "Health & Insurance Friendly Match",
@@ -175,6 +170,14 @@ export const headerRoutes = [
         isActive: false,
       },
     ],
+  },
+
+  {
+    title: "Contact Us",
+    route: routes.CONTACT_US,
+    children: null,
+    isActive: false,
+    component: null,
   },
 ];
 

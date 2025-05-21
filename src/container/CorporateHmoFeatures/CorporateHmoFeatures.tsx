@@ -90,8 +90,10 @@ const CorporateHmoFeatures = () => {
             } ${visibleSections.includes(i) ? classes.visible : undefined}`}
           >
             <Image src={data?.image} width={85} height={85} alt={data?.title} />
-            <h4>{data?.title}</h4>
-            <p>{data?.caption}</p>
+            <div>
+              <h4>{data?.title}</h4>
+              <p>{data?.caption}</p>
+            </div>
           </div>
         );
       })}

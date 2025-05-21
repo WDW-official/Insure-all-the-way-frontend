@@ -85,8 +85,6 @@ const RenewVehiclePapersModalBody = ({
     return <Loader />;
   }
 
-  console.log(policyInfo);
-
   return (
     <div className={classes.container}>
       <Close onClick={onClose} />

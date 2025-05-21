@@ -13,15 +13,14 @@ import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { inputChangeHandler } from "@/helpers/inputChangeHandler";
 import { requestHandler } from "@/helpers/requestHandler";
 import moment from "moment";
-import { areAllValuesFilled } from "@/helpers/validateObjectValues";
 import Modal from "@/components/Modal/Modal";
 import { setAllModalsFalse, setModalTrue } from "@/helpers/modalHandlers";
 import SuccessModalBody from "@/components/SuccessModalBody/SuccessModalBody";
 import PaymentModalBody from "../PaymentModalBody/PaymentModalBody";
 import Loader from "@/components/Loader/Loader";
 import { projectTime } from "@/helpers/projectTime";
-import { Alert, cardClasses } from "@mui/material";
-import { GENDERS, TODAY } from "@/utilities/constants";
+import { Alert } from "@mui/material";
+import { GENDERS } from "@/utilities/constants";
 import {
   useCarMakes,
   useCarModels,
@@ -31,6 +30,7 @@ import {
 import { mutate } from "swr";
 import { capitalize, capitalizeEachWord } from "@/helpers/capitalize";
 import FileUploadInput from "@/components/FileUploadInput/FileUploadInput";
+import useError from "@/hooks/useError";
 
 type ThirdPartyInsuranceFormTypes = {
   data: thirdPartyInsuranceFormType;
@@ -94,6 +94,9 @@ const ThirdPartyInsuranceForm = ({
     return yearsData?.data?.years;
   }, [yearsData]);
 
+  // Hooks
+  const { errorFlowFunction } = useError();
+
   // Requests
   const askNiidHandler = (regNumber: string) => {
     requestHandler({
@@ -105,7 +108,7 @@ const ThirdPartyInsuranceForm = ({
       setState: setRequestState,
       requestCleanup: false,
       errorFunction(err) {
-        console.log(err, "Error");
+        errorFlowFunction(err);
       },
     });
   };

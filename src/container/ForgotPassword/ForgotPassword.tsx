@@ -34,11 +34,9 @@ const ForgotPassword = () => {
       id: "forgot-password",
       requestCleanup: true,
       successFunction(res) {
-        console.log(res);
         showToast(res?.data?.message, "success");
       },
       errorFunction(err) {
-        console.log(err);
         errorFlowFunction(err);
       },
     });

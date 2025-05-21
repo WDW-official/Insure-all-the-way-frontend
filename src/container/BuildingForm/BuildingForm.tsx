@@ -158,8 +158,6 @@ const BuildingForm = () => {
     setBuildingFormDataFormData(subBuildingFormData);
   }, [buildingFormData]);
 
-  console.log(buildingFormData, "Building");
-
   return (
     <>
       {modals.policyCreated && (

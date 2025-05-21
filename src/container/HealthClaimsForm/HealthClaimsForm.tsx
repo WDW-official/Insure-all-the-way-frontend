@@ -54,8 +54,6 @@ const HealthClaimsForm = ({
     });
   }, [files]);
 
-  console.log(claimsData, "Claimss");
-
   return (
     <div className={classes.container}>
       <h4>Health Claims Form</h4>

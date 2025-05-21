@@ -21,6 +21,7 @@ import { requestHandler } from "@/helpers/requestHandler";
 import { Alert } from "@mui/material";
 import Loader from "@/components/Loader/Loader";
 import FileUploadInput from "@/components/FileUploadInput/FileUploadInput";
+import useError from "@/hooks/useError";
 
 type EnhancedThordPartyMortrInsuranceForm1Types = {
   data: enhancedThirdPartyInsuranceFormTypes;
@@ -57,6 +58,9 @@ const EnhancedThordPartyMortrInsuranceForm1 = ({
       modelOfVehicle as string
     );
 
+  // Hooks
+  const { errorFlowFunction } = useError();
+
   const askNiidHandler = (regNumber: string) => {
     requestHandler({
       method: "POST",
@@ -67,7 +71,7 @@ const EnhancedThordPartyMortrInsuranceForm1 = ({
       setState: setAskNiidRequestState,
       requestCleanup: false,
       errorFunction(err) {
-        console.log(err, "Error");
+        errorFlowFunction(err);
       },
     });
   };

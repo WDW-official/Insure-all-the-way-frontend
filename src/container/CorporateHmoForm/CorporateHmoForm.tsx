@@ -169,8 +169,6 @@ const CorporateHmoForm = () => {
     }
   }, [corportePolicyData?.startDate, state, gender]);
 
-  console.log(corportePolicyData, "Coporare");
-
   return (
     <>
       {modals.policyCreated && (
