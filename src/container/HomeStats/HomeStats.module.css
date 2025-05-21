@@ -12,7 +12,7 @@
 }
 
 .container > div:first-child {
-  order: 1;
+  order: 0;
 }
 
 .container > div:first-child > div {
