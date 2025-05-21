@@ -135,7 +135,7 @@ export const headerRoutes = [
         icon: <Property color="#f5b7b1" />,
         description: null,
         image:
-          "https://res.cloudinary.com/dfilepe0f/image/upload/v1737384645/samples/ecommerce/leather-bag-gray.jpg",
+          "https://res.cloudinary.com/dx3zrhslt/image/upload/v1747843762/Property_Insurance_qkyaye.svg",
       },
     ],
     route: null,
@@ -154,7 +154,7 @@ export const headerRoutes = [
         route: routes.HEALTH_AND_INSURANCE_FRIENDLY_MATCH,
         children: null,
         icon: <Play color="#f5b7b1" />,
-        description: "Test",
+        description: "",
         image:
           "https://res.cloudinary.com/dfilepe0f/image/upload/v1737384645/samples/ecommerce/car-interior-design.jpg",
         isActive: false,
@@ -164,7 +164,7 @@ export const headerRoutes = [
         route: routes.THE_TECH_TITANS,
         children: null,
         icon: <Play color="#f8e8a2" />,
-        description: "Test",
+        description: "",
         image:
           "https://res.cloudinary.com/dfilepe0f/image/upload/v1737384645/samples/ecommerce/car-interior-design.jpg",
         isActive: false,

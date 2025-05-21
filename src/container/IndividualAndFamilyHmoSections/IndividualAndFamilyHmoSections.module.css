@@ -103,6 +103,8 @@
     align-items: center;
     gap: 32px;
     flex-direction: column;
+    max-width: 90vw;
+    margin-inline: auto;
   }
 
   .container > div {
@@ -113,7 +115,7 @@
   .container > div {
     align-items: flex-start;
     flex-direction: row;
-    gap: 16px;
+    gap: 32px;
     text-align: left;
   }
 
@@ -131,5 +133,6 @@
   .container > div > div > p {
     font-size: 14px;
     line-height: 140%;
+    width: 95%;
   }
 }

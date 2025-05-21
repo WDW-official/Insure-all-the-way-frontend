@@ -11,7 +11,7 @@
 }
 
 .container > div:nth-child(1) {
-  flex-basis: 38%;
+  flex-basis: 45%;
 }
 
 .container > div:first-child > h1 {
@@ -40,6 +40,7 @@
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
   margin-bottom: 1rem;
+  width: 70%;
 }
 
 .imageSection {
@@ -63,7 +64,7 @@
 }
 
 .imageSection > div:nth-child(2) {
-  flex: 1.5;
+  flex: 1.4;
 }
 
 .imageSection > div > button {

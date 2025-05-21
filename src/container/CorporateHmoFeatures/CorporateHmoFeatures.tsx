@@ -20,8 +20,7 @@ const sections = [
   },
   {
     title: "Dedicated Account Manager",
-    caption:
-      "Personalized Support: Companies with 10+ employees get a dedicated account manager.",
+    caption: "Personalized Support and  dedicated account manager.",
     image:
       "https://res.cloudinary.com/dfilepe0f/image/upload/v1739348786/accountant-white_ddrtjm.png",
   },

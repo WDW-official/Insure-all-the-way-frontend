@@ -1,22 +1,35 @@
-.container {
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  gap: 60px;
+.outerContainer {
   padding: 40px 80px;
   background-color: var(--grey1);
 }
 
+.outerContainer > h2 {
+  font-family: General Sans;
+  font-size: 44px;
+  font-weight: 600;
+  line-height: 120%;
+  letter-spacing: -1px;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.container {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 120px;
+}
+
 .container > div {
-  flex: 1;
+  flex-basis: 40%;
 }
 
 .container > div:nth-child(1) {
-  flex: 1;
+  flex-basis: 450px;
 }
 
 .container > div:nth-child(2) {
-  flex: 1.5;
+  flex-basis: 600px;
 }
 
 .container > div:first-child {
@@ -31,15 +44,17 @@
 
 .info {
   flex: 1;
-  padding: 16px;
+  padding: 16px 32px;
   border: 2px solid var(--grey7);
   border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 3rem;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  box-shadow: rgba(24, 24, 26, 0.2) 0px 7px 29px 0px;
   transition: all 0.2s ease-in-out;
+  width: 450px;
+  margin-left: auto;
 }
 
 .info:hover {
@@ -75,6 +90,10 @@
   background-color: var(--blue);
 }
 
+.container > div:nth-child(1) {
+  margin-bottom: 1rem;
+}
+
 .container > div:nth-child(2) > h2 {
   font-family: General Sans;
   font-size: 44px;
@@ -92,15 +111,15 @@
 
 .container > div:nth-child(2) > ul > li {
   font-family: General Sans;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 500;
-  line-height: 32px;
+  line-height: 150%;
   text-align: left;
   color: var(--grey4);
-  margin-bottom: 12px;
+  margin-bottom: 36px;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .container > div:nth-child(2) > ul > li > span {
@@ -109,8 +128,8 @@
 }
 
 .container > div:nth-child(2) > ul > li > span > img {
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
 }
 
 .container > div:nth-child(2) > ul > li > span > b {
@@ -118,23 +137,32 @@
 }
 
 @media screen and (max-width: 767px) {
+  .outerContainer {
+    padding: 2rem 1rem;
+  }
+
   .container {
     flex-direction: column;
     gap: 32px;
-    padding: 2rem 1rem;
   }
 
   .container > div {
     flex: 1;
     width: 100%;
+    flex-basis: auto;
   }
 
   .container > div:first-child {
     order: 1;
   }
 
+  .container > div:nth-child(2),
+  .container > div:nth-child(1) {
+    flex-basis: auto;
+  }
+
   .container > div:first-child > div {
-    flex-direction: row;
+    flex-direction: column;
     gap: 8px;
   }
 
@@ -143,6 +171,7 @@
     padding: 10px;
     border-radius: 10px;
     gap: 0.5rem;
+    width: 100%;
   }
 
   .info > div > h4 {
@@ -161,7 +190,7 @@
     height: 50px;
   }
 
-  .container > div:nth-child(2) > h2 {
+  .outerContainer > h2 {
     font-size: 28px;
     line-height: 120%;
     margin-bottom: 16px;

@@ -6,6 +6,7 @@ import rightArrow from "../../assets/images/right-arrow.svg";
 import stopWatch from "../../assets/images/stopwatch.svg";
 import uploadFile from "../../assets/images/upload-file.svg";
 import Image from "next/image";
+import Automation from "@/assets/svgIcons/Automation";
 
 const features = [
   {
@@ -24,44 +25,56 @@ const features = [
 
 const HomeStats = () => {
   return (
-    <section className={classes.container}>
-      <div>
-        <div>
-          <div className={classes.info}>
-            <div>
-              <h4>8</h4>
-              <p>Strategic Partners</p>
-            </div>
-            <div>
-              <HandShake />
-            </div>
-          </div>
+    <section className={classes.outerContainer}>
+      <h2>Your Satisfaction Is Our Priority!</h2>
 
-          <div className={classes.info}>
-            <div>
-              <h4>21+</h4>
-              <p>Added Value Services </p>
+      <div className={classes.container}>
+        <div>
+          <div>
+            <div className={classes.info}>
+              <div>
+                <h4>8</h4>
+                <p>Strategic Partners</p>
+              </div>
+              <div>
+                <HandShake />
+              </div>
             </div>
-            <div>
-              <Reward />
+
+            <div className={classes.info}>
+              <div>
+                <h4>21+</h4>
+                <p>Added Value Services </p>
+              </div>
+              <div>
+                <Reward />
+              </div>
+            </div>
+
+            <div className={classes.info}>
+              <div>
+                <h4>5</h4>
+                <p>AI-assisted Automated Features</p>
+              </div>
+              <div>
+                <Automation />
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div>
-        <h2>Your Satisfaction Is Our Priority!</h2>
-
-        <ul>
-          {features?.map((data, i) => (
-            <li key={i}>
-              <span>
-                <Image src={data?.image} alt="Feature Image" />
-              </span>
-              <span dangerouslySetInnerHTML={{ __html: data?.text }}></span>
-            </li>
-          ))}
-        </ul>
+        <div>
+          <ul>
+            {features?.map((data, i) => (
+              <li key={i}>
+                <span>
+                  <Image src={data?.image} alt="Feature Image" />
+                </span>
+                <span dangerouslySetInnerHTML={{ __html: data?.text }}></span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );

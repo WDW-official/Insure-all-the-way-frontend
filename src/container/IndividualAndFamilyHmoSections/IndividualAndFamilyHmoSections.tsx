@@ -29,12 +29,6 @@ const sections: Section[] = [
     image:
       "https://res.cloudinary.com/dfilepe0f/image/upload/v1739276724/heart_upja59.png",
   },
-  {
-    title: "Easy Payments",
-    caption: "Hassle-free, secure online payment.",
-    image:
-      "https://res.cloudinary.com/dfilepe0f/image/upload/v1739276723/credit_mn3q3l.png",
-  },
 ];
 
 const IndividualAndFamilyHmoSections: React.FC = () => {

@@ -152,6 +152,8 @@ const FleetInsuranceForm = ({
           isRequired
         />
 
+        <h4>Tell us more about your vehicles</h4>
+
         <TextArea
           label="Talk to us"
           placeholder="Tell us what you want to achieve"

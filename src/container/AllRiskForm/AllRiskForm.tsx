@@ -183,6 +183,8 @@ const AllRiskForm = () => {
     setAllRiskFormDataFormData(subAllRiskFormData);
   }, [allRiskFormData]);
 
+  console.log(allRiskFormData, "Checks");
+
   return (
     <>
       {modals.policyCreated && (
@@ -211,6 +213,7 @@ const AllRiskForm = () => {
         </div>
 
         <form>
+          <h4>Tell us about yourself</h4>
           <Input
             label="First Name"
             placeholder="Eg: John"
@@ -275,7 +278,7 @@ const AllRiskForm = () => {
             onChange={(e) => inputChangeHandler(e, setAllRiskFormData)}
             isRequired
           />
-          <h4>Please tell us more about the device</h4>
+          <h4>Tell us about your device(s)</h4>
           <Dropdown
             label="What type of device would you like to insure"
             title="Select"
