@@ -50,8 +50,6 @@ const FleetInsuranceForm = ({
     }
   }, [propertyType, gender, state]);
 
-  console.log(data, "Check");
-
   useEffect(() => {
     if (data?.propertyType) {
       const startDate = TODAY;

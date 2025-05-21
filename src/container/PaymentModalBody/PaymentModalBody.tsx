@@ -56,8 +56,6 @@ const PaymentModalBody = ({
     policySubType || "third-party-motor-insurance"
   );
 
-  console.log(hasRoadWorthinessRevnewal, hasLicenseRenewal, "License");
-
   // Memos
   const policyData = useMemo(
     () =>

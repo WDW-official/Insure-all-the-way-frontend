@@ -8,8 +8,8 @@ const AllRisk = () => {
   return (
     <ApppLayout>
       <AllRiskHero />
-      <Faqs faqs={allRiskInsuranceFaqs} />
       <AllRiskForm />
+      <Faqs faqs={allRiskInsuranceFaqs} />
     </ApppLayout>
   );
 };

@@ -77,7 +77,6 @@ const Header = () => {
   const handleScroll = () => {
     const currentScrollPos = window.pageYOffset;
 
-    // If scrolling down, hide the header; if scrolling up, show it
     setVisible(currentScrollPos < prevScrollPos || currentScrollPos < 50);
     setPrevScrollPos(currentScrollPos);
   };

@@ -92,6 +92,12 @@
   flex-shrink: 0;
 }
 
+.grey {
+  background: var(--grey8);
+  border: none;
+  color: #3a3a3a;
+}
+
 .button:disabled {
   background-color: var(--grey2);
 }

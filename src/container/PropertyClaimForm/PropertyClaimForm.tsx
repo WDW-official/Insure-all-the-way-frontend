@@ -49,8 +49,6 @@ const PropertyClaimForm = ({
     }
   }, [type]);
 
-  console.log(data, "Datatt");
-
   return (
     <div className={classes.container}>
       <h4>Property Claim Form</h4>

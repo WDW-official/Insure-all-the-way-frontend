@@ -82,8 +82,6 @@ const Table = ({ header, data, headers, options }: TableType) => {
     }
   }, [data?.length]);
 
-  console.log(activeId, "Active Id");
-
   return (
     <>
       {modals.info && (
