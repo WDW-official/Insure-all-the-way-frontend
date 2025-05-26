@@ -185,3 +185,10 @@ export type faqType = {
   question: string;
   answer: string;
 };
+
+export type allRiskInventoryTypes = {
+  specifications: string;
+  serialNumber: string;
+  value: string;
+  deviceType: string;
+};

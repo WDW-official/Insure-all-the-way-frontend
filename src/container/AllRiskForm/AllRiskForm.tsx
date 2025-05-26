@@ -9,6 +9,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import {
   allRiskDataTypes,
+  allRiskInventoryTypes,
   modalGenericType,
   requestType,
 } from "@/utilities/types";
@@ -23,6 +24,9 @@ import Modal from "@/components/Modal/Modal";
 import SuccessModalBody from "@/components/SuccessModalBody/SuccessModalBody";
 import { capitalize } from "@/helpers/capitalize";
 import { formatCurrency } from "@/helpers/formatAmount";
+import Plus from "@/assets/svgIcons/Plus";
+import Close from "@/assets/svgIcons/Close";
+import Trash from "@/assets/svgIcons/Trash";
 
 const AllRiskForm = () => {
   // States
@@ -53,6 +57,18 @@ const AllRiskForm = () => {
     policyCreated: false,
   });
   const [gender, setGender] = useState("");
+  const [allRiskInventory, setAllRiskInventory] = useState<
+    allRiskInventoryTypes[]
+  >([
+    {
+      specifications: "",
+      serialNumber: "",
+      value: "",
+      deviceType: "",
+    },
+  ]);
+  const [activeAllRiskInventoryIndex, setActiveAllRiskInventoryIndex] =
+    useState<number | null>(null);
 
   // FormData
   const [allRiskFormDataFOrmData, setAllRiskFormDataFormData] = useState(
@@ -133,12 +149,6 @@ const AllRiskForm = () => {
       });
     }
 
-    if (deviceType) {
-      setAllRiskFormData((prevState) => {
-        return { ...prevState, deviceType };
-      });
-    }
-
     if (state) {
       setAllRiskFormData((prevState) => {
         return { ...prevState, state };
@@ -163,6 +173,18 @@ const AllRiskForm = () => {
   ]);
 
   useEffect(() => {
+    if (activeAllRiskInventoryIndex && deviceType) {
+      setAllRiskInventory((prevState) => {
+        const updatedState = [...prevState];
+
+        updatedState[activeAllRiskInventoryIndex].deviceType = deviceType;
+
+        return updatedState;
+      });
+    }
+  }, [activeAllRiskInventoryIndex, deviceType]);
+
+  useEffect(() => {
     const subAllRiskFormData = new FormData();
 
     subAllRiskFormData.append("email", allRiskFormData?.email);
@@ -171,9 +193,6 @@ const AllRiskForm = () => {
     subAllRiskFormData.append("phone", allRiskFormData?.phone);
     subAllRiskFormData.append("address", allRiskFormData?.address);
     subAllRiskFormData.append("state", allRiskFormData?.state);
-    subAllRiskFormData.append("deviceType", allRiskFormData?.deviceType);
-    subAllRiskFormData.append("valueOfDevice", allRiskFormData?.valueOfDevice);
-    subAllRiskFormData.append("quantityOfDevice", allRiskFormData?.email);
     subAllRiskFormData.append("premium", allRiskFormData?.premium);
     subAllRiskFormData.append("startDate", allRiskFormData?.startDate);
     subAllRiskFormData.append("endDate", allRiskFormData?.endDate);
@@ -183,7 +202,7 @@ const AllRiskForm = () => {
     setAllRiskFormDataFormData(subAllRiskFormData);
   }, [allRiskFormData]);
 
-  console.log(allRiskFormData, "Checks");
+  console.log(activeAllRiskInventoryIndex, "Checks");
 
   return (
     <>
@@ -278,47 +297,13 @@ const AllRiskForm = () => {
             onChange={(e) => inputChangeHandler(e, setAllRiskFormData)}
             isRequired
           />
-          <h4>Tell us about your device(s)</h4>
-          <Dropdown
-            label="What type of device would you like to insure"
-            title="Select"
-            options={["Laptop", "Phone", "Laptop & Phone"]}
-            selected={deviceType}
-            setSelected={setDeviceType}
-            isRequired
-          />{" "}
-          <Input
-            label="Value of the device"
-            placeholder="200,000"
-            type="number"
-            value={allRiskFormData?.valueOfDevice}
-            name="valueOfDevice"
-            onChange={(e) => inputChangeHandler(e, setAllRiskFormData)}
-            isRequired
-          />
-          <Input
-            label="Quantity of the device"
-            placeholder="10"
-            type="number"
-            value={allRiskFormData?.quantityOfDevice}
-            name="quantityOfDevice"
-            onChange={(e) => inputChangeHandler(e, setAllRiskFormData)}
-            isRequired
-          />
-          <Input
-            label="Premium"
-            placeholder="10"
-            readOnly
-            value={`₦${formatCurrency(allRiskFormData?.premium)}`}
-            isRequired
-          />
           <Input
             label="Start Date"
             type="date"
             value={allRiskFormData?.startDate}
             name="startDate"
             onChange={(e) => inputChangeHandler(e, setAllRiskFormData)}
-            // min={TODAY}
+            min={TODAY}
             isRequired
           />
           <Input
@@ -327,6 +312,119 @@ const AllRiskForm = () => {
             value={allRiskFormData?.endDate}
             name="endDate"
             readOnly
+          />
+          <h4>Tell us about your device(s)</h4>
+          {allRiskInventory.map((data, i) => {
+            return (
+              <div
+                className={classes.section}
+                key={i}
+                onClick={() => setActiveAllRiskInventoryIndex(i)}
+              >
+                <div className={classes.sectionHeader}>
+                  <h4>{data?.specifications || `Item ${i + 1}`}</h4>
+                  <Trash
+                    onClick={() => {
+                      setAllRiskInventory((prevState) => {
+                        const updatedState = [...prevState];
+
+                        const filteredState = updatedState.filter((_, j) => {
+                          return j !== i;
+                        });
+
+                        return filteredState;
+                      });
+                    }}
+                  />
+                </div>
+
+                <Dropdown
+                  label="What type of device would you like to insure"
+                  title="Select"
+                  options={["Laptop", "Phone", "Laptop & Phone"]}
+                  selected={data?.deviceType}
+                  setSelected={setDeviceType}
+                  isRequired
+                />
+
+                <Input
+                  label="Specifications of the device"
+                  placeholder="Macbook Pro 2025"
+                  value={allRiskInventory[i].specifications}
+                  onChange={(e) =>
+                    setAllRiskInventory((prevState) => {
+                      const updatedState = [...prevState];
+
+                      updatedState[i].specifications = e.target.value;
+
+                      return updatedState;
+                    })
+                  }
+                  isRequired
+                />
+
+                <Input
+                  label="Value of the device"
+                  placeholder="200,000"
+                  type="number"
+                  value={data?.value}
+                  onChange={(e) =>
+                    setAllRiskInventory((prevState) => {
+                      const updatedState = [...prevState];
+
+                      updatedState[i].value = e.target.value;
+
+                      return updatedState;
+                    })
+                  }
+                  isRequired
+                />
+
+                <Input
+                  label="Serial Number"
+                  placeholder="ABC123"
+                  value={data?.serialNumber}
+                  onChange={(e) =>
+                    setAllRiskInventory((prevState) => {
+                      const updatedState = [...prevState];
+
+                      updatedState[i].serialNumber = e.target.value;
+
+                      return updatedState;
+                    })
+                  }
+                  isRequired
+                />
+              </div>
+            );
+          })}
+          <Button
+            type="null"
+            onClick={(e) => {
+              e.preventDefault();
+              setAllRiskInventory((prevState: allRiskInventoryTypes[]) => {
+                return [
+                  ...prevState,
+                  {
+                    deviceType: "",
+                    serialNumber: "",
+                    specifications: "",
+                    value: "",
+                  },
+                ];
+              });
+            }}
+          >
+            <Plus fill="#000" />
+            <span>Add a new device</span>
+          </Button>
+          <h4>Total</h4>
+          <Input
+            label="Premium"
+            placeholder="10"
+            readOnly
+            value={`₦${formatCurrency(allRiskFormData?.premium)}`}
+            isRequired
           />
           <div>
             <Button

@@ -22,7 +22,7 @@
 }
 
 .container > span {
-  font-family: General Sans;
+  font-family: "General Sans";
   font-weight: 400;
   font-size: 16px;
   z-index: 2;
@@ -30,7 +30,7 @@
 }
 
 .container > h2 {
-  font-family: General Sans;
+  font-family: "General Sans";
   font-weight: 600;
   font-size: 32px;
   z-index: 2;
@@ -50,7 +50,7 @@
 .container > div > span {
   font-size: 14px;
   font-weight: 400;
-  font-family: General Sans;
+  font-family: "General Sans";
 }
 
 .container > div > button {

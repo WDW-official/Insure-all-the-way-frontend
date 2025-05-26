@@ -53,8 +53,11 @@ const SignIn = () => {
       id: "sign-in",
       requestCleanup: true,
       successFunction(res) {
-        if (localStorage) {
-          localStorage.setItem(LOCAL_STORAGE_AUTH_KEY, res?.data?.token);
+        if (typeof window !== "undefined") {
+          window?.localStorage.setItem(
+            LOCAL_STORAGE_AUTH_KEY,
+            res?.data?.token
+          );
         }
         setUser(res?.data?.user);
 

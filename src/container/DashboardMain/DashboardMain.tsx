@@ -16,6 +16,8 @@ import CustomTable from "@/components/CustomTable/CustomTable";
 import PolicyInformationModalBody from "../PolicyInformationModalBody/PolicyInformationModalBody";
 import PaymentModalBody from "../PaymentModalBody/PaymentModalBody";
 import RenewVehiclePapersModalBody from "../RenewVehiclePapersModalBody/RenewVehiclePapersModalBody";
+import { useRouter } from "next/navigation";
+import { routes } from "@/utilities/routes";
 
 export const headers = [
   "Policy Held",
@@ -42,6 +44,9 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
   const [policies, setPolicies] = useState([]);
   const [selectedPolicyId, setSelectedPolicyId] = useState<string | null>(null);
   const [singleData, setSingleData] = useState<any>(null);
+
+  // Router
+  const router = useRouter();
 
   // Effects
   useEffect(() => {
@@ -199,7 +204,12 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
           isOptions
           onRowClick={(data) => {
             setSelectedPolicyId(data?.id);
-            setModalTrue(setModals, "info");
+            if (data?.policyHeld === "All Risk") {
+              router.push(`${routes.DASHBOARD}/${data?.id}`);
+            } else {
+              setModalTrue(setModals, "info");
+            }
+
             setSingleData(data);
           }}
         />
