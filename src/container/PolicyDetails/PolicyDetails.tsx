@@ -36,7 +36,9 @@ const PolicyDetails = () => {
     details: false,
     claims: false,
   });
-  const [selectedSubPolicyId, setSelectedSubPolicyId] = useState("");
+  const [selectedSubPolicyId, setSelectedSubPolicyId] = useState<string | null>(
+    null
+  );
 
   const dummyData = [
     {
