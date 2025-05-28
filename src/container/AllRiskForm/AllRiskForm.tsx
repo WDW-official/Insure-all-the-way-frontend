@@ -28,7 +28,7 @@ import Plus from "@/assets/svgIcons/Plus";
 import Close from "@/assets/svgIcons/Close";
 import Trash from "@/assets/svgIcons/Trash";
 import Upload from "@/assets/svgIcons/Upload";
-import { downloadFile, downloadInternalFile } from "@/helpers/download";
+import { downloadInternalFile } from "@/helpers/download";
 import ExcelJS from "exceljs";
 
 const AllRiskForm = () => {
@@ -145,8 +145,6 @@ const AllRiskForm = () => {
           jsonData.push(rowObject);
         }
       });
-
-      console.log(jsonData, "JSOn");
 
       setAllRiskInventory(jsonData);
     };
@@ -564,7 +562,7 @@ const AllRiskForm = () => {
                 );
               }}
             >
-              Download sample inventory CSV
+              Download sample inventory Excel file
             </span>
           </div>
           <h4>Total</h4>

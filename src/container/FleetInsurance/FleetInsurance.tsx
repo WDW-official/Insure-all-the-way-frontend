@@ -21,17 +21,17 @@ const FleetInsurance = () => {
   const [fleetInsuranceFormData, setFleetInsuranceFormData] =
     useState<fleetFormDataTypes>({
       firstName: "",
+      propertyType: "",
       lastName: "",
       email: "",
       phone: "",
       state: "",
       address: "",
-      propertyType: "",
-      comment: "",
       startDate: "",
       endDate: "",
       gender: "",
       occupation: "",
+      inventory: [],
     });
   const [fleetInsuranceFormDataFormData, setFleetInsuranceFormDataFormData] =
     useState(new FormData());
@@ -64,19 +64,24 @@ const FleetInsurance = () => {
       setState: setRequestState,
       successFunction() {
         setModalTrue(setModals, "insuranceCreated");
-        setFleetInsuranceFormData({
-          firstName: "",
-          lastName: "",
-          email: "",
-          phone: "",
-          state: "",
-          address: "",
-          propertyType: "",
-          comment: "",
-          startDate: "",
-          endDate: "",
-          occupation: "",
-          gender: "",
+        setFleetInsuranceFormData((prevState) => {
+          return {
+            ...prevState,
+            propertyType: "",
+            startDate: "",
+            endDate: "",
+            inventory: [
+              {
+                chassisNumber: "",
+                registrationNumber: "",
+                modelOfVehicle: "",
+                makeOfVehicle: "",
+                yearOfMake: "",
+                vehicleType: "",
+                engineNumber: "",
+              },
+            ],
+          };
         });
       },
       errorFunction(err) {
@@ -134,10 +139,7 @@ const FleetInsurance = () => {
       "propertyType",
       fleetInsuranceFormData?.propertyType
     );
-    subFleetInsuranceFormData.append(
-      "comments",
-      fleetInsuranceFormData?.comment
-    );
+
     subFleetInsuranceFormData.append(
       "startDate",
       fleetInsuranceFormData?.startDate
@@ -145,6 +147,10 @@ const FleetInsurance = () => {
     subFleetInsuranceFormData.append(
       "endDate",
       fleetInsuranceFormData?.endDate
+    );
+    subFleetInsuranceFormData.append(
+      "inventory",
+      JSON.stringify(fleetInsuranceFormData.inventory)
     );
     setFleetInsuranceFormDataFormData(subFleetInsuranceFormData);
   }, [fleetInsuranceFormData]);

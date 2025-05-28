@@ -40,8 +40,12 @@
   gap: 1.5rem;
 }
 
-.container > form > div:not(.container > form > div:last-child),
-.container > div > div:not(.container > div > div:last-child) {
+.container
+  > form
+  > div:not(.container > form > div:last-child, .section, .formButtonSection),
+.container
+  > div
+  > div:not(.container > div > div:last-child, .section, .formButtonSection) {
   flex-basis: calc(50% - 2rem);
 }
 
@@ -55,12 +59,108 @@
   font-size: 30px;
   font-weight: 600;
   line-height: 120%;
-  letter-spacing: -3px;
+  letter-spacing: -1.5px;
   text-underline-position: from-font;
   margin: 2rem auto;
   text-align: center;
   text-align: left;
   margin: 2rem 0;
+}
+.formButtonSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-basis: 100%;
+  flex-wrap: wrap;
+  row-gap: 1rem;
+}
+
+.formButtonSection > span:last-child {
+  flex-basis: 100%;
+  font-family: General Sans;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 120%;
+  letter-spacing: -0.5px;
+  color: var(--yellow);
+  cursor: pointer;
+}
+
+.upload > label {
+  display: flex;
+  padding: 16px 32px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: "General Sans";
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 22.8px;
+  letter-spacing: -0.02em;
+  text-align: center;
+  user-select: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0px 67.49px 84.37px 0px #a6a6a61a;
+  border-radius: calc(infinity * 1px);
+  border-radius: 10px;
+  min-width: 100px;
+  background-color: transparent;
+  color: var(--blue2);
+  border: none;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.inventoryCount {
+  font-family: "General Sans";
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22.8px;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+  color: var(--yellow);
+}
+
+.upload > input {
+  display: none;
+}
+
+.section {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  column-gap: 1rem;
+  row-gap: 0.25rem;
+  width: 100%;
+  flex-basis: 100%;
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: var(--grey1);
+}
+
+.section > div {
+  flex-basis: calc(50% - 1rem);
+}
+
+.section > .sectionHeader {
+  flex-basis: 100%;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.sectionHeader > h4 {
+  font-family: General Sans;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 120%;
+  letter-spacing: -1px;
+  text-underline-position: from-font;
 }
 
 @media screen and (max-width: 767px) {

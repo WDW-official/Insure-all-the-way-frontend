@@ -5,7 +5,7 @@ import classes from "./PolicyDetails.module.css";
 import PolicyDetailsSummary from "../PolicyDetailsSummary/PolicyDetailsSummary";
 import BreadCrumbMenu from "@/components/BreadCrumbMenu/BreadCrumbMenu";
 import { routes } from "@/utilities/routes";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, usePathname } from "next/navigation";
 import CustomTable from "@/components/CustomTable/CustomTable";
 import { inventoryType, modalGenericType } from "@/utilities/types";
@@ -14,9 +14,28 @@ import ClaimsForm from "../ClaimsForm/ClaimsForm";
 import Modal from "@/components/Modal/Modal";
 import { useUserPolicyById } from "@/hooks/usePolicies";
 import InventoryDetails from "../InventoryDetails/InventoryDetails";
+import { structureWords } from "@/helpers/capitalize";
 
-const fields = ["specifications", "serialNumber", "value"];
-const header = ["Spefications", "Serial Number", "value"];
+const fields = {
+  "all-risk": ["specifications", "serialNumber", "value"],
+  "fleet-motor-insurance": [
+    "registrationNumber",
+    "vehicleType",
+    "makeOfVehicle",
+    "modelOfVehicle",
+    "status",
+  ],
+};
+const header = {
+  "all-risk": ["Spefications", "Serial Number", "value"],
+  "fleet-motor-insurance": [
+    "Registration Number",
+    "Vehicle Type",
+    "Make of Vehicle",
+    "Model of Vehicle",
+    "Status",
+  ],
+};
 
 const PolicyDetails = () => {
   // Router
@@ -34,6 +53,7 @@ const PolicyDetails = () => {
       route: pathname,
     },
   ]);
+
   const [modals, setModals] = useState<modalGenericType>({
     details: false,
     claims: false,
@@ -90,6 +110,27 @@ const PolicyDetails = () => {
     return data?.data?.policy?.inventory;
   }, [data]);
 
+  // Effects
+  useEffect(() => {
+    if (data) {
+      console.log(data, "test");
+
+      setBreadCrubmRoutes((prevState) => {
+        const updatedState = [...prevState];
+        updatedState[1].title = structureWords(
+          data?.data?.policy?.insuranceType
+        );
+        return updatedState;
+      });
+
+      console.log(
+        structureWords(data?.data?.policy?.insuranceType),
+        "Type",
+        data?.data
+      );
+    }
+  }, [data]);
+
   return (
     <>
       {modals.claims && (
@@ -119,10 +160,22 @@ const PolicyDetails = () => {
         <BreadCrumbMenu routes={breadCrumbRoutes} />
         <PolicyDetailsSummary />
         <CustomTable
-          fields={fields}
+          fields={
+            fields[
+              data?.data?.policy?.insuranceType as
+                | "all-risk"
+                | "fleet-motor-insurance"
+            ] || []
+          }
           header="Inventory"
           data={inventory}
-          headers={header}
+          headers={
+            header[
+              data?.data?.policy?.insuranceType as
+                | "all-risk"
+                | "fleet-motor-insurance"
+            ] || []
+          }
           isOptions
           options={options}
           setState={setSelectedSubPolicyId}

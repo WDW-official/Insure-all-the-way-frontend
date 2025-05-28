@@ -81,7 +81,10 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
     {
       text: "Claim",
       action: (insurance?: any) => {
-        if (insurance.policyHeld === "All Risk") {
+        if (
+          insurance.policyHeld === "All Risk" ||
+          insurance.policyHeld === "Fleet Motor Insurance"
+        ) {
           router.push(`${routes.DASHBOARD}/${insurance?.id}`);
         } else {
           setSelectedPolicyId(insurance?.id);
@@ -206,7 +209,10 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
           isOptions
           onRowClick={(data) => {
             setSelectedPolicyId(data?.id);
-            if (data?.policyHeld === "All Risk") {
+            if (
+              data?.policyHeld === "All Risk" ||
+              data?.policyHeld === "Fleet Motor Insurance"
+            ) {
               router.push(`${routes.DASHBOARD}/${data?.id}`);
             } else {
               setModalTrue(setModals, "info");

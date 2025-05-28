@@ -13,7 +13,7 @@ const BreadCrumbMenu = ({ routes }: BreadCrumbMenuTypes) => {
     <ul className={classes.container}>
       {routes.map((data) => {
         return (
-          <li>
+          <li key={data?.title}>
             <Link href={data?.route}>{data?.title}</Link>
             <span>/</span>
           </li>

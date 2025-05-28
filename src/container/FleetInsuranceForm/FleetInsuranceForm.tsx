@@ -3,13 +3,29 @@ import classes from "./FleetInsuranceForm.module.css";
 import Dropdown from "@/components/Dropdown/Dropdown";
 import Input from "@/components/Input/Input";
 import TextArea from "@/components/Textarea/TextArea";
-import { fleetFormDataTypes, requestType } from "@/utilities/types";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import {
+  fleetFormDataTypes,
+  requestType,
+  vehiclesType,
+} from "@/utilities/types";
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { inputChangeHandler } from "@/helpers/inputChangeHandler";
 import { GENDERS, TODAY } from "@/utilities/constants";
 import moment from "moment";
-import { capitalize } from "@/helpers/capitalize";
+import { capitalize, capitalizeEachWord } from "@/helpers/capitalize";
 import { states } from "@/utilities/states";
+import Trash from "@/assets/svgIcons/Trash";
+import {
+  useCarMakes,
+  useCarModels,
+  useCarYearsByMakeAndModel,
+} from "@/hooks/usePolicies";
+import { mutate } from "swr";
+import { vehicleTypes } from "@/utilities/motorInsuranceData";
+import Plus from "@/assets/svgIcons/Plus";
+import ExcelJS from "exceljs";
+import Upload from "@/assets/svgIcons/Upload";
+import { downloadFile, downloadInternalFile } from "@/helpers/download";
 
 type FleetInsuranceFormTypes = {
   data: fleetFormDataTypes;
@@ -28,8 +44,166 @@ const FleetInsuranceForm = ({
   const [propertyType, setPropertyType] = useState("");
   const [gender, setGender] = useState("");
   const [state, setState] = useState("");
+  const [vehicles, setVehicles] = useState<vehiclesType[]>([
+    {
+      chassisNumber: "",
+      registrationNumber: "",
+      modelOfVehicle: "",
+      makeOfVehicle: "",
+      yearOfMake: "",
+      vehicleType: "",
+      engineNumber: "",
+    },
+  ]);
+  const [yearOfMake, setYearOfMake] = useState("");
+  const [activeVehicle, setActiveVehicle] = useState<null | number>(null);
+  const [makeOfVehicle, setMakeOfVehicle] = useState("");
+  const [modelOfVehicle, setModelOfVehidle] = useState("");
+  const [vehicleType, setVehicleType] = useState("");
+  const [isUploadFile, setIsUploadFile] = useState(false);
+
+  // Helpers
+
+  const readExcelFile = async (file: File) => {
+    const reader = new FileReader();
+    reader.onload = async (event: any) => {
+      const buffer = event.target.result;
+      const workbook = new ExcelJS.Workbook();
+      await workbook.xlsx.load(buffer);
+
+      const worksheet = workbook.worksheets[0];
+      const jsonData: any[] = [];
+
+      let headers: string[] = [];
+
+      worksheet.eachRow((row: any, rowNumber: number) => {
+        const rowValues = row.values.slice(1);
+
+        if (rowNumber === 1) {
+          headers = rowValues.map((header: string) => String(header).trim());
+        } else {
+          const rowObject: any = {};
+          headers.forEach((key, index) => {
+            rowObject[key] = rowValues[index] ?? "";
+          });
+          jsonData.push(rowObject);
+        }
+      });
+
+      setVehicles(jsonData);
+    };
+
+    reader.readAsArrayBuffer(file);
+    setIsUploadFile(true);
+  };
+
+  const handleFileChange = (e: any) => {
+    const file = e[0];
+
+    if (file) {
+      const fileType = file.type;
+      const fileName = file.name;
+
+      const validFileExtensions = [".xlsx", ".csv"];
+      const fileExtension = fileName.slice(fileName.lastIndexOf("."));
+
+      if (
+        fileType ===
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+        fileType === "application/vnd.ms-excel" ||
+        validFileExtensions.includes(fileExtension)
+      ) {
+        readExcelFile(file);
+      } else {
+        alert("Please select a valid Excel file.");
+      }
+    } else {
+      alert("No file selected.");
+      setIsUploadFile(false);
+    }
+  };
+
+  const sliceNumber = isUploadFile ? 2 : undefined;
+
+  // Requests
+  const { isLoading: carMakesIsLoading, data: carMakesData } = useCarMakes();
+  const { isLoading: modelsIsLoading, data: carModelsData } = useCarModels(
+    makeOfVehicle as string
+  );
+  const { isLoading: yearsIsLoading, data: yearsData } =
+    useCarYearsByMakeAndModel(
+      makeOfVehicle as string,
+      modelOfVehicle as string
+    );
+
+  // Memos
+  const carMakes = useMemo(() => {
+    return carMakesData?.data?.makes?.map((data: string) =>
+      capitalizeEachWord(data)
+    );
+  }, [carMakesData]);
+
+  const carModels = useMemo(() => {
+    return carModelsData?.data?.models?.map((data: string) => capitalize(data));
+  }, [carModelsData]);
+
+  const carYears = useMemo(() => {
+    return yearsData?.data?.years;
+  }, [yearsData]);
 
   // Effects
+  useEffect(() => {
+    if (makeOfVehicle) {
+      mutate(`/externals/cars/models/${makeOfVehicle}`);
+    }
+
+    if (makeOfVehicle && modelOfVehicle) {
+      mutate(`/externals/cars/models/${makeOfVehicle}/${modelOfVehicle}`);
+    }
+  }, [makeOfVehicle]);
+
+  useEffect(() => {
+    if (String(activeVehicle) && makeOfVehicle) {
+      setVehicles((prevState) => {
+        const updatedState = [...prevState];
+
+        updatedState[activeVehicle as number].makeOfVehicle = makeOfVehicle;
+
+        return updatedState;
+      });
+    }
+
+    if (String(activeVehicle) && yearOfMake) {
+      setVehicles((prevState) => {
+        const updatedState = [...prevState];
+
+        updatedState[activeVehicle as number].yearOfMake = yearOfMake;
+
+        return updatedState;
+      });
+    }
+
+    if (String(activeVehicle) && modelOfVehicle) {
+      setVehicles((prevState) => {
+        const updatedState = [...prevState];
+
+        updatedState[activeVehicle as number].modelOfVehicle = modelOfVehicle;
+
+        return updatedState;
+      });
+    }
+
+    if (String(activeVehicle) && vehicleType) {
+      setVehicles((prevState) => {
+        const updatedState = [...prevState];
+
+        updatedState[activeVehicle as number].vehicleType = vehicleType;
+
+        return updatedState;
+      });
+    }
+  }, [activeVehicle, makeOfVehicle, yearOfMake, modelOfVehicle, vehicleType]);
+
   useEffect(() => {
     if (propertyType) {
       setData((prevState) => {
@@ -48,7 +222,13 @@ const FleetInsuranceForm = ({
         return { ...prevState, state };
       });
     }
-  }, [propertyType, gender, state]);
+
+    if (vehicles.length > 0) {
+      setData((prevState) => {
+        return { ...prevState, inventory: vehicles };
+      });
+    }
+  }, [propertyType, gender, state, vehicles]);
 
   useEffect(() => {
     if (data?.propertyType) {
@@ -64,6 +244,23 @@ const FleetInsuranceForm = ({
       });
     }
   }, [data.propertyType]);
+
+  useEffect(() => {
+    if (requestState?.data && requestState?.id === "submit-form") {
+      setVehicles([
+        {
+          chassisNumber: "",
+          registrationNumber: "",
+          modelOfVehicle: "",
+          makeOfVehicle: "",
+          yearOfMake: "",
+          vehicleType: "",
+          engineNumber: "",
+        },
+      ]);
+      setIsUploadFile(false);
+    }
+  }, [requestState?.data]);
 
   return (
     <section className={classes.container} id="insurance-form">
@@ -153,15 +350,202 @@ const FleetInsuranceForm = ({
         />
 
         <h4>Tell us more about your vehicles</h4>
+        {vehicles?.slice(0, sliceNumber)?.map((data, i) => {
+          return (
+            <div
+              className={classes.section}
+              onClick={() => setActiveVehicle(i)}
+            >
+              <div className={classes.sectionHeader}>
+                <h4>
+                  {data?.yearOfMake ||
+                  data?.makeOfVehicle ||
+                  data?.modelOfVehicle
+                    ? `${data?.yearOfMake} ${data?.makeOfVehicle} ${data?.modelOfVehicle}`
+                    : `Vehicle ${i + 1}`}
+                </h4>
+                {i > 0 && (
+                  <Trash
+                    onClick={() => {
+                      setVehicles((prevState) => {
+                        const updatedState = [...prevState];
 
-        <TextArea
-          label="Talk to us"
-          placeholder="Tell us what you want to achieve"
-          name="comment"
-          value={data?.comment}
-          onChange={(e) => inputChangeHandler(e, setData)}
-          isRequired
-        />
+                        if (updatedState.length > 1) {
+                          const filteredState = updatedState.filter((_, j) => {
+                            return j !== i;
+                          });
+
+                          return filteredState;
+                        } else {
+                          return updatedState;
+                        }
+                      });
+                    }}
+                  />
+                )}
+              </div>
+
+              <Input
+                label="Registration Number"
+                placeholder="1234ABCD"
+                value={vehicles[i].registrationNumber}
+                onChange={(e) =>
+                  setVehicles((prevState) => {
+                    const updatedState = [...prevState];
+                    updatedState[i].registrationNumber = e.target.value;
+                    return updatedState;
+                  })
+                }
+                isRequired
+              />
+
+              <Input
+                label="Chassis Number"
+                placeholder="Macbook Pro 2025"
+                value={vehicles[i].chassisNumber}
+                onChange={(e) =>
+                  setVehicles((prevState) => {
+                    const updatedState = [...prevState];
+                    updatedState[i].chassisNumber = e.target.value;
+                    return updatedState;
+                  })
+                }
+                isRequired
+              />
+
+              <Input
+                label="Engine Number"
+                placeholder="Macbook Pro 2025"
+                value={vehicles[i].engineNumber}
+                onChange={(e) =>
+                  setVehicles((prevState) => {
+                    const updatedState = [...prevState];
+                    updatedState[i].engineNumber = e.target.value;
+                    return updatedState;
+                  })
+                }
+                isRequired
+              />
+
+              <Dropdown
+                label="Make of Vehicle"
+                options={carMakes}
+                selected={data?.makeOfVehicle}
+                setSelected={setMakeOfVehicle}
+                isLoading={carMakesIsLoading}
+                isRequired
+              />
+
+              <Dropdown
+                label="Model of Vehicle"
+                options={(carModels as any) || []}
+                isRequired
+                isLoading={modelsIsLoading}
+                selected={data?.modelOfVehicle}
+                setSelected={setModelOfVehidle}
+                disabled={!isUploadFile && !makeOfVehicle}
+              />
+
+              <Dropdown
+                label="Year of make"
+                options={carYears}
+                isLoading={yearsIsLoading}
+                isRequired
+                selected={data?.yearOfMake}
+                setSelected={setYearOfMake}
+                disabled={!isUploadFile && (!makeOfVehicle || !modelOfVehicle)}
+              />
+
+              <Dropdown
+                label="Vehicle Type"
+                options={vehicleTypes}
+                isRequired
+                selected={data?.vehicleType}
+                setSelected={setVehicleType}
+              />
+            </div>
+          );
+        })}
+
+        {isUploadFile && vehicles?.length > 2 && (
+          <p className={classes.inventoryCount}>
+            and {vehicles?.length - 2} other entries
+          </p>
+        )}
+        <div className={classes.formButtonSection}>
+          {!isUploadFile ? (
+            <>
+              <Button
+                onClick={(e) => {
+                  e.preventDefault();
+                  setVehicles((prevState: vehiclesType[]) => {
+                    return [
+                      ...prevState,
+                      {
+                        chassisNumber: "",
+                        registrationNumber: "",
+                        modelOfVehicle: "",
+                        makeOfVehicle: "",
+                        yearOfMake: "",
+                        vehicleType: "",
+                        engineNumber: "",
+                      },
+                    ];
+                  });
+                }}
+              >
+                <Plus fill="#000" />
+                <span>Add a new vehicle</span>
+              </Button>
+
+              <div className={classes.upload}>
+                <input
+                  type="file"
+                  id="uploadSheet"
+                  onChange={(e) => handleFileChange(e?.target?.files)}
+                />
+                <label htmlFor="uploadSheet">
+                  <Upload />
+                  <span>Upload Excel file</span>
+                </label>
+              </div>
+            </>
+          ) : (
+            <Button
+              onClick={(e) => {
+                e.preventDefault();
+                setVehicles([
+                  {
+                    chassisNumber: "",
+                    registrationNumber: "",
+                    modelOfVehicle: "",
+                    makeOfVehicle: "",
+                    yearOfMake: "",
+                    vehicleType: "",
+                    engineNumber: "",
+                  },
+                ]);
+
+                setIsUploadFile(false);
+              }}
+              type="delete"
+            >
+              <Trash fill="#fff" />
+              <span>Clear all enteries</span>
+            </Button>
+          )}
+
+          <span
+            onClick={() => {
+              downloadFile(
+                "https://res.cloudinary.com/dx3zrhslt/raw/upload/v1748427769/Fleet_Spreadsheet_sc6l9k.xlsx",
+                "Fleet Inventory Template Sheet"
+              );
+            }}
+          >
+            Download sample inventory Excel file
+          </span>
+        </div>
 
         <div>
           <Button
@@ -172,10 +556,10 @@ const FleetInsuranceForm = ({
               !data?.phone ||
               !data?.address ||
               !data?.propertyType ||
-              !data?.comment ||
               !data?.state ||
               !data?.occupation ||
-              !data?.gender
+              !data?.gender ||
+              data?.inventory?.length < 1
             }
             onClick={(e) => {
               e.preventDefault();

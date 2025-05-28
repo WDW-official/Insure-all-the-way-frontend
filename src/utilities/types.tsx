@@ -110,9 +110,9 @@ export type comprehensiveeFormDataTypes = userType & {
 
 export type fleetFormDataTypes = userType & {
   propertyType: string;
-  comment: string;
   startDate: string;
   endDate: string;
+  inventory: vehiclesType[];
 };
 
 export type individualAndFamilyHmoDataTypes = userType & {
@@ -170,6 +170,16 @@ export type allRiskDataTypes = userType & {
   startDate: string;
   endDate: string;
   inventory: inventoryType[];
+};
+
+export type vehiclesType = {
+  makeOfVehicle: string;
+  modelOfVehicle: string;
+  yearOfMake: string;
+  chassisNumber: string;
+  registrationNumber: string;
+  engineNumber?: string;
+  vehicleType: string;
 };
 
 export type inventoryType = {
