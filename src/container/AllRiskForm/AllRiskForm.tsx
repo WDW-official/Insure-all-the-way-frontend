@@ -30,6 +30,8 @@ import Trash from "@/assets/svgIcons/Trash";
 import Upload from "@/assets/svgIcons/Upload";
 import { downloadInternalFile } from "@/helpers/download";
 import ExcelJS from "exceljs";
+import { getCaptchaToken } from "@/helpers/captcha";
+import Recatpcha from "@/components/Recaptcha/Recatpcha";
 
 const AllRiskForm = () => {
   // States
@@ -84,7 +86,7 @@ const AllRiskForm = () => {
   const { user } = useContext(AuthContext);
 
   // Utils
-  const allRiskFormSubmitHandler = () => {
+  const allRiskFormSubmitHandler = async () => {
     requestHandler({
       url: "/policies/policy/property-insurance/all-risk",
       method: "POST",
@@ -92,6 +94,7 @@ const AllRiskForm = () => {
       data: allRiskFormDataFOrmData,
       state: requestState,
       setState: setRequestState,
+      captchaAction: "allRisk",
       successFunction() {
         setModalTrue(setModals, "policyCreated");
         setAllRiskFormData((prevstate) => {
@@ -103,7 +106,6 @@ const AllRiskForm = () => {
             inventory: [],
           };
         });
-
         setAllRiskInventory([
           {
             specifications: "",
@@ -306,6 +308,8 @@ const AllRiskForm = () => {
           }
         />
       )}
+      <Recatpcha />
+
       <section className={classes.container} id="insurance-form">
         <div className={classes.header}>
           <h4>All Risks Policy Form</h4>

@@ -14,6 +14,7 @@
     "@mui/material": "^6.4.3",
     "@mui/styled-engine-sc": "^6.4.3",
     "@react-google-maps/api": "^2.20.6",
+    "@types/grecaptcha": "^3.0.9",
     "axios": "^1.7.9",
     "exceljs": "^4.4.0",
     "file-saver": "^2.0.5",

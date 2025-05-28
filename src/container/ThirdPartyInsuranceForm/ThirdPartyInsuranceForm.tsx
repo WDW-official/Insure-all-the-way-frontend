@@ -31,6 +31,7 @@ import { mutate } from "swr";
 import { capitalize, capitalizeEachWord } from "@/helpers/capitalize";
 import FileUploadInput from "@/components/FileUploadInput/FileUploadInput";
 import useError from "@/hooks/useError";
+import Recatpcha from "@/components/Recaptcha/Recatpcha";
 
 type ThirdPartyInsuranceFormTypes = {
   data: thirdPartyInsuranceFormType;
@@ -298,6 +299,8 @@ const ThirdPartyInsuranceForm = ({
           }
         />
       )}
+
+      <Recatpcha />
 
       <section className={classes.container} id="insurance-form">
         <div className={classes.header}>

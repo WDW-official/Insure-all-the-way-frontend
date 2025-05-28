@@ -18,6 +18,7 @@ import SuccessModalBody from "@/components/SuccessModalBody/SuccessModalBody";
 import PaymentModalBody from "../PaymentModalBody/PaymentModalBody";
 import { useCars } from "@/hooks/usePolicies";
 import { capitalize } from "@/helpers/capitalize";
+import Recatpcha from "@/components/Recaptcha/Recatpcha";
 
 const ComprehensiveMotorInsurance = () => {
   // Context
@@ -95,6 +96,7 @@ const ComprehensiveMotorInsurance = () => {
       errorFunction(err) {
         errorFlowFunction(err);
       },
+      captchaAction: "comprehensive",
     });
   };
 
@@ -245,6 +247,8 @@ const ComprehensiveMotorInsurance = () => {
           }
         />
       )}
+
+      <Recatpcha />
       <ApppLayout>
         <ComprehensiveMotorInsuranceHero />
         <ComprehensiveMotorInsuranceForm

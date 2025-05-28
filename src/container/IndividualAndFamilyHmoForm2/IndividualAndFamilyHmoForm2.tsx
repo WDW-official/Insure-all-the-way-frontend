@@ -25,6 +25,7 @@ import Modal from "@/components/Modal/Modal";
 import SuccessModalBody from "@/components/SuccessModalBody/SuccessModalBody";
 import PaymentModalBody from "../PaymentModalBody/PaymentModalBody";
 import { projectTime } from "@/helpers/projectTime";
+import Recatpcha from "@/components/Recaptcha/Recatpcha";
 
 type IndividualAndFamilyHmoForm2Type = {
   data: individualAndFamilyHmoDataTypes;
@@ -90,6 +91,7 @@ const IndividualAndFamilyHmoForm2 = ({
       errorFunction(err) {
         errorFlowFunction(err);
       },
+      captchaAction: "individual",
     });
   };
 
@@ -222,6 +224,9 @@ const IndividualAndFamilyHmoForm2 = ({
           }
         />
       )}
+
+      <Recatpcha />
+
       <section className={classes.container} id="insurance-form">
         <div className={classes.header}>
           <h4>Health Insurance Form</h4>

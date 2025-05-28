@@ -22,6 +22,7 @@ import { areAllValuesFilled } from "@/helpers/validateObjectValues";
 import { GENDERS, TODAY } from "@/utilities/constants";
 import { projectTime } from "@/helpers/projectTime";
 import { capitalize } from "@mui/material";
+import Recatpcha from "@/components/Recaptcha/Recatpcha";
 
 const BuildingForm = () => {
   // States
@@ -85,6 +86,7 @@ const BuildingForm = () => {
       errorFunction(err) {
         errorFlowFunction(err);
       },
+      captchaAction: "building",
     });
   };
 
@@ -176,6 +178,8 @@ const BuildingForm = () => {
           }
         />
       )}
+      <Recatpcha />
+
       <section className={classes.container} id="insurance-form">
         <div className={classes.header}>
           <h4>Building Insurance Policy Form</h4>
