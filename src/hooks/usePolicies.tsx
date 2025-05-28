@@ -61,3 +61,18 @@ export const useHealthPlans = (partner: string) => {
 
   return useGetHook(url);
 };
+
+export const usePolicyStats = (id: string) => {
+  const url = id ? `/policies/user/policy/${id}/stats` : null;
+
+  return useGetHook(url);
+};
+
+export const usePolicyInventoryById = (id: string, inventoryId: string) => {
+  const url =
+    id && inventoryId
+      ? `/policies/user/policy/${id}/inventory/${inventoryId}`
+      : null;
+
+  return useGetHook(url);
+};

@@ -16,6 +16,7 @@ import { inputChangeHandler } from "@/helpers/inputChangeHandler";
 import moment from "moment";
 import Dropdown from "../Dropdown/Dropdown";
 import useUpdateSearchParams from "@/hooks/useUpdateSearchParams";
+import { formatCurrency } from "@/helpers/formatAmount";
 
 export type TableOption = {
   text: string;
@@ -277,6 +278,14 @@ const CustomTable: React.FC<CustomTableProps> = ({
                             ? moment(row[field])?.format("DD-MM-YY")
                             : ""}
                         </span>
+                      </span>
+                    );
+                  }
+
+                  if (field?.includes("value")) {
+                    return (
+                      <span key={colIndex} className={classes.tableBody}>
+                        <span>{formatCurrency(row[field])}</span>
                       </span>
                     );
                   }

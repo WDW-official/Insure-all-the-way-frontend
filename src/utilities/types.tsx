@@ -166,12 +166,17 @@ export type claimsDataType = {
 };
 
 export type allRiskDataTypes = userType & {
-  deviceType: string;
-  valueOfDevice: string;
-  quantityOfDevice: string;
   premium: string;
   startDate: string;
   endDate: string;
+  inventory: inventoryType[];
+};
+
+export type inventoryType = {
+  specifications: string;
+  serialNumber: string;
+  value: string;
+  deviceType: string;
 };
 
 export type buildingDataTypes = userType & {

@@ -5,16 +5,18 @@ import classes from "./PolicyDetails.module.css";
 import PolicyDetailsSummary from "../PolicyDetailsSummary/PolicyDetailsSummary";
 import BreadCrumbMenu from "@/components/BreadCrumbMenu/BreadCrumbMenu";
 import { routes } from "@/utilities/routes";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useParams, usePathname } from "next/navigation";
 import CustomTable from "@/components/CustomTable/CustomTable";
-import { modalGenericType } from "@/utilities/types";
+import { inventoryType, modalGenericType } from "@/utilities/types";
 import { setAllModalsFalse, setModalTrue } from "@/helpers/modalHandlers";
 import ClaimsForm from "../ClaimsForm/ClaimsForm";
 import Modal from "@/components/Modal/Modal";
+import { useUserPolicyById } from "@/hooks/usePolicies";
+import InventoryDetails from "../InventoryDetails/InventoryDetails";
 
-const fields = ["specifications", "serialNumber", "cost"];
-const header = ["Spefications", "Serial Number", "Cost"];
+const fields = ["specifications", "serialNumber", "value"];
+const header = ["Spefications", "Serial Number", "value"];
 
 const PolicyDetails = () => {
   // Router
@@ -66,7 +68,10 @@ const PolicyDetails = () => {
   const options = [
     {
       text: "View Details",
-      action: () => {},
+      action: (subPolicy: any) => {
+        setSelectedSubPolicyId(subPolicy?._id);
+        setModalTrue(setModals, "details");
+      },
     },
     {
       text: "Claim",
@@ -76,6 +81,14 @@ const PolicyDetails = () => {
       },
     },
   ];
+
+  // Requests
+  const { isLoading, data } = useUserPolicyById(policyId as string);
+
+  // Memos
+  const inventory: inventoryType[] = useMemo(() => {
+    return data?.data?.policy?.inventory;
+  }, [data]);
 
   return (
     <>
@@ -90,17 +103,31 @@ const PolicyDetails = () => {
           }
         />
       )}
+
+      {modals.details && (
+        <Modal
+          onClick={() => setAllModalsFalse(setModals)}
+          body={
+            <InventoryDetails
+              onClose={() => setAllModalsFalse(setModals)}
+              inventoryId={selectedSubPolicyId as string}
+            />
+          }
+        />
+      )}
       <DashboardLayout className={classes.container}>
         <BreadCrumbMenu routes={breadCrumbRoutes} />
         <PolicyDetailsSummary />
         <CustomTable
           fields={fields}
           header="Inventory"
-          data={dummyData}
+          data={inventory}
           headers={header}
           isOptions
           options={options}
           setState={setSelectedSubPolicyId}
+          loading={isLoading}
+          onRowClick={() => setModalTrue(setModals, "details")}
         />
       </DashboardLayout>
     </>

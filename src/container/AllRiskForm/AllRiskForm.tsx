@@ -27,6 +27,9 @@ import { formatCurrency } from "@/helpers/formatAmount";
 import Plus from "@/assets/svgIcons/Plus";
 import Close from "@/assets/svgIcons/Close";
 import Trash from "@/assets/svgIcons/Trash";
+import Upload from "@/assets/svgIcons/Upload";
+import { downloadFile, downloadInternalFile } from "@/helpers/download";
+import ExcelJS from "exceljs";
 
 const AllRiskForm = () => {
   // States
@@ -37,14 +40,12 @@ const AllRiskForm = () => {
     phone: "",
     address: "",
     state: "",
-    deviceType: "",
-    valueOfDevice: "",
-    quantityOfDevice: "",
     premium: "",
     startDate: "",
     endDate: "",
     gender: "",
     occupation: "",
+    inventory: [],
   });
   const [state, setState] = useState("");
   const [deviceType, setDeviceType] = useState("");
@@ -69,6 +70,7 @@ const AllRiskForm = () => {
   ]);
   const [activeAllRiskInventoryIndex, setActiveAllRiskInventoryIndex] =
     useState<number | null>(null);
+  const [isUploadFile, setIsUploadFile] = useState(false);
 
   // FormData
   const [allRiskFormDataFOrmData, setAllRiskFormDataFormData] = useState(
@@ -95,19 +97,90 @@ const AllRiskForm = () => {
         setAllRiskFormData((prevstate) => {
           return {
             ...prevstate,
-            deviceType: "",
-            valueOfDevice: "",
-            quantityOfDevice: "",
             premium: "",
             startDate: "",
             endDate: "",
+            inventory: [],
           };
         });
+
+        setAllRiskInventory([
+          {
+            specifications: "",
+            serialNumber: "",
+            value: "",
+            deviceType: "",
+          },
+        ]);
+        setIsUploadFile(false);
       },
       errorFunction(err) {
         errorFlowFunction(err);
       },
     });
+  };
+
+  const readExcelFile = async (file: File) => {
+    const reader = new FileReader();
+    reader.onload = async (event: any) => {
+      const buffer = event.target.result;
+      const workbook = new ExcelJS.Workbook();
+      await workbook.xlsx.load(buffer);
+
+      const worksheet = workbook.worksheets[0];
+      const jsonData: any[] = [];
+
+      let headers: string[] = [];
+
+      worksheet.eachRow((row: any, rowNumber: number) => {
+        const rowValues = row.values.slice(1);
+
+        if (rowNumber === 1) {
+          headers = rowValues.map((header: string) => String(header).trim());
+        } else {
+          const rowObject: any = {};
+          headers.forEach((key, index) => {
+            rowObject[key] = rowValues[index] ?? "";
+          });
+          jsonData.push(rowObject);
+        }
+      });
+
+      console.log(jsonData, "JSOn");
+
+      setAllRiskInventory(jsonData);
+    };
+
+    reader.readAsArrayBuffer(file);
+    setIsUploadFile(true);
+  };
+
+  const handleFileChange = (e: any) => {
+    const file = e[0];
+
+    console.log(file, "Check");
+
+    if (file) {
+      const fileType = file.type;
+      const fileName = file.name;
+
+      const validFileExtensions = [".xlsx", ".csv"];
+      const fileExtension = fileName.slice(fileName.lastIndexOf("."));
+
+      if (
+        fileType ===
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+        fileType === "application/vnd.ms-excel" ||
+        validFileExtensions.includes(fileExtension)
+      ) {
+        readExcelFile(file);
+      } else {
+        alert("Please select a valid Excel file.");
+      }
+    } else {
+      alert("No file selected.");
+      setIsUploadFile(false);
+    }
   };
 
   // Effects
@@ -130,10 +203,16 @@ const AllRiskForm = () => {
   }, [user]);
 
   useEffect(() => {
-    if (allRiskFormData?.valueOfDevice || allRiskFormData?.quantityOfDevice) {
-      const itemBasePrice = Number(allRiskFormData?.valueOfDevice);
-      const premium =
-        itemBasePrice * 0.03 * (Number(allRiskFormData?.quantityOfDevice) || 1);
+    if (allRiskInventory.length) {
+      const percentageCosts = allRiskInventory.map(
+        (data) => Number(data?.value) * 0.03
+      );
+
+      let premium = 0;
+
+      for (let i = 0; i < percentageCosts.length; i++) {
+        premium += percentageCosts[i];
+      }
 
       setAllRiskFormData((prevState) => {
         return { ...prevState, premium: String(premium) };
@@ -163,21 +242,24 @@ const AllRiskForm = () => {
         };
       });
     }
-  }, [
-    allRiskFormData?.valueOfDevice,
-    allRiskFormData?.quantityOfDevice,
-    allRiskFormData?.startDate,
-    deviceType,
-    state,
-    gender,
-  ]);
+
+    if (allRiskInventory.length) {
+      setAllRiskFormData((prevState) => {
+        return {
+          ...prevState,
+          inventory: allRiskInventory,
+        };
+      });
+    }
+  }, [allRiskFormData?.startDate, state, gender, allRiskInventory]);
 
   useEffect(() => {
-    if (activeAllRiskInventoryIndex && deviceType) {
+    if (String(activeAllRiskInventoryIndex) && deviceType) {
       setAllRiskInventory((prevState) => {
         const updatedState = [...prevState];
 
-        updatedState[activeAllRiskInventoryIndex].deviceType = deviceType;
+        updatedState[activeAllRiskInventoryIndex as number].deviceType =
+          deviceType;
 
         return updatedState;
       });
@@ -198,11 +280,15 @@ const AllRiskForm = () => {
     subAllRiskFormData.append("endDate", allRiskFormData?.endDate);
     subAllRiskFormData.append("gender", allRiskFormData?.gender);
     subAllRiskFormData.append("occupation", allRiskFormData?.occupation);
+    subAllRiskFormData.append(
+      "inventory",
+      JSON.stringify(allRiskFormData.inventory)
+    );
 
     setAllRiskFormDataFormData(subAllRiskFormData);
   }, [allRiskFormData]);
 
-  console.log(activeAllRiskInventoryIndex, "Checks");
+  const sliceNumber = isUploadFile ? 2 : undefined;
 
   return (
     <>
@@ -314,7 +400,7 @@ const AllRiskForm = () => {
             readOnly
           />
           <h4>Tell us about your device(s)</h4>
-          {allRiskInventory.map((data, i) => {
+          {allRiskInventory?.slice(0, sliceNumber)?.map((data, i) => {
             return (
               <div
                 className={classes.section}
@@ -323,25 +409,33 @@ const AllRiskForm = () => {
               >
                 <div className={classes.sectionHeader}>
                   <h4>{data?.specifications || `Item ${i + 1}`}</h4>
-                  <Trash
-                    onClick={() => {
-                      setAllRiskInventory((prevState) => {
-                        const updatedState = [...prevState];
+                  {i > 0 && (
+                    <Trash
+                      onClick={() => {
+                        setAllRiskInventory((prevState) => {
+                          const updatedState = [...prevState];
 
-                        const filteredState = updatedState.filter((_, j) => {
-                          return j !== i;
+                          if (updatedState.length > 1) {
+                            const filteredState = updatedState.filter(
+                              (_, j) => {
+                                return j !== i;
+                              }
+                            );
+
+                            return filteredState;
+                          } else {
+                            return updatedState;
+                          }
                         });
-
-                        return filteredState;
-                      });
-                    }}
-                  />
+                      }}
+                    />
+                  )}
                 </div>
 
                 <Dropdown
                   label="What type of device would you like to insure"
                   title="Select"
-                  options={["Laptop", "Phone", "Laptop & Phone"]}
+                  options={["Laptop", "Phone"]}
                   selected={data?.deviceType}
                   setSelected={setDeviceType}
                   isRequired
@@ -398,26 +492,81 @@ const AllRiskForm = () => {
               </div>
             );
           })}
-          <Button
-            type="null"
-            onClick={(e) => {
-              e.preventDefault();
-              setAllRiskInventory((prevState: allRiskInventoryTypes[]) => {
-                return [
-                  ...prevState,
-                  {
-                    deviceType: "",
-                    serialNumber: "",
-                    specifications: "",
-                    value: "",
-                  },
-                ];
-              });
-            }}
-          >
-            <Plus fill="#000" />
-            <span>Add a new device</span>
-          </Button>
+          {isUploadFile && allRiskInventory?.length > 2 && (
+            <p className={classes.inventoryCount}>
+              and {allRiskInventory?.length - 2} other entries
+            </p>
+          )}
+          <div className={classes.formButtonSection}>
+            {!isUploadFile ? (
+              <>
+                <Button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setAllRiskInventory(
+                      (prevState: allRiskInventoryTypes[]) => {
+                        return [
+                          ...prevState,
+                          {
+                            deviceType: "",
+                            serialNumber: "",
+                            specifications: "",
+                            value: "",
+                          },
+                        ];
+                      }
+                    );
+                  }}
+                >
+                  <Plus fill="#000" />
+                  <span>Add a new device</span>
+                </Button>
+
+                <div className={classes.upload}>
+                  <input
+                    type="file"
+                    id="uploadSheet"
+                    onChange={(e) => handleFileChange(e?.target?.files)}
+                  />
+                  <label htmlFor="uploadSheet">
+                    <Upload />
+                    <span>Upload Excel file</span>
+                  </label>
+                </div>
+              </>
+            ) : (
+              <Button
+                onClick={(e) => {
+                  e.preventDefault();
+                  setAllRiskInventory([
+                    {
+                      deviceType: "",
+                      serialNumber: "",
+                      specifications: "",
+                      value: "",
+                    },
+                  ]);
+
+                  setIsUploadFile(false);
+                }}
+                type="delete"
+              >
+                <Trash fill="#fff" />
+                <span>Clear all enteries</span>
+              </Button>
+            )}
+
+            <span
+              onClick={() => {
+                downloadInternalFile(
+                  "https://res.cloudinary.com/dx3zrhslt/raw/upload/v1748357150/All_Risk_Temlate_fzukue.xlsx",
+                  "All Risk Inventory Template Sheet"
+                );
+              }}
+            >
+              Download sample inventory CSV
+            </span>
+          </div>
           <h4>Total</h4>
           <Input
             label="Premium"

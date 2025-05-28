@@ -81,9 +81,11 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
     {
       text: "Claim",
       action: (insurance?: any) => {
-        setModalTrue(setModals, "claims");
-        if (insurance) {
+        if (insurance.policyHeld === "All Risk") {
+          router.push(`${routes.DASHBOARD}/${insurance?.id}`);
+        } else {
           setSelectedPolicyId(insurance?.id);
+          setModalTrue(setModals, "claims");
         }
       },
     },
