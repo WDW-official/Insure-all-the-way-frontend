@@ -86,7 +86,7 @@ const BuildingForm = () => {
       errorFunction(err) {
         errorFlowFunction(err);
       },
-      captchaAction: "building",
+      // captchaAction: "building",
     });
   };
 
@@ -178,7 +178,7 @@ const BuildingForm = () => {
           }
         />
       )}
-      <Recatpcha />
+      {/* <Recatpcha /> */}
 
       <section className={classes.container} id="insurance-form">
         <div className={classes.header}>

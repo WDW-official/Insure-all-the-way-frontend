@@ -30,7 +30,12 @@ const PoliciesSummaryCard = ({
   return (
     <div className={classes.container} style={{ backgroundColor }}>
       <span>{title}</span>
-      <h2> {notAmount ? amount : `₦${formatCurrency(amount)}`}</h2>
+      <h2>
+        {" "}
+        {notAmount
+          ? String(amount) || "--"
+          : `₦${formatCurrency(amount) || "--"}`}
+      </h2>
       {cta && (
         <div>
           <span>{cta.text}</span>

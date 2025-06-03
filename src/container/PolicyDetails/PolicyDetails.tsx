@@ -15,9 +15,10 @@ import Modal from "@/components/Modal/Modal";
 import { useUserPolicyById } from "@/hooks/usePolicies";
 import InventoryDetails from "../InventoryDetails/InventoryDetails";
 import { structureWords } from "@/helpers/capitalize";
+import { mutate } from "swr";
 
 const fields = {
-  "all-risk": ["specifications", "serialNumber", "value"],
+  "all-risk": ["specifications", "serialNumber", "value", "status"],
   "fleet-motor-insurance": [
     "registrationNumber",
     "vehicleType",
@@ -27,7 +28,7 @@ const fields = {
   ],
 };
 const header = {
-  "all-risk": ["Spefications", "Serial Number", "value"],
+  "all-risk": ["Spefications", "Serial Number", "Value", "Status"],
   "fleet-motor-insurance": [
     "Registration Number",
     "Vehicle Type",
@@ -61,29 +62,6 @@ const PolicyDetails = () => {
   const [selectedSubPolicyId, setSelectedSubPolicyId] = useState<string | null>(
     null
   );
-
-  const dummyData = [
-    {
-      specifications: "Macbook Pro 2020 8GB 256GB SSD 13inch",
-      serialNumber: "C02DL32NP3XY",
-      cost: "₦745,000.00",
-    },
-    {
-      specifications: "Macbook Pro 2020 8GB 256GB SSD 13inch",
-      serialNumber: "C02DL32NP3XY",
-      cost: "₦745,000.00",
-    },
-    {
-      specifications: "Macbook Pro 2020 8GB 256GB SSD 13inch",
-      serialNumber: "C02DL32NP3XY",
-      cost: "₦745,000.00",
-    },
-    {
-      specifications: "Macbook Pro 2020 8GB 256GB SSD 13inch",
-      serialNumber: "C02DL32NP3XY",
-      cost: "₦745,000.00",
-    },
-  ];
 
   const options = [
     {
@@ -140,6 +118,10 @@ const PolicyDetails = () => {
             <ClaimsForm
               onClose={() => setAllModalsFalse(setModals)}
               selectedPolicyId={policyId as string}
+              selectedSubPolicyId={selectedSubPolicyId as string}
+              refetchFunction={() => {
+                mutate(`/policies/user/policy/${policyId}`);
+              }}
             />
           }
         />

@@ -83,7 +83,7 @@ const CorporateHmoForm = () => {
       errorFunction(err) {
         errorFlowFunction(err);
       },
-      captchaAction: "corporate",
+      // captchaAction: "corporate",
     });
   };
 
@@ -190,7 +190,7 @@ const CorporateHmoForm = () => {
         />
       )}
 
-      <Recatpcha />
+      {/* <Recatpcha /> */}
 
       <section className={classes.container} id="insurance-form">
         <div className={classes.header}>

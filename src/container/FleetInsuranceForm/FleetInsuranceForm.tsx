@@ -53,6 +53,8 @@ const FleetInsuranceForm = ({
       yearOfMake: "",
       vehicleType: "",
       engineNumber: "",
+      vehicleValue: "",
+      insuranceType: "",
     },
   ]);
   const [yearOfMake, setYearOfMake] = useState("");
@@ -61,6 +63,7 @@ const FleetInsuranceForm = ({
   const [modelOfVehicle, setModelOfVehidle] = useState("");
   const [vehicleType, setVehicleType] = useState("");
   const [isUploadFile, setIsUploadFile] = useState(false);
+  const [insuranceType, setInsuranceType] = useState("");
 
   // Helpers
 
@@ -202,7 +205,24 @@ const FleetInsuranceForm = ({
         return updatedState;
       });
     }
-  }, [activeVehicle, makeOfVehicle, yearOfMake, modelOfVehicle, vehicleType]);
+
+    if (String(activeVehicle) && insuranceType) {
+      setVehicles((prevState) => {
+        const updatedState = [...prevState];
+
+        updatedState[activeVehicle as number].insuranceType = insuranceType;
+
+        return updatedState;
+      });
+    }
+  }, [
+    activeVehicle,
+    makeOfVehicle,
+    yearOfMake,
+    modelOfVehicle,
+    vehicleType,
+    insuranceType,
+  ]);
 
   useEffect(() => {
     if (propertyType) {
@@ -256,6 +276,8 @@ const FleetInsuranceForm = ({
           yearOfMake: "",
           vehicleType: "",
           engineNumber: "",
+          insuranceType: "",
+          vehicleValue: "",
         },
       ]);
       setIsUploadFile(false);
@@ -463,6 +485,33 @@ const FleetInsuranceForm = ({
                 selected={data?.vehicleType}
                 setSelected={setVehicleType}
               />
+
+              <Input
+                label="Vehicle Value"
+                type="number"
+                placeholder="100,000"
+                value={vehicles[i].vehicleValue}
+                onChange={(e) =>
+                  setVehicles((prevState) => {
+                    const updatedState = [...prevState];
+                    updatedState[i].vehicleValue = e.target.value;
+                    return updatedState;
+                  })
+                }
+                isRequired
+              />
+
+              <Dropdown
+                label="Insurance Type"
+                options={[
+                  "Third Party motor Insurance",
+                  "Enhanced Third Party Motor Insurance",
+                  "Comprehensive Motor Insurance",
+                ]}
+                isRequired
+                selected={data?.insuranceType}
+                setSelected={setInsuranceType}
+              />
             </div>
           );
         })}
@@ -489,6 +538,8 @@ const FleetInsuranceForm = ({
                         yearOfMake: "",
                         vehicleType: "",
                         engineNumber: "",
+                        vehicleValue: "",
+                        insuranceType: "",
                       },
                     ];
                   });
@@ -523,6 +574,8 @@ const FleetInsuranceForm = ({
                     yearOfMake: "",
                     vehicleType: "",
                     engineNumber: "",
+                    vehicleValue: "",
+                    insuranceType: "",
                   },
                 ]);
 
@@ -538,7 +591,7 @@ const FleetInsuranceForm = ({
           <span
             onClick={() => {
               downloadFile(
-                "https://res.cloudinary.com/dx3zrhslt/raw/upload/v1748427769/Fleet_Spreadsheet_sc6l9k.xlsx",
+                "https://res.cloudinary.com/dx3zrhslt/raw/upload/v1748619599/Fleet_Template_xxlymr.xlsx",
                 "Fleet Inventory Template Sheet"
               );
             }}

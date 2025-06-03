@@ -80,6 +80,8 @@ const FleetInsurance = () => {
                 yearOfMake: "",
                 vehicleType: "",
                 engineNumber: "",
+                insuranceType: "",
+                vehicleValue: "",
               },
             ],
           };
@@ -88,7 +90,7 @@ const FleetInsurance = () => {
       errorFunction(err) {
         errorFlowFunction(err);
       },
-      captchaAction: "fleet",
+      // captchaAction: "fleet",
     });
   };
 
@@ -154,6 +156,7 @@ const FleetInsurance = () => {
       "inventory",
       JSON.stringify(fleetInsuranceFormData.inventory)
     );
+
     setFleetInsuranceFormDataFormData(subFleetInsuranceFormData);
   }, [fleetInsuranceFormData]);
 
@@ -175,7 +178,7 @@ const FleetInsurance = () => {
           }
         />
       )}
-      <Recatpcha />
+      {/* <Recatpcha /> */}
 
       <ApppLayout>
         <FleetInsuranceHero />

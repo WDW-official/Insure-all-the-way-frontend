@@ -91,7 +91,7 @@ const IndividualAndFamilyHmoForm2 = ({
       errorFunction(err) {
         errorFlowFunction(err);
       },
-      captchaAction: "individual",
+      // captchaAction: "individual",
     });
   };
 
@@ -225,7 +225,7 @@ const IndividualAndFamilyHmoForm2 = ({
         />
       )}
 
-      <Recatpcha />
+      {/* <Recatpcha /> */}
 
       <section className={classes.container} id="insurance-form">
         <div className={classes.header}>

@@ -28,7 +28,7 @@
   text-decoration-skip-ink: none;
   width: 750px;
   margin: 0 auto;
-  color: var(--grey6);
+  color: var(--grey4);
   text-align: center;
 }
 
@@ -186,8 +186,8 @@
 
   .header > p {
     font-family: General Sans;
-    font-size: 16px;
-    line-height: 150%;
+    font-size: 13px;
+    line-height: 120%;
     width: 100%;
     margin: 0 auto;
   }

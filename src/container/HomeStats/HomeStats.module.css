@@ -191,7 +191,7 @@
   }
 
   .outerContainer > h2 {
-    font-size: 28px;
+    font-size: 24px;
     line-height: 120%;
     margin-bottom: 16px;
     text-align: center;
@@ -205,13 +205,18 @@
   .container > div:nth-child(2) > ul > li {
     font-size: 16px;
     line-height: 130%;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     gap: 0.5rem;
   }
 
   .container > div:nth-child(2) > ul > li > span {
     display: flex;
     align-items: center;
+  }
+
+  .container > div:nth-child(2) > ul > li > span > img {
+    width: 70px;
+    height: 70px;
   }
 
   .info:hover {

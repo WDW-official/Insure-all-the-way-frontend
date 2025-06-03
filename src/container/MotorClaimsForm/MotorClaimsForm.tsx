@@ -10,6 +10,7 @@ import {
   claimsDataType,
   requestType,
   userPoliciesType,
+  vehiclesType,
 } from "@/utilities/types";
 import { inputChangeHandler } from "@/helpers/inputChangeHandler";
 import { areAllValuesFilled } from "@/helpers/validateObjectValues";
@@ -22,6 +23,7 @@ type MotorClaimsFormType = {
   setClaimsData: Dispatch<SetStateAction<claimsDataType>>;
   claimsHandler: () => void;
   requestState: requestType;
+  inventory: vehiclesType | null;
 };
 
 const MotorClaimsForm = ({
@@ -31,6 +33,7 @@ const MotorClaimsForm = ({
   setClaimsData,
   claimsHandler,
   requestState,
+  inventory,
 }: MotorClaimsFormType) => {
   // Utils
   const minDate = moment().subtract(30, "days").format("YYYY-MM-DDTHH:mm");
@@ -38,12 +41,16 @@ const MotorClaimsForm = ({
 
   // Effects
   useEffect(() => {
-    if (data?.registrationNumber) {
+    if (data?.registrationNumber || inventory?.registrationNumber) {
       setClaimsData((prevState) => {
-        return { ...prevState, registrationNumber: data?.registrationNumber };
+        return {
+          ...prevState,
+          registrationNumber:
+            data?.registrationNumber || inventory?.registrationNumber,
+        };
       });
     }
-  }, [data?.registrationNumber]);
+  }, [data?.registrationNumber, inventory?.registrationNumber]);
 
   return (
     <div className={classes.container}>
@@ -89,7 +96,12 @@ const MotorClaimsForm = ({
           </a>
 
           <Button
-            disabled={!areAllValuesFilled(claimsData)}
+            disabled={
+              !claimsData?.dateAndTime ||
+              !claimsData?.registrationNumber ||
+              !claimsData?.location ||
+              !claimsData?.narration
+            }
             onClick={(e) => {
               e.preventDefault();
               claimsHandler();

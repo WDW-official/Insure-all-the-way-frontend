@@ -4,7 +4,6 @@ import ApppLayout from "@/layouts/ApppLayout/ApppLayout";
 import HomeStats from "../HomeStats/HomeStats";
 import HomeHowWeWork from "../HomeHowWeWork/HomeHowWeWork";
 import HomeParters from "../HomeParters/HomeParters";
-import HomeGetAQuote from "../HomeGetAQuote/HomeGetAQuote";
 import ContactUsBanner from "../ContactUsBanner/ContactUsBanner";
 import HomeTestimonoals from "../HomeTestimonoals/HomeTestimonoals";
 import Faqs from "../Faqs/Faqs";
@@ -16,7 +15,6 @@ const Homepage = () => {
       <HomeHero />
       <HomeStats />
       <HomeHowWeWork />
-      <HomeGetAQuote />
       <HomeParters />
       <ContactUsBanner />
       <HomeTestimonoals />

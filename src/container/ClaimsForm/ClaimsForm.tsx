@@ -1,32 +1,44 @@
-import Input from "@/components/Input/Input";
 import classes from "./ClaimsForm.module.css";
 import MotorClaimsForm from "../MotorClaimsForm/MotorClaimsForm";
 import PropertyClaimForm from "../PropertyClaimForm/PropertyClaimForm";
-import { useUserPolicyById } from "@/hooks/usePolicies";
-import Loadable from "next/dist/shared/lib/loadable.shared-runtime";
+import { usePolicyInventoryById, useUserPolicyById } from "@/hooks/usePolicies";
 import Loader from "@/components/Loader/Loader";
 import { useEffect, useMemo, useState } from "react";
 import {
   claimsDataType,
+  inventoryType,
   requestType,
   userPoliciesType,
+  vehiclesType,
 } from "@/utilities/types";
 import { requestHandler } from "@/helpers/requestHandler";
 import useError from "@/hooks/useError";
 import { useToast } from "@/context/ToastContext";
-import { setAllModalsFalse } from "@/helpers/modalHandlers";
 import HealthClaimsForm from "../HealthClaimsForm/HealthClaimsForm";
+import { vehicleTypes } from "@/utilities/motorInsuranceData";
 
 type ClaimsFormTypes = {
   onClose: () => void;
   selectedPolicyId: string | null;
+  selectedSubPolicyId?: string;
+  refetchFunction?: () => void;
 };
 
-const ClaimsForm = ({ onClose, selectedPolicyId }: ClaimsFormTypes) => {
+const ClaimsForm = ({
+  onClose,
+  selectedPolicyId,
+  selectedSubPolicyId,
+  refetchFunction,
+}: ClaimsFormTypes) => {
   // Requests
   const { isLoading, data: policyData } = useUserPolicyById(
     selectedPolicyId as string
   );
+  const { isLoading: policyInventoryisLoading, data: subPolicyData } =
+    usePolicyInventoryById(
+      selectedPolicyId as string,
+      selectedSubPolicyId as string
+    );
 
   // States
   const [claimsData, setClaimsData] = useState<claimsDataType>({
@@ -35,7 +47,6 @@ const ClaimsForm = ({ onClose, selectedPolicyId }: ClaimsFormTypes) => {
     location: "",
     narration: "",
   });
-  const [claimsDataFormData, setClaimsDataFormData] = useState(new FormData());
 
   const [propertyClaimsData, setPropertyClaimsData] = useState<claimsDataType>({
     dateAndTime: "",
@@ -45,9 +56,6 @@ const ClaimsForm = ({ onClose, selectedPolicyId }: ClaimsFormTypes) => {
     estimate: "",
     property: "",
   });
-  const [propertyClaimsDataFormData, setPropertyClaimsDataFormData] = useState(
-    new FormData()
-  );
 
   const [healthClaimsData, setHealthClaimsData] = useState<claimsDataType>({
     enroleeId: "",
@@ -71,6 +79,11 @@ const ClaimsForm = ({ onClose, selectedPolicyId }: ClaimsFormTypes) => {
     [policyData]
   );
 
+  const inventory: vehiclesType | inventoryType = useMemo(
+    () => subPolicyData?.data?.inventory,
+    [policyData]
+  );
+
   // Hooks
   const { errorFlowFunction } = useError();
   const { showToast } = useToast();
@@ -83,9 +96,17 @@ const ClaimsForm = ({ onClose, selectedPolicyId }: ClaimsFormTypes) => {
         policy?.insuranceType === "building" ||
         policy?.insuranceType === "all-risk" ||
         policy?.insuranceType === "all-risks"
-          ? { insuranceId: selectedPolicyId, ...propertyClaimsData }
+          ? {
+              insuranceId: selectedPolicyId,
+              ...propertyClaimsData,
+              subPolicyId: selectedSubPolicyId,
+            }
           : policy?.insuranceType?.toLowerCase()?.includes("motor")
-          ? { insuranceId: selectedPolicyId, ...claimsData }
+          ? {
+              insuranceId: selectedPolicyId,
+              ...claimsData,
+              subPolicyId: selectedSubPolicyId,
+            }
           : healthClaimsDataFormData,
       method: "POST",
       isMultipart:
@@ -103,12 +124,16 @@ const ClaimsForm = ({ onClose, selectedPolicyId }: ClaimsFormTypes) => {
         errorFlowFunction(err);
       },
       successFunction(res) {
+        if (refetchFunction) {
+          refetchFunction();
+        }
         showToast(res?.data?.message, "success");
         setClaimsData({
           dateAndTime: "",
           registrationNumber: "",
           location: "",
           narration: "",
+          subPolicyId: "",
         });
         setPropertyClaimsData({
           dateAndTime: "",
@@ -117,6 +142,7 @@ const ClaimsForm = ({ onClose, selectedPolicyId }: ClaimsFormTypes) => {
           type: "",
           estimate: "",
           property: "",
+          subPolicyId: "",
         });
         setHealthClaimsData({
           enroleeId: "",
@@ -152,7 +178,7 @@ const ClaimsForm = ({ onClose, selectedPolicyId }: ClaimsFormTypes) => {
     setHealthClaimsDataFormData(subHealthFormData);
   }, [healthClaimsData]);
 
-  if (isLoading) {
+  if (isLoading || policyInventoryisLoading) {
     return <Loader />;
   }
 
@@ -166,6 +192,7 @@ const ClaimsForm = ({ onClose, selectedPolicyId }: ClaimsFormTypes) => {
           claimsData={claimsData}
           setClaimsData={setClaimsData}
           claimsHandler={claimsHandler}
+          inventory={inventory as vehiclesType}
         />
       ) : policy.insuranceType?.toLowerCase().includes("hmo") ? (
         <HealthClaimsForm
@@ -184,6 +211,7 @@ const ClaimsForm = ({ onClose, selectedPolicyId }: ClaimsFormTypes) => {
           claimsData={propertyClaimsData}
           setClaimsData={setPropertyClaimsData}
           claimsHandler={claimsHandler}
+          inventory={inventory as inventoryType}
         />
       )}
     </form>

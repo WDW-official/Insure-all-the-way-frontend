@@ -8,6 +8,7 @@ import classes from "../MotorClaimsForm/MotorClaimsForm.module.css";
 import Dropdown from "@/components/Dropdown/Dropdown";
 import {
   claimsDataType,
+  inventoryType,
   requestType,
   userPoliciesType,
 } from "@/utilities/types";
@@ -23,6 +24,7 @@ type PropertyClaimFormType = {
   setClaimsData: Dispatch<SetStateAction<claimsDataType>>;
   claimsHandler: () => void;
   requestState: requestType;
+  inventory: inventoryType;
 };
 
 const PropertyClaimForm = ({
@@ -32,6 +34,7 @@ const PropertyClaimForm = ({
   setClaimsData,
   claimsHandler,
   requestState,
+  inventory,
 }: PropertyClaimFormType) => {
   // States
   const [type, setType] = useState("");
@@ -47,7 +50,13 @@ const PropertyClaimForm = ({
         return { ...prevState, type };
       });
     }
-  }, [type]);
+
+    if (inventory) {
+      setClaimsData((prevState) => {
+        return { ...prevState, property: inventory.specifications };
+      });
+    }
+  }, [type, inventory.specifications]);
 
   return (
     <div className={classes.container}>

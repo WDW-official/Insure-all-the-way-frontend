@@ -96,7 +96,7 @@ const EnhancedThirdPartyMotorInsurance = () => {
       errorFunction(err) {
         errorFlowFunction(err);
       },
-      captchaAction: "enhancedThirdParty",
+      // captchaAction: "enhancedThirdParty",
     });
   };
 
@@ -317,7 +317,7 @@ const EnhancedThirdPartyMotorInsurance = () => {
           }
         />
       )}
-      <Recatpcha />
+      {/* <Recatpcha /> */}
 
       <EnhancedThirdPartyMotorInsuranceHero
         data={policySubType}

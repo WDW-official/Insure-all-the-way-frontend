@@ -94,7 +94,7 @@ const AllRiskForm = () => {
       data: allRiskFormDataFOrmData,
       state: requestState,
       setState: setRequestState,
-      captchaAction: "allRisk",
+      // captchaAction: "allRisk",
       successFunction() {
         setModalTrue(setModals, "policyCreated");
         setAllRiskFormData((prevstate) => {

@@ -3,8 +3,6 @@
 import ApppLayout from "@/layouts/ApppLayout/ApppLayout";
 import React, { useMemo } from "react";
 import MotorInsuranceHero from "../MotorInsuranceHero/MotorInsuranceHero";
-import InsuranceTypes from "@/components/InsuranceTypes/InsuranceTypes";
-import { motorInsuranceTypes } from "@/utilities/motorInsurance";
 import ContactUsBanner from "../ContactUsBanner/ContactUsBanner";
 import Faqs from "../Faqs/Faqs";
 import classes from "./MotorInsurance.module.css";
@@ -26,7 +24,6 @@ const MotorInsurance = () => {
     <ApppLayout>
       <MotorInsuranceHero />
       <MotorInsurancePlans plans={policy?.types} loading={isLoading} />
-      <InsuranceTypes data={motorInsuranceTypes} isNotHover />
       <div className={classes.contact}>
         <ContactUsBanner
           title="Let's Talk Motor Insurance"

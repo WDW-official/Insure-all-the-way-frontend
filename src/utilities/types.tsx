@@ -163,6 +163,7 @@ export type claimsDataType = {
   property?: string;
   enroleeId?: string;
   attachments?: File[];
+  subPolicyId?: string;
 };
 
 export type allRiskDataTypes = userType & {
@@ -180,6 +181,8 @@ export type vehiclesType = {
   registrationNumber: string;
   engineNumber?: string;
   vehicleType: string;
+  vehicleValue: string;
+  insuranceType: string;
 };
 
 export type inventoryType = {

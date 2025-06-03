@@ -88,7 +88,7 @@ const ThirdPartyMotorInsurance = () => {
         });
       },
       requestCleanup: true,
-      captchaAction: "thirdParty",
+      // captchaAction: "thirdParty",
     });
   };
 

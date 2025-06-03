@@ -142,7 +142,7 @@
   }
 
   .container > div > h1 > span {
-    display: block;
+    display: inline;
   }
 
   .container > div > p,
