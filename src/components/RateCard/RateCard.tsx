@@ -6,6 +6,7 @@ import classes from "./RateCard.module.css";
 import { useRouter } from "next/navigation";
 import { formatCurrency } from "@/helpers/formatAmount";
 import { structureWords } from "@/helpers/capitalize";
+import Image from "next/image";
 
 type RateCardTypes = {
   title: string;
@@ -16,6 +17,7 @@ type RateCardTypes = {
   price: number | string;
   route?: string;
   onClick?: () => void;
+  icon?: string;
 };
 
 const RateCard = ({
@@ -27,13 +29,17 @@ const RateCard = ({
   price,
   route,
   onClick,
+  icon,
 }: RateCardTypes) => {
   // Router
   const router = useRouter();
 
   return (
     <div className={classes.container} style={{ border: `2px solid ${theme}` }}>
-      <h4>{structureWords(title)}</h4>
+      <h4>
+        <span>{structureWords(title)}</span>
+        {icon && <Image src={icon} alt={title} width={130} height={100} />}
+      </h4>
       <p>{description}</p>
       <h3 style={{ color: theme }}>
         {price

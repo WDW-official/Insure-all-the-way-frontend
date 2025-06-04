@@ -14,6 +14,12 @@ type ThirdPartyMotorInsuranceHeroType = {
 };
 
 const colors = ["#a7c7e7", "#ababab", "#edd014", "#909090"];
+const icons = [
+  "https://res.cloudinary.com/dx3zrhslt/image/upload/v1749032425/Private_Car_akggam.svg",
+  "https://res.cloudinary.com/dx3zrhslt/image/upload/v1749032425/Commercial_i4neo4.svg",
+  "https://res.cloudinary.com/dx3zrhslt/image/upload/v1749032424/Motorcycle_ahdgi4.svg",
+  "https://res.cloudinary.com/dx3zrhslt/image/upload/v1749032424/Commercial_Van_r4gjde.svg",
+];
 
 const ThirdPartyMotorInsuranceHero = ({
   data,
@@ -49,6 +55,7 @@ const ThirdPartyMotorInsuranceHero = ({
                 }
                 key={data?.name}
                 theme={colors[i] || "#000"}
+                icon={icons[i]}
               />
             );
           })

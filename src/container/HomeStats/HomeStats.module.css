@@ -171,7 +171,8 @@
     padding: 10px;
     border-radius: 10px;
     gap: 0.5rem;
-    width: 100%;
+    width: 75%;
+    margin-inline: auto;
   }
 
   .info > div > h4 {
