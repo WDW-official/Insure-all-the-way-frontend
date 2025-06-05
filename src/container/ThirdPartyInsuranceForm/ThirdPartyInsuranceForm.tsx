@@ -24,7 +24,6 @@ import { GENDERS } from "@/utilities/constants";
 import {
   useCarMakes,
   useCarModels,
-  useCars,
   useCarYearsByMakeAndModel,
 } from "@/hooks/usePolicies";
 import { mutate } from "swr";

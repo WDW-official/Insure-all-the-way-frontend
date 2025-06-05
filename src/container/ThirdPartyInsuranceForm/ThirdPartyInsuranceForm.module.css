@@ -201,4 +201,8 @@
   .formImage {
     display: none;
   }
+
+  .loaderAnimation {
+    display: none;
+  }
 }
