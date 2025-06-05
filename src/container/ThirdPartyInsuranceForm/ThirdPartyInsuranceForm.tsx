@@ -31,7 +31,6 @@ import { mutate } from "swr";
 import { capitalize, capitalizeEachWord } from "@/helpers/capitalize";
 import FileUploadInput from "@/components/FileUploadInput/FileUploadInput";
 import useError from "@/hooks/useError";
-import Recatpcha from "@/components/Recaptcha/Recatpcha";
 
 type ThirdPartyInsuranceFormTypes = {
   data: thirdPartyInsuranceFormType;
@@ -333,7 +332,22 @@ const ThirdPartyInsuranceForm = ({
             isRequired
           />
 
-          <h4>Tell us About Yourself</h4>
+          {requestState?.isLoading && (
+            <div className={classes.loaderAnimation}>
+              <Image
+                src="https://res.cloudinary.com/dx3zrhslt/image/upload/v1749138906/IATW_Favicon_s65jyw.gif"
+                alt="Loader"
+                width={100}
+                height={100}
+              />
+              <p>
+                Give us a few seconds, we are just fetching your vehicle
+                information…. In the meantime, please fill the form below.
+              </p>
+            </div>
+          )}
+
+          <h4>Tell Us About Yourself</h4>
 
           <Input
             label="First Name"

@@ -68,6 +68,9 @@ const AllRiskForm = () => {
       serialNumber: "",
       value: "",
       deviceType: "",
+      model: "",
+      modelNumber: "",
+      imei: "",
     },
   ]);
   const [activeAllRiskInventoryIndex, setActiveAllRiskInventoryIndex] =
@@ -112,6 +115,9 @@ const AllRiskForm = () => {
             serialNumber: "",
             value: "",
             deviceType: "",
+            imei: "",
+            model: "",
+            modelNumber: "",
           },
         ]);
         setIsUploadFile(false);
@@ -157,8 +163,6 @@ const AllRiskForm = () => {
 
   const handleFileChange = (e: any) => {
     const file = e[0];
-
-    console.log(file, "Check");
 
     if (file) {
       const fileType = file.type;
@@ -259,7 +263,7 @@ const AllRiskForm = () => {
         const updatedState = [...prevState];
 
         updatedState[activeAllRiskInventoryIndex as number].deviceType =
-          deviceType;
+          deviceType?.toLowerCase();
 
         return updatedState;
       });
@@ -288,7 +292,7 @@ const AllRiskForm = () => {
     setAllRiskFormDataFormData(subAllRiskFormData);
   }, [allRiskFormData]);
 
-  const sliceNumber = isUploadFile ? 2 : undefined;
+  const sliceNumber = isUploadFile ? 6 : undefined;
 
   return (
     <>
@@ -320,7 +324,7 @@ const AllRiskForm = () => {
         </div>
 
         <form>
-          <h4>Tell us about yourself</h4>
+          <h4>Tell Us about yourself</h4>
           <Input
             label="First Name"
             placeholder="Eg: John"
@@ -491,6 +495,59 @@ const AllRiskForm = () => {
                   }
                   isRequired
                 />
+
+                {data?.deviceType?.toLowerCase() === "phone" && (
+                  <>
+                    <Input
+                      label="Phone IMEI Number"
+                      placeholder="12345678910"
+                      type="number"
+                      value={data?.imei}
+                      onChange={(e) =>
+                        setAllRiskInventory((prevState) => {
+                          const updatedState = [...prevState];
+                          updatedState[i].imei = e.target.value;
+                          return updatedState;
+                        })
+                      }
+                      isRequired
+                      readOnly={data?.deviceType?.toLowerCase() !== "phone"}
+                      tip="IMEI Number is required for phone a tablet devices only"
+                    />
+
+                    <Input
+                      label="Model"
+                      placeholder="12345678910"
+                      value={data?.model}
+                      onChange={(e) =>
+                        setAllRiskInventory((prevState) => {
+                          const updatedState = [...prevState];
+                          updatedState[i].model = e.target.value;
+                          return updatedState;
+                        })
+                      }
+                      isRequired
+                      readOnly={data?.deviceType?.toLowerCase() !== "phone"}
+                      tip="Model is required for phone a tablet devices only"
+                    />
+
+                    <Input
+                      label="Model Number"
+                      placeholder="1234/4EXE"
+                      value={data?.modelNumber}
+                      onChange={(e) =>
+                        setAllRiskInventory((prevState) => {
+                          const updatedState = [...prevState];
+                          updatedState[i].modelNumber = e.target.value;
+                          return updatedState;
+                        })
+                      }
+                      isRequired
+                      readOnly={data?.deviceType?.toLowerCase() !== "phone"}
+                      tip="Model Number is required for phones a tablet devices only"
+                    />
+                  </>
+                )}
               </div>
             );
           })}
@@ -514,6 +571,9 @@ const AllRiskForm = () => {
                             serialNumber: "",
                             specifications: "",
                             value: "",
+                            imei: "",
+                            model: "",
+                            modelNumber: "",
                           },
                         ];
                       }
@@ -546,6 +606,9 @@ const AllRiskForm = () => {
                       serialNumber: "",
                       specifications: "",
                       value: "",
+                      imei: "",
+                      model: "",
+                      modelNumber: "",
                     },
                   ]);
 
@@ -561,7 +624,7 @@ const AllRiskForm = () => {
             <span
               onClick={() => {
                 downloadInternalFile(
-                  "https://res.cloudinary.com/dx3zrhslt/raw/upload/v1748357150/All_Risk_Temlate_fzukue.xlsx",
+                  "https://res.cloudinary.com/dx3zrhslt/raw/upload/v1749120801/All_Risk_Template_f0aiho.xlsx",
                   "All Risk Inventory Template Sheet"
                 );
               }}

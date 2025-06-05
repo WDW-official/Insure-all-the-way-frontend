@@ -69,6 +69,15 @@ const InventoryDetails = ({ inventoryId, onClose }: InventoryDetailsTypes) => {
             );
           }
 
+          if (!data?.value) {
+            return (
+              <div key={i}>
+                <h4>{data?.title}</h4>
+                <p>No data</p>
+              </div>
+            );
+          }
+
           return (
             <div key={i}>
               <h4>{data?.title}</h4>

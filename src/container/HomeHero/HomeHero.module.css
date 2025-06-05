@@ -133,11 +133,19 @@
 }
 
 .imageSection > div:hover {
-  scale: 1.01;
+  scale: 1.05;
 }
 
 .imageSection > div > img:hover {
   filter: drop-shadow(0px 7px 29px rgba(100, 100, 111, 0.2));
+}
+
+.imageSection > p {
+  display: none;
+  font-family: General Sans;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 130%;
 }
 
 @media screen and (max-width: 767px) {
@@ -179,7 +187,8 @@
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(2, auto);
     gap: 0.5rem;
-    row-gap: 2.2rem;
+    row-gap: 4.2rem;
+    position: relative;
   }
 
   .imageSection > div {
@@ -244,5 +253,26 @@
 
   .textSection > div {
     flex: 1;
+  }
+
+  .imageSection > p {
+    display: block;
+  }
+
+  .imageSection > p:nth-child(4) {
+    position: absolute;
+    top: 100px;
+    left: 2rem;
+  }
+  .imageSection > p:nth-child(5) {
+    position: absolute;
+    top: 320px;
+    right: 2rem;
+  }
+
+  .imageSection > p:nth-child(6) {
+    position: absolute;
+    bottom: 100px;
+    left: 2rem;
   }
 }

@@ -209,4 +209,7 @@ export type allRiskInventoryTypes = {
   serialNumber: string;
   value: string;
   deviceType: string;
+  imei: string;
+  model: string;
+  modelNumber: string;
 };

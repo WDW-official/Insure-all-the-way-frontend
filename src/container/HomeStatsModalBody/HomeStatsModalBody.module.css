@@ -1,5 +1,5 @@
 .container {
-  min-width: 400px;
+  width: 400px;
   padding: 1rem;
 }
 
@@ -30,7 +30,7 @@
 
 @media screen and (max-width: 767px) {
   .container {
-    min-width: 90vw;
+    width: 90vw;
     padding: 1rem;
   }
 

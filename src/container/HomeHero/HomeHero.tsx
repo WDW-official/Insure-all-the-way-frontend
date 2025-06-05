@@ -80,6 +80,10 @@ const HomeHero = () => {
             </div>
           );
         })}
+
+        <p>1. Pick a Policy...</p>
+        <p>2. Get a quote...</p>
+        <p>3. Get covered.</p>
       </div>
 
       <div></div>

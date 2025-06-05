@@ -15,7 +15,7 @@ export const capitalizeEachWord = (text: string) => {
 };
 
 export const structureWords = (word: string) => {
-  const replacedWord = word?.replaceAll("-", " ");
+  const replacedWord = word?.trim()?.replaceAll("-", " ");
   return capitalizeEachWord(replacedWord);
 };
 
