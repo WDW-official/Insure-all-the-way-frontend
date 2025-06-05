@@ -19,7 +19,6 @@ import { projectTime } from "@/helpers/projectTime";
 import { states } from "@/utilities/states";
 import { GENDERS } from "@/utilities/constants";
 import { capitalize } from "@/helpers/capitalize";
-import Recatpcha from "@/components/Recaptcha/Recatpcha";
 
 const CorporateHmoForm = () => {
   // States
@@ -189,8 +188,6 @@ const CorporateHmoForm = () => {
           }
         />
       )}
-
-      {/* <Recatpcha /> */}
 
       <section className={classes.container} id="insurance-form">
         <div className={classes.header}>

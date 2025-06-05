@@ -16,9 +16,6 @@ import Modal from "@/components/Modal/Modal";
 import { setAllModalsFalse, setModalTrue } from "@/helpers/modalHandlers";
 import SuccessModalBody from "@/components/SuccessModalBody/SuccessModalBody";
 import PaymentModalBody from "../PaymentModalBody/PaymentModalBody";
-import { useCars } from "@/hooks/usePolicies";
-import { capitalize } from "@/helpers/capitalize";
-import Recatpcha from "@/components/Recaptcha/Recatpcha";
 
 const ComprehensiveMotorInsurance = () => {
   // Context
@@ -248,7 +245,6 @@ const ComprehensiveMotorInsurance = () => {
         />
       )}
 
-      <Recatpcha />
       <ApppLayout>
         <ComprehensiveMotorInsuranceHero />
         <ComprehensiveMotorInsuranceForm

@@ -17,7 +17,6 @@ import { setAllModalsFalse, setModalTrue } from "@/helpers/modalHandlers";
 import Modal from "@/components/Modal/Modal";
 import PaymentModalBody from "../PaymentModalBody/PaymentModalBody";
 import SuccessModalBody from "@/components/SuccessModalBody/SuccessModalBody";
-import Recatpcha from "@/components/Recaptcha/Recatpcha";
 
 const EnhancedThirdPartyMotorInsurance = () => {
   // Hooks
@@ -317,7 +316,6 @@ const EnhancedThirdPartyMotorInsurance = () => {
           }
         />
       )}
-      {/* <Recatpcha /> */}
 
       <EnhancedThirdPartyMotorInsuranceHero
         data={policySubType}

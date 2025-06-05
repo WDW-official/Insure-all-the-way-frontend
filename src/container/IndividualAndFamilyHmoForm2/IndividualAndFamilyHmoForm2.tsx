@@ -25,7 +25,6 @@ import Modal from "@/components/Modal/Modal";
 import SuccessModalBody from "@/components/SuccessModalBody/SuccessModalBody";
 import PaymentModalBody from "../PaymentModalBody/PaymentModalBody";
 import { projectTime } from "@/helpers/projectTime";
-import Recatpcha from "@/components/Recaptcha/Recatpcha";
 
 type IndividualAndFamilyHmoForm2Type = {
   data: individualAndFamilyHmoDataTypes;
@@ -224,8 +223,6 @@ const IndividualAndFamilyHmoForm2 = ({
           }
         />
       )}
-
-      {/* <Recatpcha /> */}
 
       <section className={classes.container} id="insurance-form">
         <div className={classes.header}>

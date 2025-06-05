@@ -25,13 +25,10 @@ import SuccessModalBody from "@/components/SuccessModalBody/SuccessModalBody";
 import { capitalize } from "@/helpers/capitalize";
 import { formatCurrency } from "@/helpers/formatAmount";
 import Plus from "@/assets/svgIcons/Plus";
-import Close from "@/assets/svgIcons/Close";
 import Trash from "@/assets/svgIcons/Trash";
 import Upload from "@/assets/svgIcons/Upload";
 import { downloadInternalFile } from "@/helpers/download";
 import ExcelJS from "exceljs";
-import { getCaptchaToken } from "@/helpers/captcha";
-import Recatpcha from "@/components/Recaptcha/Recatpcha";
 
 const AllRiskForm = () => {
   // States
@@ -312,8 +309,6 @@ const AllRiskForm = () => {
           }
         />
       )}
-      <Recatpcha />
-
       <section className={classes.container} id="insurance-form">
         <div className={classes.header}>
           <h4>All Risks Policy Form</h4>

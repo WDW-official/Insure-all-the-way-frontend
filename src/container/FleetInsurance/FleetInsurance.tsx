@@ -15,7 +15,6 @@ import { setAllModalsFalse, setModalTrue } from "@/helpers/modalHandlers";
 import useError from "@/hooks/useError";
 import Modal from "@/components/Modal/Modal";
 import SuccessModalBody from "@/components/SuccessModalBody/SuccessModalBody";
-import Recatpcha from "@/components/Recaptcha/Recatpcha";
 
 const FleetInsurance = () => {
   // States
@@ -178,7 +177,6 @@ const FleetInsurance = () => {
           }
         />
       )}
-      {/* <Recatpcha /> */}
 
       <ApppLayout>
         <FleetInsuranceHero />
