@@ -26,6 +26,7 @@ import Plus from "@/assets/svgIcons/Plus";
 import ExcelJS from "exceljs";
 import Upload from "@/assets/svgIcons/Upload";
 import { downloadFile, downloadInternalFile } from "@/helpers/download";
+import { readExcelFile } from "@/helpers/readExcelFile";
 
 type FleetInsuranceFormTypes = {
   data: fleetFormDataTypes;
@@ -67,39 +68,6 @@ const FleetInsuranceForm = ({
 
   // Helpers
 
-  const readExcelFile = async (file: File) => {
-    const reader = new FileReader();
-    reader.onload = async (event: any) => {
-      const buffer = event.target.result;
-      const workbook = new ExcelJS.Workbook();
-      await workbook.xlsx.load(buffer);
-
-      const worksheet = workbook.worksheets[0];
-      const jsonData: any[] = [];
-
-      let headers: string[] = [];
-
-      worksheet.eachRow((row: any, rowNumber: number) => {
-        const rowValues = row.values.slice(1);
-
-        if (rowNumber === 1) {
-          headers = rowValues.map((header: string) => String(header).trim());
-        } else {
-          const rowObject: any = {};
-          headers.forEach((key, index) => {
-            rowObject[key] = rowValues[index] ?? "";
-          });
-          jsonData.push(rowObject);
-        }
-      });
-
-      setVehicles(jsonData);
-    };
-
-    reader.readAsArrayBuffer(file);
-    setIsUploadFile(true);
-  };
-
   const handleFileChange = (e: any) => {
     const file = e[0];
 
@@ -116,7 +84,7 @@ const FleetInsuranceForm = ({
         fileType === "application/vnd.ms-excel" ||
         validFileExtensions.includes(fileExtension)
       ) {
-        readExcelFile(file);
+        readExcelFile(file, setVehicles, setIsUploadFile);
       } else {
         alert("Please select a valid Excel file.");
       }
