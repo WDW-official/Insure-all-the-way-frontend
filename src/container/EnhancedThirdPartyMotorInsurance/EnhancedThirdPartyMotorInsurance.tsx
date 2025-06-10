@@ -246,7 +246,7 @@ const EnhancedThirdPartyMotorInsurance = () => {
               onClose={() => setAllModalsFalse(setModals)}
               onClick={() => {
                 setAllModalsFalse(setModals);
-                setModalTrue(setModals, "payment");
+                updateSearchParams("step", "1", "set");
               }}
             />
           }
@@ -260,7 +260,7 @@ const EnhancedThirdPartyMotorInsurance = () => {
             <PaymentModalBody
               onSuccess={() => {
                 setAllModalsFalse(setModals);
-                setModalTrue(setModals, "success");
+                enhancedThirdPartySubmissionFOrmHandler();
               }}
               data={enhancedThirdPartyFormData as any}
               onClose={() => setAllModalsFalse(setModals)}
@@ -272,6 +272,7 @@ const EnhancedThirdPartyMotorInsurance = () => {
               hasRoadWorthinessRevnewal={
                 enhancedThirdPartyFormData?.roadWorthinessFile ? true : false
               }
+              loading={requestState?.isLoading}
             />
           }
         />
@@ -325,7 +326,9 @@ const EnhancedThirdPartyMotorInsurance = () => {
       <EnhancedThirdPartyMotorInsuranceForm
         data={enhancedThirdPartyFormData}
         setData={setEnhancedThirdPartyFormData}
-        submitForm={enhancedThirdPartySubmissionFOrmHandler}
+        submitForm={() => {
+          setModalTrue(setModals, "payment");
+        }}
         requestState={requestState}
       />
     </ApppLayout>

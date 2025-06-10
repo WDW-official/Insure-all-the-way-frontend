@@ -254,7 +254,6 @@ const ThirdPartyInsuranceForm = ({
               onClose={() => setAllModalsFalse(setModals)}
               onClick={() => {
                 setAllModalsFalse(setModals);
-                setModalTrue(setModals, "payment");
               }}
             />
           }
@@ -268,7 +267,7 @@ const ThirdPartyInsuranceForm = ({
             <PaymentModalBody
               onSuccess={() => {
                 setAllModalsFalse(setModals);
-                setModalTrue(setModals, "success");
+                onSubmit();
               }}
               data={data as any}
               onClose={() => setAllModalsFalse(setModals)}
@@ -543,7 +542,7 @@ const ThirdPartyInsuranceForm = ({
               }
               onClick={(e) => {
                 e.preventDefault();
-                onSubmit();
+                setModalTrue(setModals, "payment");
               }}
               loading={submitState?.isLoading}
             >

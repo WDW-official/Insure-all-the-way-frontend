@@ -93,7 +93,6 @@ const ComprehensiveMotorInsurance = () => {
       errorFunction(err) {
         errorFlowFunction(err);
       },
-      captchaAction: "comprehensive",
     });
   };
 
@@ -199,7 +198,6 @@ const ComprehensiveMotorInsurance = () => {
               onClose={() => setAllModalsFalse(setModals)}
               onClick={() => {
                 setAllModalsFalse(setModals);
-                setModalTrue(setModals, "payment");
               }}
             />
           }
@@ -213,7 +211,7 @@ const ComprehensiveMotorInsurance = () => {
             <PaymentModalBody
               onSuccess={() => {
                 setAllModalsFalse(setModals);
-                setModalTrue(setModals, "success");
+                comprenhensiveSubmissionFormHandler();
               }}
               data={comprehensiveFormData as any}
               onClose={() => setAllModalsFalse(setModals)}
@@ -223,6 +221,7 @@ const ComprehensiveMotorInsurance = () => {
               hasRoadWorthinessRevnewal={
                 comprehensiveFormData?.roadWorthinessFile ? true : false
               }
+              loading={requestState?.isLoading}
             />
           }
         />
@@ -250,7 +249,9 @@ const ComprehensiveMotorInsurance = () => {
         <ComprehensiveMotorInsuranceForm
           data={comprehensiveFormData}
           setData={setComprehensiveFormData}
-          onSubmit={comprenhensiveSubmissionFormHandler}
+          onSubmit={() => {
+            setModalTrue(setModals, "payment");
+          }}
           requestState={requestState}
         />
       </ApppLayout>

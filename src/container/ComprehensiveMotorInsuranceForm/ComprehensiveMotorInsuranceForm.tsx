@@ -328,14 +328,18 @@ const ComprehensiveMotorInsuranceForm = ({
 
         <h4>Kindly Confirm Your Vehicle and Policy Details</h4>
 
-        {askNiidRequestState?.data && !askNiidRequestState?.isLoading && (
-          <div className={classes.alert}>
-            <Alert severity="warning">
-              It appears you have an existing Comprehensive Vehicle Policy. We
-              can begin this renewal process!
-            </Alert>
-          </div>
-        )}
+        {askNiidRequestState?.data &&
+          !askNiidRequestState?.isLoading &&
+          askNiidRequestState?.data?.policyData?.type_of_cover
+            ?.toLowerCase()
+            .includes("comprehensive") && (
+            <div className={classes.alert}>
+              <Alert severity="warning">
+                It appears you have an existing Comprehensive Vehicle Policy. We
+                can begin this renewal process!
+              </Alert>
+            </div>
+          )}
 
         {askNiidRequestState?.isLoading ? (
           <Loader />

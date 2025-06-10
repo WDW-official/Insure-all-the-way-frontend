@@ -39,6 +39,7 @@ type PaymentModalBodyType = {
   policySubType?: string;
   hasLicenseRenewal?: boolean;
   hasRoadWorthinessRevnewal?: boolean;
+  loading?: boolean;
 };
 
 const PaymentModalBody = ({
@@ -49,6 +50,7 @@ const PaymentModalBody = ({
   policySubType,
   hasRoadWorthinessRevnewal,
   hasLicenseRenewal,
+  loading,
 }: PaymentModalBodyType) => {
   // Requests
   const { isLoading, data: policySubtypeData } = usePolicyTypeBySubtype(
@@ -95,7 +97,7 @@ const PaymentModalBody = ({
       phone: data?.phone,
       custom_fields: [],
     },
-    text: "Pay",
+    text: loading ? "Loading..." : "Pay",
     onSuccess: () => {
       onSuccess();
     },

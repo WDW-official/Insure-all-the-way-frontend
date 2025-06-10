@@ -56,7 +56,7 @@ const PropertyClaimForm = ({
         return { ...prevState, property: inventory.specifications };
       });
     }
-  }, [type, inventory.specifications]);
+  }, [type, inventory?.specifications]);
 
   return (
     <div className={classes.container}>
