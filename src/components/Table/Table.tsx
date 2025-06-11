@@ -1,6 +1,6 @@
 "use client";
 
-import { capitalize, capitalizeEachWord } from "@/helpers/capitalize";
+import { capitalizeEachWord } from "@/helpers/capitalize";
 import classes from "./Table.module.css";
 import ArrowDown from "@/assets/svgIcons/ArrowDown";
 import {
@@ -136,17 +136,6 @@ const Table = ({ header, data, headers, options }: TableType) => {
         />
       )}
 
-      {modals.renewVehiclePapers && (
-        <Modal
-          onClick={() => setAllModalsFalse(setModals)}
-          body={
-            <RenewVehiclePapersModalBody
-              onClose={() => setAllModalsFalse(setModals)}
-              id={activeId as string}
-            />
-          }
-        />
-      )}
       <div>
         <div className={classes.header}>{header}</div>
 

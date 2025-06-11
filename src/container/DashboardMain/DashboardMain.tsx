@@ -2,7 +2,6 @@
 
 import GreetingComponent from "@/components/GreetingComponent/GreetingComponent";
 import classes from "./DashboardMain.module.css";
-import Table from "@/components/Table/Table";
 import DashboardPoliciesSummary from "../DashboardPoliciesSummary/DashboardPoliciesSummary";
 import { useEffect, useMemo, useState } from "react";
 import Modal from "@/components/Modal/Modal";
