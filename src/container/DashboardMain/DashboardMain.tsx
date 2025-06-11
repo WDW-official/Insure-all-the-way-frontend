@@ -7,7 +7,11 @@ import DashboardPoliciesSummary from "../DashboardPoliciesSummary/DashboardPolic
 import { useEffect, useMemo, useState } from "react";
 import Modal from "@/components/Modal/Modal";
 import { setAllModalsFalse, setModalTrue } from "@/helpers/modalHandlers";
-import { modalGenericType, userPoliciesType } from "@/utilities/types";
+import {
+  modalGenericType,
+  requestType,
+  userPoliciesType,
+} from "@/utilities/types";
 import ClaimsForm from "../ClaimsForm/ClaimsForm";
 import { useUserPolicy } from "@/hooks/usePolicies";
 import { structureWords } from "@/helpers/capitalize";
@@ -18,6 +22,9 @@ import PaymentModalBody from "../PaymentModalBody/PaymentModalBody";
 import RenewVehiclePapersModalBody from "../RenewVehiclePapersModalBody/RenewVehiclePapersModalBody";
 import { useRouter } from "next/navigation";
 import { routes } from "@/utilities/routes";
+import useError from "@/hooks/useError";
+import { useToast } from "@/context/ToastContext";
+import { requestHandler } from "@/helpers/requestHandler";
 
 export const headers = [
   "Policy Held",
@@ -40,13 +47,48 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
     revewPolicy: false,
     success: false,
     renewVehiclePapers: false,
+    payment: false,
   });
   const [policies, setPolicies] = useState([]);
   const [selectedPolicyId, setSelectedPolicyId] = useState<string | null>(null);
   const [singleData, setSingleData] = useState<any>(null);
+  const [requestState, setRequestState] = useState<requestType>({
+    isLoading: false,
+    error: null,
+    data: null,
+  });
+  const [vehicleRenewalFormData, setVehicleRenewalFOrmData] = useState(
+    new FormData()
+  );
+  const [isRoadWorthiness, setIsRoadWorthiness] = useState(false);
+  const [isVehicleLicense, setIsVehicleLicense] = useState(false);
 
   // Router
   const router = useRouter();
+
+  //   Hooks
+  const { errorFlowFunction } = useError();
+  const { showToast } = useToast();
+
+  const handleVehiclePaperRenewalinitiation = () => {
+    requestHandler({
+      url: "/super-agent/initiate-paper-renewal",
+      method: "POST",
+      data: vehicleRenewalFormData,
+      isMultipart: true,
+      state: requestState,
+      setState: setRequestState,
+      errorFunction(err) {
+        errorFlowFunction(err);
+      },
+      successFunction(res) {
+        showToast(res?.data?.message, "success");
+        setAllModalsFalse(setModals);
+        setIsRoadWorthiness(false);
+        setIsVehicleLicense(false);
+      },
+    });
+  };
 
   // Effects
   useEffect(() => {
@@ -93,12 +135,6 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
       },
     },
 
-    // {
-    //   text: "Download Policy Certificate",
-    //   action: () => {},
-    //   isActive: true,
-    // },
-
     {
       text: "Renew Policy ",
       action: (insurance: any) => {
@@ -123,6 +159,27 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
       isActive: true,
     },
   ];
+
+  // Utils
+  const selectedPolicyDetails = useMemo(() => {
+    const selectedPolicyInfo = userPolicies?.find(
+      (data) => data?._id === selectedPolicyId
+    );
+    const policyDetail = {
+      email: selectedPolicyInfo?.user?.email,
+      firstName: selectedPolicyInfo?.user?.firstName,
+      lastName: selectedPolicyInfo?.user?.lastName,
+      phone: selectedPolicyInfo?.user?.phone,
+      registrationNumber: selectedPolicyInfo?.registrationNumber,
+      chasisNumber: selectedPolicyInfo?.chasisNumber,
+      policyType: selectedPolicyInfo?.insuranceType,
+      premium: 0,
+    };
+
+    return policyDetail;
+  }, [selectedPolicyId]);
+
+  console.log(selectedPolicyDetails, "Selected User policy");
 
   return (
     <>
@@ -183,8 +240,45 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
           onClick={() => setAllModalsFalse(setModals)}
           body={
             <RenewVehiclePapersModalBody
-              onClose={() => setAllModalsFalse(setModals)}
+              onClose={() => {
+                setAllModalsFalse(setModals);
+                setIsRoadWorthiness(false);
+                setIsVehicleLicense(false);
+              }}
               id={selectedPolicyId as string}
+              onRenew={() => {
+                setAllModalsFalse(setModals);
+                setModalTrue(setModals, "payment");
+              }}
+              setVehicleRenewalFOrmData={setVehicleRenewalFOrmData}
+              isVehicleLicense={isVehicleLicense}
+              setIsVehicleLicense={setIsVehicleLicense}
+              isRoadWorthiness={isRoadWorthiness}
+              setIsRoadWorthiness={setIsRoadWorthiness}
+            />
+          }
+        />
+      )}
+
+      {modals.payment && (
+        <Modal
+          onClick={() => setAllModalsFalse(setModals)}
+          body={
+            <PaymentModalBody
+              data={selectedPolicyDetails as any}
+              onClose={() => {
+                setAllModalsFalse(setModals);
+                setIsRoadWorthiness(false);
+                setIsVehicleLicense(false);
+              }}
+              policyType={"motor-insurance"}
+              policySubType={selectedPolicyDetails?.policyType}
+              hasRoadWorthinessRevnewal={isRoadWorthiness}
+              onSuccess={() => {
+                handleVehiclePaperRenewalinitiation();
+              }}
+              hasLicenseRenewal={isVehicleLicense}
+              loading={requestState?.isLoading}
             />
           }
         />
@@ -193,12 +287,6 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
       <section className={`${classes.container} ${className}`}>
         <GreetingComponent />
         <DashboardPoliciesSummary />
-        {/* <Table
-          header="Policies"
-          data={policies}
-          headers={headers}
-          options={options}
-        /> */}
 
         <CustomTable
           header="Policies"

@@ -146,7 +146,7 @@ export type userPoliciesType = {
   registrationNumber: string;
   roadWorthiness: string;
   startDate: string;
-  user: string;
+  user: string & userType;
   _id: string;
   status: string;
   agent: userType;

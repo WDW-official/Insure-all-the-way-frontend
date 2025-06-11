@@ -1,5 +1,5 @@
 .container {
-  width: 800px;
+  width: 500px;
   padding: 2rem;
   min-height: 200px;
   position: relative;
@@ -25,20 +25,31 @@
   display: flex;
   align-items: flex-start;
   flex-wrap: wrap;
-  gap: 2rem;
+  column-gap: 2rem;
+  row-gap: 0rem;
 }
 
-.container > div > div {
-  margin-bottom: 2rem;
+.container > div > div:not(.buttonContainer, .roadWorthiness) {
   display: flex;
   flex-wrap: wrap;
-  flex-basis: calc(50% - 2rem);
   padding: 0.5rem 1rem;
   border-radius: 10px;
+  flex-basis: 100%;
 }
 
-.container > div > div:not(.fileUpload) {
+.container > div > div:not(.fileUpload, .buttonContainer, .roadWorthiness) {
   border: 2px solid var(--blue);
+}
+
+.roadWorthiness {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.fileUpload > div {
+  width: 100%;
 }
 
 .container > div > div > h4 {
@@ -73,7 +84,8 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-top: 2rem;
+  flex-basis: 100%;
+  margin-top: 1.5rem;
 }
 
 .buttonContainer > button {

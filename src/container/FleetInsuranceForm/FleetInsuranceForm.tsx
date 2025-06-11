@@ -322,7 +322,7 @@ const FleetInsuranceForm = ({
           isRequired
         />
         <Dropdown
-          label="Property Type"
+          label="Vehicle Type"
           options={["Residential", "Corporate"]}
           title="Select "
           selected={propertyType || data?.propertyType}
@@ -391,7 +391,7 @@ const FleetInsuranceForm = ({
 
               <Input
                 label="Chassis Number"
-                placeholder="Macbook Pro 2025"
+                placeholder="12345777"
                 value={vehicles[i].chassisNumber}
                 onChange={(e) =>
                   setVehicles((prevState) => {
@@ -405,7 +405,7 @@ const FleetInsuranceForm = ({
 
               <Input
                 label="Engine Number"
-                placeholder="Macbook Pro 2025"
+                placeholder="123D889"
                 value={vehicles[i].engineNumber}
                 onChange={(e) =>
                   setVehicles((prevState) => {

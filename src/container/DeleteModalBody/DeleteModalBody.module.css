@@ -1,0 +1,59 @@
+.container {
+  padding: 2rem 1rem;
+  max-width: 500px;
+  min-height: 200px;
+}
+
+.container > h3 {
+  font-family: General Sans;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 120%;
+  letter-spacing: -2px;
+  text-underline-position: from-font;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.container > p {
+  font-family: General Sans;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 120%;
+  letter-spacing: 0px;
+  text-underline-position: from-font;
+  margin: 0px auto 3rem auto;
+  margin-bottom: 3rem;
+  text-align: center;
+  width: 90%;
+}
+
+.buttonSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+}
+
+@media screen and (max-width: 767px) {
+  .container {
+    padding: 2rem 1rem;
+    max-width: 90vw;
+    min-width: 90vw;
+  }
+
+  .container > h3 {
+    font-family: General Sans;
+    font-size: 24px;
+    line-height: 120%;
+    margin-bottom: 1rem;
+  }
+
+  .container > p {
+    font-size: 16px;
+    line-height: 120%;
+    margin: 0px auto 2rem auto;
+    margin-bottom: 2rem;
+    width: 90%;
+  }
+}

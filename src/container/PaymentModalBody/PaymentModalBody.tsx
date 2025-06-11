@@ -74,9 +74,12 @@ const PaymentModalBody = ({
   const basePrice =
     Number(policyData?.price) ||
     Number(data?.premium) ||
-    Number(data?.valueOfProperty);
+    Number(data?.valueOfProperty) ||
+    0;
 
-  const basePriceWithLicenseRenewal = basePrice + VEHICLE_LICENSE_PRICE;
+  console.log(basePrice, data?.premium, "Base price");
+
+  const basePriceWithLicenseRenewal = Number(basePrice) + VEHICLE_LICENSE_PRICE;
   const basePriceWithRoadWorthinessRenewal = basePrice + ROADWORTHINESS_PRICE;
   const basePriceWithVehicleLicenseRenewalAndRoadWorthinessRenewal =
     basePrice + VEHICLE_LICENSE_PRICE + ROADWORTHINESS_PRICE;
@@ -97,14 +100,14 @@ const PaymentModalBody = ({
       phone: data?.phone,
       custom_fields: [],
     },
-    text: loading ? "Loading..." : "Pay",
+    text: "Pay",
     onSuccess: () => {
       onSuccess();
     },
     publicKey: PAYSTACK_PUBLIC_KEY as string,
   };
 
-  if (isLoading) {
+  if (isLoading || loading) {
     return <Loader />;
   }
 
@@ -134,7 +137,9 @@ const PaymentModalBody = ({
             readOnly
             value={data?.registrationNumber}
           />
-          <Input label="Chassis Number" readOnly value={data?.chasisNumber} />
+          {data?.chasisNumber && (
+            <Input label="Chassis Number" readOnly value={data?.chasisNumber} />
+          )}
         </>
       )}
 
