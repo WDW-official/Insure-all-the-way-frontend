@@ -21,6 +21,7 @@ import { formatCurrency } from "@/helpers/formatAmount";
 export type TableOption = {
   text: string;
   action: (rowData: Record<string, any>) => void;
+  isVisible?: (rowData: Record<string, any>) => boolean;
 };
 
 type CustomTableProps = {
@@ -229,17 +230,27 @@ const CustomTable: React.FC<CustomTableProps> = ({
 
                       {activeRow === rowIndex && options.length > 0 && (
                         <div className={classes.options} ref={optionsRef}>
-                          {options.map((option, optionIndex) => (
-                            <span
-                              key={optionIndex}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                option.action(row);
-                              }}
-                            >
-                              {option.text}
-                            </span>
-                          ))}
+                          {options.map((option, optionIndex) => {
+                            const shouldShow = option.isVisible
+                              ? option.isVisible(row)
+                              : true;
+
+                            if (shouldShow) {
+                              return (
+                                <span
+                                  key={optionIndex}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    option.action(row);
+                                  }}
+                                >
+                                  {option.text}
+                                </span>
+                              );
+                            }
+
+                            return null;
+                          })}
                         </div>
                       )}
                     </span>
@@ -314,17 +325,27 @@ const CustomTable: React.FC<CustomTableProps> = ({
 
                       {activeRow === rowIndex && options.length > 0 && (
                         <div className={classes.options} ref={optionsRef}>
-                          {options.map((option, optionIndex) => (
-                            <span
-                              key={optionIndex}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                option.action(row);
-                              }}
-                            >
-                              {option.text}
-                            </span>
-                          ))}
+                          {options.map((option, optionIndex) => {
+                            const shouldShow = option.isVisible
+                              ? option.isVisible(row)
+                              : true;
+
+                            if (shouldShow) {
+                              return (
+                                <span
+                                  key={optionIndex}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    option.action(row);
+                                  }}
+                                >
+                                  {option.text}
+                                </span>
+                              );
+                            }
+
+                            return null;
+                          })}
                         </div>
                       )}
                     </span>

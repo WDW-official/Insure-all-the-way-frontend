@@ -192,16 +192,22 @@ const Table = ({ header, data, headers, options }: TableType) => {
                                   onClick={(e) => e.stopPropagation()}
                                 >
                                   {options?.map((option) => {
+                                    const shouldShow = option.visible
+                                      ? option.visible(item)
+                                      : true;
+
                                     return (
-                                      <span
-                                        onClick={() => {
-                                          option.action(
-                                            String(Object.values(item)[5])
-                                          );
-                                        }}
-                                      >
-                                        {option.text}
-                                      </span>
+                                      shouldShow && (
+                                        <span
+                                          onClick={() => {
+                                            option.action(
+                                              String(Object.values(item)[5])
+                                            );
+                                          }}
+                                        >
+                                          {option.text}
+                                        </span>
+                                      )
                                     );
                                   })}
                                   {/* {moment(endDate).diff(today) < 14 && ( */}

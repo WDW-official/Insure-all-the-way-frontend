@@ -12,9 +12,7 @@ import {
   userPoliciesType,
 } from "@/utilities/types";
 import ClaimsForm from "../ClaimsForm/ClaimsForm";
-import { useUserPolicy } from "@/hooks/usePolicies";
 import { structureWords } from "@/helpers/capitalize";
-import moment from "moment";
 import CustomTable from "@/components/CustomTable/CustomTable";
 import PolicyInformationModalBody from "../PolicyInformationModalBody/PolicyInformationModalBody";
 import PaymentModalBody from "../PaymentModalBody/PaymentModalBody";
@@ -156,6 +154,9 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
         }
       },
       isActive: true,
+      isVisible: (policy: any) =>
+        policy?.policyHeld.toLowerCase().includes("third") ||
+        policy?.policyHeld.toLowerCase().includes("comprehensive"),
     },
   ];
 

@@ -1,4 +1,4 @@
-import { useUserPolicyById } from "@/hooks/usePolicies";
+import { usePolicyInventoryById, useUserPolicyById } from "@/hooks/usePolicies";
 import classes from "./RenewVehiclePapersModalBody.module.css";
 import Loader from "@/components/Loader/Loader";
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
@@ -14,6 +14,7 @@ import { Checkbox } from "@mui/material";
 type RenewVehidlePapersModalBodyTypes = {
   onClose?: () => void;
   id: string;
+  inventoryId?: string;
   onRenew?: () => void;
   vehicleRenewalFormData?: FormData;
   setVehicleRenewalFOrmData: Dispatch<SetStateAction<FormData>>;
@@ -26,6 +27,7 @@ type RenewVehidlePapersModalBodyTypes = {
 const RenewVehiclePapersModalBody = ({
   onClose,
   id,
+  inventoryId,
   onRenew,
   setVehicleRenewalFOrmData,
   isRoadWorthiness,
@@ -34,7 +36,9 @@ const RenewVehiclePapersModalBody = ({
   setIsVehicleLicense,
 }: RenewVehidlePapersModalBodyTypes) => {
   // Requests
-  const { isLoading, data } = useUserPolicyById(id);
+  const { isLoading, data } = useUserPolicyById(inventoryId ? "" : id);
+  const { isLoading: inventoryIsLoading, data: inventoryData } =
+    usePolicyInventoryById(id, inventoryId as string);
 
   //   States
   const [edit, setEdit] = useState({
@@ -44,7 +48,11 @@ const RenewVehiclePapersModalBody = ({
 
   // MEmos
   const policyInfo = useMemo(() => {
-    return data?.data?.policy;
+    if (inventoryId) {
+      return inventoryData?.data?.inventory;
+    } else {
+      return data?.data?.policy;
+    }
   }, [data]);
 
   //   Effects
@@ -53,10 +61,14 @@ const RenewVehiclePapersModalBody = ({
     subVehicleRenewalFormData.append("vehicleLicense", vehicleLicense[0]);
     subVehicleRenewalFormData.append("policyId", id);
 
+    if (inventoryId) {
+      subVehicleRenewalFormData.append("inventoryId", inventoryId);
+    }
+
     setVehicleRenewalFOrmData(subVehicleRenewalFormData);
   }, [vehicleLicense, id]);
 
-  if (isLoading) {
+  if (isLoading || inventoryIsLoading) {
     return <Loader />;
   }
 
@@ -103,7 +115,7 @@ const RenewVehiclePapersModalBody = ({
               setFiles={setVehicleLicense}
               title="Upload Vehicle License"
               id="vehicleLicenseFile"
-              accept=".pdf"
+              accept=".pdf,image/*"
             />
           </div>
         )}

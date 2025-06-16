@@ -9,6 +9,7 @@ import moment from "moment";
 import { useParams } from "next/navigation";
 import { useMemo } from "react";
 import classes from "../PolicyInformationModalBody/PolicyInformationModalBody.module.css";
+import { downloadFile } from "@/helpers/download";
 
 type InventoryDetailsTypes = {
   inventoryId: string;
@@ -73,7 +74,21 @@ const InventoryDetails = ({ inventoryId, onClose }: InventoryDetailsTypes) => {
             return (
               <div key={i}>
                 <h4>{data?.title}</h4>
-                <p>No data</p>
+                <p>No {data?.title}</p>
+              </div>
+            );
+          }
+
+          if (
+            data?.title?.toLowerCase()?.includes("vehicle license") ||
+            data?.title?.toLowerCase()?.includes("road worthiness")
+          ) {
+            return (
+              <div key={i}>
+                <h4>{data?.title}</h4>
+                <p
+                  onClick={() => downloadFile(data?.value, data?.title)}
+                >{`Download ${data?.title}`}</p>
               </div>
             );
           }

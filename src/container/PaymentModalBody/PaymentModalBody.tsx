@@ -77,8 +77,6 @@ const PaymentModalBody = ({
     Number(data?.valueOfProperty) ||
     0;
 
-  console.log(basePrice, data?.premium, "Base price");
-
   const basePriceWithLicenseRenewal = Number(basePrice) + VEHICLE_LICENSE_PRICE;
   const basePriceWithRoadWorthinessRenewal = basePrice + ROADWORTHINESS_PRICE;
   const basePriceWithVehicleLicenseRenewalAndRoadWorthinessRenewal =

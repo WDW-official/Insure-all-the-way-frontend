@@ -31,6 +31,7 @@ export type navItemTypes = {
 export type tableOptionsType = {
   text: string;
   action: (insuranceId?: string) => void;
+  visible?: (insurance: any) => boolean;
 };
 
 export type policyType = {
