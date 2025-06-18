@@ -4,6 +4,7 @@ import "./globals.css";
 import { ToastContextProvider } from "@/context/ToastContext";
 import UseSWRConfigProvider from "@/config/SWRConfig";
 import AuthContextProvider from "@/context/AuthContext";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,9 +50,13 @@ export default function RootLayout({
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <UseSWRConfigProvider>
-          <ToastContextProvider>
-            <AuthContextProvider>{children}</AuthContextProvider>
-          </ToastContextProvider>
+          <GoogleOAuthProvider
+            clientId={process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID as string}
+          >
+            <ToastContextProvider>
+              <AuthContextProvider>{children}</AuthContextProvider>
+            </ToastContextProvider>
+          </GoogleOAuthProvider>
         </UseSWRConfigProvider>
       </body>
     </html>

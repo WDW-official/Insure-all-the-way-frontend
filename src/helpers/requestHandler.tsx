@@ -8,7 +8,7 @@ type RequestType = {
   method: string;
   url: string;
   headers?: Record<string, string>;
-  data?: Record<string, any> | FormData;
+  data?: Record<string, any> | FormData | any;
   isMultipart?: boolean;
   state?: requestType;
   setState?: Dispatch<SetStateAction<requestType>>;

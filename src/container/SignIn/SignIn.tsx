@@ -14,6 +14,8 @@ import { LOCAL_STORAGE_AUTH_KEY } from "@/utilities/constants";
 import { useToast } from "@/context/ToastContext";
 import { AuthContext } from "@/context/AuthContext";
 import useUpdateSearchParams from "@/hooks/useUpdateSearchParams";
+import { GoogleLogin } from "@react-oauth/google";
+import jwt_decode from "jwt-decode";
 
 const SignIn = () => {
   // Router
@@ -106,6 +108,41 @@ const SignIn = () => {
     });
   };
 
+  const handleGooogleAuth = async (credentialResponse: any) => {
+    const token = credentialResponse.credential;
+
+    await requestHandler({
+      method: "POST",
+      url: "/auth/google/sign-in",
+      state: requestState,
+      setState: setRequestState,
+      data: JSON.stringify({ token }),
+      requestCleanup: true,
+      successFunction(res) {
+        if (typeof window !== "undefined") {
+          window?.localStorage.setItem(
+            LOCAL_STORAGE_AUTH_KEY,
+            res?.data?.token
+          );
+        }
+        setUser(res?.data?.user);
+
+        router.push(routes.DASHBOARD);
+      },
+      errorFunction(err) {
+        if (err?.status === 403) {
+          showToast((err?.response?.data as any)?.message, "success");
+          setScreen("resetPassword");
+          setLoginData((prevState) => {
+            return { ...prevState, password: "", confirmPassword: "" };
+          });
+        } else {
+          errorFlowFunction(err);
+        }
+      },
+    });
+  };
+
   const loginContainer = (
     <div className={classes.container}>
       <Logo />
@@ -142,6 +179,16 @@ const SignIn = () => {
       >
         Sign In
       </Button>
+      <div className={classes.googleSignIn}>
+        <span>Other sign-in options</span>
+
+        <GoogleLogin
+          onSuccess={handleGooogleAuth}
+          onError={() => {
+            showToast("There was an error logging in with Google", "error");
+          }}
+        />
+      </div>
 
       <p
         className={classes.forgot}
