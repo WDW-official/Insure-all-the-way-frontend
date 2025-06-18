@@ -15,7 +15,6 @@ import { useToast } from "@/context/ToastContext";
 import { AuthContext } from "@/context/AuthContext";
 import useUpdateSearchParams from "@/hooks/useUpdateSearchParams";
 import { GoogleLogin } from "@react-oauth/google";
-import jwt_decode from "jwt-decode";
 
 const SignIn = () => {
   // Router
