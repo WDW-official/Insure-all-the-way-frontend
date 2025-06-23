@@ -12,7 +12,6 @@ import Modal from "@/components/Modal/Modal";
 import { setAllModalsFalse, setModalTrue } from "@/helpers/modalHandlers";
 import { modalGenericType } from "@/utilities/types";
 import LogoutModalBody from "../LogoutModalBody/LogoutModalBody";
-import { LOCAL_STORAGE_AUTH_KEY } from "@/utilities/constants";
 import { AuthContext } from "@/context/AuthContext";
 
 const DashboardHeader = () => {
@@ -100,7 +99,11 @@ const DashboardHeader = () => {
 
           {showOptions && (
             <div className={classes.headerDropdown}>
-              <div>
+              <div
+                onClick={() => {
+                  router.push(routes.PROFILE);
+                }}
+              >
                 <User />
                 <span>Profile Information</span>
               </div>

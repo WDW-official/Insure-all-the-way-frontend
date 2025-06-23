@@ -18,6 +18,7 @@ type AuthContextValuesType = {
   setUser: Dispatch<SetStateAction<userType | null>>;
   requestState: requestType;
   logout: () => void;
+  getUser: (load?: boolean) => void;
 };
 
 type AuthContextProviderType = {
@@ -39,7 +40,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderType) => {
   const router = useRouter();
 
   //   Requests
-  const getUser = () => {
+  const getUser = (load?: boolean) => {
     requestHandler({
       url: "/auth/profile",
       method: "GET",
@@ -53,6 +54,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderType) => {
         localStorage.removeItem(LOCAL_STORAGE_AUTH_KEY);
         setUser(null);
       },
+      load: load ? load : true,
     });
   };
 
@@ -67,7 +69,9 @@ const AuthContextProvider = ({ children }: AuthContextProviderType) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, requestState, logout }}>
+    <AuthContext.Provider
+      value={{ user, setUser, requestState, logout, getUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

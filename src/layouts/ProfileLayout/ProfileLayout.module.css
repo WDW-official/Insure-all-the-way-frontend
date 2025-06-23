@@ -1,0 +1,63 @@
+.container {
+  display: flex;
+  padding-block: 1rem;
+  width: 100%;
+}
+
+.container > div:first-child:not(.loader, .main) {
+  flex-basis: 294px;
+  padding: 0 1rem;
+  border-right: 2px solid var(--grey);
+}
+
+.container > div:first-child > a {
+  display: block;
+  font-family: General Sans;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 150%;
+  color: var(--black);
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border-radius: 10px;
+  transition: all 0.2s ease-in-out;
+}
+
+.container > div:first-child > a:hover,
+.active {
+  background-color: var(--grey);
+}
+
+.loader {
+  width: 100%;
+}
+
+.main {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.container > section:nth-child(2) {
+  flex: 1;
+  width: calc(100% - 354px);
+}
+
+@media screen and (max-width: 767px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .container > div:first-child:not(.loader, .main) {
+    flex-basis: 100%;
+    border-right: none;
+  }
+
+  .container > div:first-child > a {
+    display: block;
+    font-size: 16px;
+    line-height: 150%;
+    border-radius: 5px;
+  }
+}

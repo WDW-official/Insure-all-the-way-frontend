@@ -5,10 +5,23 @@ import logo from "../../assets/images/logo.png";
 import Image from "next/image";
 import classes from "./Logo.module.css";
 
-const Logo = () => {
+type LogoTypes = {
+  dimensions?: { width: number; height: number };
+};
+
+const Logo = ({ dimensions }: LogoTypes) => {
   return (
-    <Link href={routes.BASE_URL} className={classes.logo}>
-      <Image src={logo} alt="Insure All The Way Logo" />
+    <Link
+      href={routes.BASE_URL}
+      className={classes.logo}
+      style={{ width: dimensions?.width, height: dimensions?.height }}
+    >
+      <Image
+        src={logo}
+        alt="Insure All The Way Logo"
+        width={dimensions?.width}
+        height={dimensions?.height}
+      />
     </Link>
   );
 };

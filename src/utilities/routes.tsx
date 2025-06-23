@@ -30,6 +30,8 @@ export const routes = Object.freeze({
   ALL_RISK: "/all-risk",
   BUILDING: "/building",
   TRACKER: "/dashboard/tracker",
+  PROFILE: "/profile/user",
+  PROFILE_CHANGE_PASSWORD: "/profile/reset-password",
 });
 
 export const headerRoutes = [
@@ -191,5 +193,16 @@ export const dashboardRoutes = [
     title: "Policies",
     route: routes.POLICIES,
     properties: ["isProtected"],
+  },
+];
+
+export const profileRoutes = [
+  {
+    title: "Account Information",
+    route: routes.PROFILE,
+  },
+  {
+    title: "Reset Password",
+    route: routes.PROFILE_CHANGE_PASSWORD,
   },
 ];

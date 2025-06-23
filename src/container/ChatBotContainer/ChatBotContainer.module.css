@@ -1,0 +1,79 @@
+.container {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 20;
+}
+
+.chatBubble {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background-color: var(--blue);
+  cursor: pointer;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  transition: all 0.2s ease-in-out;
+}
+
+.chatBubble:hover {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 50%;
+}
+
+.chatContainer {
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  bottom: 70px;
+  width: 400px;
+  transition: all 0.2s ease-in-out;
+  background: var(--white);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  height: 700px;
+  max-height: 90vh;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 767px) {
+  .container {
+    position: fixed;
+    bottom: 2rem;
+    right: 1rem;
+    z-index: 20;
+  }
+
+  .chatBubble {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background-color: var(--blue);
+    cursor: pointer;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .chatBubble:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 50%;
+  }
+
+  .chatContainer {
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    bottom: 70px;
+    width: calc(100vw - 2rem);
+    transition: all 0.2s ease-in-out;
+    background: var(--white);
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    height: 80vh;
+    max-height: 90vh;
+    border-radius: 10px;
+  }
+}
