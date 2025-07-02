@@ -273,6 +273,12 @@ const EnhancedThirdPartyMotorInsurance = () => {
                 enhancedThirdPartyFormData?.roadWorthinessFile ? true : false
               }
               loading={requestState?.isLoading}
+              isKora={
+                enhancedThirdPartyFormData?.vehicleLicense ||
+                enhancedThirdPartyFormData?.roadWorthinessFile
+                  ? true
+                  : false
+              }
             />
           }
         />

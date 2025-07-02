@@ -197,13 +197,13 @@ const ComprehensiveMotorInsuranceForm = ({
       });
     }
 
-    if (vehicleLicense?.length) {
+    if (vehicleLicense) {
       setData((prevState) => {
         return { ...prevState, vehicleLicense: vehicleLicense[0] };
       });
     }
 
-    if (roadWorthinessFile?.length) {
+    if (roadWorthinessFile) {
       setData((prevState) => {
         return { ...prevState, roadWorthinessFile: roadWorthinessFile[0] };
       });
@@ -223,6 +223,8 @@ const ComprehensiveMotorInsuranceForm = ({
     roadWorthinessFile,
     roadWorthiness,
   ]);
+
+  console.log(data, "Data");
 
   return (
     <section className={classes.container} id="insurance-form">

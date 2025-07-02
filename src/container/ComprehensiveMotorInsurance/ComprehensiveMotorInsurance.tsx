@@ -222,6 +222,12 @@ const ComprehensiveMotorInsurance = () => {
                 comprehensiveFormData?.roadWorthinessFile ? true : false
               }
               loading={requestState?.isLoading}
+              isKora={
+                comprehensiveFormData?.vehicleLicense ||
+                comprehensiveFormData?.roadWorthinessFile
+                  ? true
+                  : false
+              }
             />
           }
         />

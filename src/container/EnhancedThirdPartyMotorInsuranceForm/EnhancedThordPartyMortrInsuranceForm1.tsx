@@ -167,13 +167,13 @@ const EnhancedThordPartyMortrInsuranceForm1 = ({
       });
     }
 
-    if (vehicleLicense?.length) {
+    if (vehicleLicense) {
       setData((prevState) => {
         return { ...prevState, vehicleLicense: vehicleLicense[0] };
       });
     }
 
-    if (roadWorthinessFile?.length) {
+    if (roadWorthinessFile) {
       setData((prevState) => {
         return { ...prevState, roadWorthinessFile: roadWorthinessFile[0] };
       });

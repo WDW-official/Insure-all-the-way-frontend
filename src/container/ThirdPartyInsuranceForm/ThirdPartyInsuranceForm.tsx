@@ -213,13 +213,13 @@ const ThirdPartyInsuranceForm = ({
       });
     }
 
-    if (vehicleLicense?.length) {
+    if (vehicleLicense) {
       setData((prevState) => {
         return { ...prevState, vehicleLicense: vehicleLicense[0] };
       });
     }
 
-    if (roadWorthinessFile?.length) {
+    if (roadWorthinessFile) {
       setData((prevState) => {
         return { ...prevState, roadWorthinessFile: roadWorthinessFile[0] };
       });
@@ -274,6 +274,9 @@ const ThirdPartyInsuranceForm = ({
               hasLicenseRenewal={data?.vehicleLicense ? true : false}
               hasRoadWorthinessRevnewal={
                 data?.roadWorthinessFile ? true : false
+              }
+              isKora={
+                data?.vehicleLicense || data?.roadWorthinessFile ? true : false
               }
             />
           }
@@ -385,7 +388,7 @@ const ThirdPartyInsuranceForm = ({
             label="Gender"
             options={GENDERS.map((data) => capitalize(data) as string)}
             title="Select Gender"
-            selected={gender}
+            selected={gender || data?.gender}
             setSelected={setGender}
           />
 

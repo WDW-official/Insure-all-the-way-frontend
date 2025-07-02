@@ -59,6 +59,7 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
   );
   const [isRoadWorthiness, setIsRoadWorthiness] = useState(false);
   const [isVehicleLicense, setIsVehicleLicense] = useState(false);
+  const[isKora,setIsKora] = useState(false)
 
   // Router
   const router = useRouter();
@@ -248,6 +249,7 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
               id={selectedPolicyId as string}
               onRenew={() => {
                 setAllModalsFalse(setModals);
+                setIsKora(true)
                 setModalTrue(setModals, "payment");
               }}
               setVehicleRenewalFOrmData={setVehicleRenewalFOrmData}
@@ -279,6 +281,7 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
               }}
               hasLicenseRenewal={isVehicleLicense}
               loading={requestState?.isLoading}
+              isKora={isKora}
             />
           }
         />

@@ -34,7 +34,7 @@ const ChatBotContainer = () => {
     <section className={classes.container} ref={chatRef}>
       <div
         className={classes.chatContainer}
-        style={isOpen ? { maxHeight: "800px" } : { maxHeight: "0px" }}
+        style={isOpen ? { maxHeight: "800px",  } : { maxHeight: "0px" }}
       >
         <ChatContainer isOpen={isOpen} />
       </div>
