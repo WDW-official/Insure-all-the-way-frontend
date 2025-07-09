@@ -62,7 +62,9 @@ export default function RootLayout({
           >
             <ToastContextProvider>
               <AuthContextProvider>
-                <ChatContextProvider>{children}</ChatContextProvider>
+                {/* <ChatContextProvider> */}
+                {children}
+                {/* </ChatContextProvider> */}
               </AuthContextProvider>
             </ToastContextProvider>
           </GoogleOAuthProvider>

@@ -8,6 +8,10 @@ import { chat } from "@/utilities/dummyConstants";
 import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import { capitalize } from "@/helpers/capitalize";
+import { requestHandler } from "@/helpers/requestHandler";
+import { requestType } from "@/utilities/types";
+import useError from "@/hooks/useError";
+import { CircularProgress } from "@mui/material";
 
 type ChatContainerTypes = {
   isOpen: boolean;
@@ -20,15 +24,22 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
   //   States
   const [chatsState, setChatsState] = useState(chat);
   const [message, setMessage] = useState("");
+  const [requestState, setRequestState] = useState<requestType>({
+    isLoading: false,
+    data: null,
+    error: null,
+  });
 
   //   COntext
   const { user } = useContext(AuthContext);
 
-  //   Utils
+  // Hooks
+  const { errorFlowFunction } = useError();
 
-  const handleMessageSend = () => {
+  //   Utils
+  const handleMessageSend = (message: string, role: string) => {
     setChatsState((prevState) => {
-      return [...prevState, { message, sender: "user" }];
+      return [...prevState, { message, sender: role }];
     });
     setMessage("");
 
@@ -45,6 +56,27 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
         left: 0,
       });
     }
+  };
+
+  const handleSendChatRequest = () => {
+    requestHandler({
+      url: "http://localhost:8000/chat",
+      data: {
+        message,
+        user_id: user?.email,
+      },
+      method: "POST",
+      state: requestState,
+      setState: setRequestState,
+      successFunction(res) {
+        console.log(res, "Response");
+        handleMessageSend(res?.data?.reply, "bot");
+      },
+      errorFunction(err) {
+        console.log(err, "check");
+        errorFlowFunction(err);
+      },
+    });
   };
 
   //   Effects
@@ -74,7 +106,7 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
                   classes[data.sender?.toLowerCase()]
                 }`}
               >
-                <div>{data?.message}</div>
+                <div dangerouslySetInnerHTML={{ __html: data?.message }}></div>
                 <p>
                   {data?.sender?.toLowerCase() === "bot"
                     ? "Bot"
@@ -91,17 +123,27 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey && message?.trim()) {
                 e.preventDefault();
-                handleMessageSend();
+                handleMessageSend(message, "user");
+                handleSendChatRequest();
               }
             }}
           />
           <button
             onClick={() => {
-              handleMessageSend();
+              handleMessageSend(message, "user");
+              handleSendChatRequest();
             }}
             disabled={!message}
           >
-            <Send />
+            {requestState?.isLoading ? (
+              <CircularProgress
+                size="1rem"
+                color="inherit"
+                style={{ color: "#fff" }}
+              />
+            ) : (
+              <Send />
+            )}
           </button>
         </form>
       </div>
