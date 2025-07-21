@@ -139,6 +139,11 @@
   white-space: pre-wrap;
 }
 
+.chat a {
+  color: blue;
+  text-decoration: underline;
+}
+
 .chat > p {
   font-family: "General Sans";
   font-size: 12px;

@@ -4,10 +4,7 @@ import "./globals.css";
 import { ToastContextProvider } from "@/context/ToastContext";
 import UseSWRConfigProvider from "@/config/SWRConfig";
 import AuthContextProvider from "@/context/AuthContext";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import ChatBotContainer from "@/container/ChatBotContainer/ChatBotContainer";
 import { ChatContextProvider } from "@/context/ChatbotContext";
-import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,24 +47,14 @@ export default function RootLayout({
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/site.webmanifest" />
-        <Script
-          src="https://korablobstorage.blob.core.windows.net/modal-bucket/korapay-collections.min.js"
-          strategy="beforeInteractive"
-        />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <UseSWRConfigProvider>
-          <GoogleOAuthProvider
-            clientId={process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID as string}
-          >
-            <ToastContextProvider>
-              <AuthContextProvider>
-                {/* <ChatContextProvider> */}
-                {children}
-                {/* </ChatContextProvider> */}
-              </AuthContextProvider>
-            </ToastContextProvider>
-          </GoogleOAuthProvider>
+          <ToastContextProvider>
+            <AuthContextProvider>
+              <ChatContextProvider>{children}</ChatContextProvider>
+            </AuthContextProvider>
+          </ToastContextProvider>
         </UseSWRConfigProvider>
       </body>
     </html>
