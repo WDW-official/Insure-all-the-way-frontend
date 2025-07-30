@@ -60,7 +60,7 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
 
   const handleSendChatRequest = () => {
     requestHandler({
-      url: "http://localhost:8000/chat",
+      url: `${process.env.NEXT_PUBLIC_CHATBOT_BACKEND_API_URL}/chat`,
       data: {
         message,
         user_id: user?.email,
