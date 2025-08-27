@@ -11,7 +11,6 @@ import {
   requestType,
 } from "@/utilities/types";
 import { Dispatch, SetStateAction } from "react";
-import Modal from "@/components/Modal/Modal";
 import { areAllValuesFilled } from "@/helpers/validateObjectValues";
 
 type EnhancedThirdPartyMotorInsuranceFormTypes = {
