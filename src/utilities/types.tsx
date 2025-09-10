@@ -215,3 +215,41 @@ export type allRiskInventoryTypes = {
   model: string;
   modelNumber: string;
 };
+
+export type chatType = {
+  message: string;
+  sender: string;
+  id: string;
+  loading: boolean;
+};
+
+export type policyResponseType = {
+  _id: string;
+  user: userType;
+  agent: string;
+  certificate: string;
+  isPaid: boolean;
+  insuranceType: string;
+  registrationNumber: string;
+  chasisNumber: string;
+  plan: string;
+  startDate: string;
+  endDate: string;
+  status: string;
+  makeOfVehicle: string;
+  yearOfMake: string;
+  modelOfVehicle: string;
+  vehicleLicense: null | string;
+  roadWorthiness: null | string;
+  vehiclePaperRenewal: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  payout: string;
+  missingDocuments: boolean;
+  attentionRequired: boolean;
+  notesAndRemindersConditions: boolean;
+  locationOfProperty?: string;
+  valueOfProperty?: string;
+  premium: string;
+};

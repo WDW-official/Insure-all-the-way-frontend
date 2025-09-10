@@ -9,9 +9,10 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import { capitalize } from "@/helpers/capitalize";
 import { requestHandler } from "@/helpers/requestHandler";
-import { requestType } from "@/utilities/types";
+import { chatType, requestType } from "@/utilities/types";
 import useError from "@/hooks/useError";
 import { CircularProgress } from "@mui/material";
+import { SyncLoader } from "react-spinners";
 
 type ChatContainerTypes = {
   isOpen: boolean;
@@ -22,7 +23,7 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   //   States
-  const [chatsState, setChatsState] = useState(chat);
+  const [chatsState, setChatsState] = useState<chatType[]>(chat);
   const [message, setMessage] = useState("");
   const [requestState, setRequestState] = useState<requestType>({
     isLoading: false,
@@ -39,7 +40,10 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
   //   Utils
   const handleMessageSend = (message: string, role: string) => {
     setChatsState((prevState) => {
-      return [...prevState, { message, sender: role }];
+      return [
+        ...prevState,
+        { message, sender: role, id: role, loading: false },
+      ];
     });
     setMessage("");
 
@@ -59,6 +63,16 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
   };
 
   const handleSendChatRequest = () => {
+    const loadingId = String(Date.now());
+
+    setTimeout(() => {
+      setChatsState((prev) => [
+        ...prev,
+        { id: loadingId, message: "...", sender: "bot", loading: true },
+      ]);
+      handleMessageScrollToBottom();
+    }, 500);
+
     requestHandler({
       url: `${process.env.NEXT_PUBLIC_CHATBOT_BACKEND_API_URL}/chat`,
       data: {
@@ -70,10 +84,37 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
       setState: setRequestState,
       successFunction(res) {
         console.log(res, "Response");
-        handleMessageSend(res?.data?.reply, "bot");
+
+        setChatsState((prev) =>
+          prev.map((chat) =>
+            chat.id === loadingId
+              ? {
+                  id: loadingId,
+                  message: res?.data?.reply,
+                  sender: "bot",
+                  loading: false,
+                }
+              : chat
+          )
+        );
+        handleMessageScrollToBottom();
       },
       errorFunction(err) {
         console.log(err, "check");
+
+        setChatsState((prev) =>
+          prev.map((chat) =>
+            chat.id === loadingId
+              ? {
+                  id: loadingId,
+                  message: "Something went wrong ❌",
+                  sender: "bot",
+                  loading: false,
+                }
+              : chat
+          )
+        );
+
         errorFlowFunction(err);
       },
     });
@@ -99,17 +140,28 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
       </div>
       <div className={classes.chatContainer}>
         <div className={classes.chats} ref={containerRef}>
-          {chatsState.map((data) => {
+          {chatsState.map((data, i) => {
+            if (data?.loading) {
+              return (
+                <div key={1} className={`${classes.chat} ${classes.loading}`}>
+                  <div>
+                    <SyncLoader size={6} color="#a7c7e7" />
+                  </div>
+                  <p>Uju</p>
+                </div>
+              );
+            }
             return (
               <div
                 className={`${classes.chat} ${
                   classes[data.sender?.toLowerCase()]
                 }`}
+                key={i}
               >
                 <div dangerouslySetInnerHTML={{ __html: data?.message }}></div>
                 <p>
                   {data?.sender?.toLowerCase() === "bot"
-                    ? "Bot"
+                    ? "Uju"
                     : user?.firstName || data?.sender}
                 </p>
               </div>
@@ -123,7 +175,7 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey && message?.trim()) {
                 e.preventDefault();
-                handleMessageSend(message, "user");
+                handleMessageSend(message, "User");
                 handleSendChatRequest();
               }
             }}
@@ -133,17 +185,9 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
               handleMessageSend(message, "user");
               handleSendChatRequest();
             }}
-            disabled={!message}
+            disabled={!message || requestState?.isLoading}
           >
-            {requestState?.isLoading ? (
-              <CircularProgress
-                size="1rem"
-                color="inherit"
-                style={{ color: "#fff" }}
-              />
-            ) : (
-              <Send />
-            )}
+            <Send />
           </button>
         </form>
       </div>

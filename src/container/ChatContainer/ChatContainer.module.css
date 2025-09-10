@@ -91,6 +91,10 @@
   flex-shrink: 0;
 }
 
+.form > button:disabled {
+  background-color: var(--grey2);
+}
+
 .chats {
   flex: 1 0 0;
   overflow-y: scroll;
@@ -99,8 +103,8 @@
 }
 
 .chats {
-  scrollbar-width: thin; /* Firefox */
-  scrollbar-color: #bbb #f0f0f0; /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: #bbb #f0f0f0;
 }
 
 .chats::-webkit-scrollbar {
@@ -160,6 +164,10 @@
 
 .user > div {
   background-color: var(--grey1);
+}
+
+.loading > div {
+  background-color: transparent;
 }
 
 .bot > div {

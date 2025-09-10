@@ -12,13 +12,7 @@ import classes from "./PaymentModalBody.module.css";
 import Input from "@/components/Input/Input";
 import Button from "@/components/Button/Button";
 import Close from "@/assets/svgIcons/Close";
-import {
-  buildingDataTypes,
-  comprehensiveeFormDataTypes,
-  enhancedThirdPartyInsuranceFormTypes,
-  policySubTypePlansType,
-  thirdPartyInsuranceFormType,
-} from "@/utilities/types";
+import { policyResponseType, policySubTypePlansType } from "@/utilities/types";
 import { usePolicyTypeBySubtype } from "@/hooks/usePolicies";
 import Loader from "@/components/Loader/Loader";
 import { formatCurrency } from "@/helpers/formatAmount";
@@ -29,7 +23,6 @@ import {
   ROADWORTHINESS_PRICE,
   VEHICLE_LICENSE_PRICE,
 } from "@/utilities/constants";
-import Script from "next/script";
 import { generateId } from "@/helpers/generateId";
 
 const PaystackButton = dynamic(
@@ -39,10 +32,7 @@ const PaystackButton = dynamic(
 
 type PaymentModalBodyType = {
   onSuccess: () => void;
-  data: thirdPartyInsuranceFormType &
-    enhancedThirdPartyInsuranceFormTypes &
-    comprehensiveeFormDataTypes &
-    buildingDataTypes;
+  data: policyResponseType;
   onClose: () => void;
   policyType?: string;
   policySubType?: string;
@@ -75,17 +65,15 @@ const PaymentModalBody = ({
       policySubtypeData?.data?.plans?.find(
         (plan: policySubTypePlansType) =>
           hyphenateAndLowerCase(plan?.name) ===
-            hyphenateAndLowerCase(data?.product) ||
-          hyphenateAndLowerCase(plan?.name) ===
-            hyphenateAndLowerCase(data?.plan)
+          hyphenateAndLowerCase(data?.plan)
       ),
     [policySubtypeData]
   );
 
   const basePrice =
     Number(policyData?.price) ||
-    Number(data?.premium) ||
     Number(data?.valueOfProperty) ||
+    Number(data?.premium) ||
     0;
 
   const basePriceWithLicenseRenewal = Number(basePrice) + VEHICLE_LICENSE_PRICE;
@@ -95,7 +83,7 @@ const PaymentModalBody = ({
 
   // Utils
   const componentProps = {
-    email: data?.email,
+    email: data?.user?.email,
     amount:
       hasLicenseRenewal && !hasRoadWorthinessRevnewal
         ? basePriceWithLicenseRenewal * 100
@@ -105,8 +93,8 @@ const PaymentModalBody = ({
         ? basePriceWithVehicleLicenseRenewalAndRoadWorthinessRenewal * 100
         : basePrice * 100,
     metadata: {
-      name: `${data?.lastName || ""} ${data?.firstName || ""}`,
-      phone: data?.phone,
+      name: `${data?.user?.lastName || ""} ${data?.user?.firstName || ""}`,
+      phone: data?.user?.phone,
       custom_fields: [],
     },
     text: "Pay",
@@ -115,32 +103,6 @@ const PaymentModalBody = ({
     },
     publicKey: PAYSTACK_PUBLIC_KEY as string,
   };
-
-  const koraPayprops = {
-    key: "pk_test_cJarEDgVsMEcv1W3qqRg67j7gow3DzSZJ7wQpEJQ",
-    reference: generateId(),
-    amount:
-      hasLicenseRenewal && !hasRoadWorthinessRevnewal
-        ? basePriceWithLicenseRenewal
-        : !hasLicenseRenewal && hasRoadWorthinessRevnewal
-        ? basePriceWithRoadWorthinessRenewal
-        : hasLicenseRenewal && hasLicenseRenewal
-        ? basePriceWithVehicleLicenseRenewalAndRoadWorthinessRenewal
-        : basePrice,
-    currency: "NGN",
-    customer: {
-      name: `${data?.lastName || ""} ${data?.firstName || ""}`,
-      email: data?.email,
-    },
-    notification_url:
-      "https://insure-all-the-way-backend-2.onrender.com/api/payments/kora",
-    channels: ["bank_transfer", "card", "pay_with_bank", "mobile_money"],
-    onSuccess: () => {
-      onSuccess();
-    },
-  };
-
-  console.log(koraPayprops, "Kora");
 
   if (isLoading || loading) {
     return <Loader />;
@@ -155,15 +117,15 @@ const PaymentModalBody = ({
         label="Fullname"
         placeholder="Eg. John Doe"
         readOnly
-        value={`${data?.firstName} ${data?.lastName}`}
+        value={`${data?.user?.firstName} ${data?.user?.lastName}`}
       />
       <Input
         label="Email"
         placeholder="Eg abc@example.com"
         readOnly
-        value={data?.email}
+        value={data?.user?.email}
       />
-      <Input label="Phone" type="phone" readOnly value={data?.phone} />
+      <Input label="Phone" type="phone" readOnly value={data?.user?.phone} />
 
       {policyType?.includes("motor") && data?.registrationNumber && (
         <>
@@ -196,10 +158,10 @@ const PaymentModalBody = ({
         <PaystackButton
           {...componentProps}
           disabled={
-            !data?.firstName ||
-            !data?.lastName ||
+            !data?.user?.firstName ||
+            !data?.user?.lastName ||
             policySubtypeData?.price ||
-            !data?.email
+            !data?.user?.email
           }
           className={classes.paystackButton}
         />
@@ -222,8 +184,10 @@ const PaymentModalBody = ({
                     : basePrice,
                 currency: "NGN",
                 customer: {
-                  name: `${data?.lastName || ""} ${data?.firstName || ""}`,
-                  email: data?.email,
+                  name: `${data?.user?.lastName || ""} ${
+                    data?.user?.firstName || ""
+                  }`,
+                  email: data?.user?.email,
                 },
                 notification_url:
                   "https://insure-all-the-way-backend-2.onrender.com/api/payments/kora",

@@ -8,6 +8,7 @@ import Modal from "@/components/Modal/Modal";
 import { setAllModalsFalse, setModalTrue } from "@/helpers/modalHandlers";
 import {
   modalGenericType,
+  policyResponseType,
   requestType,
   userPoliciesType,
 } from "@/utilities/types";
@@ -22,6 +23,8 @@ import { routes } from "@/utilities/routes";
 import useError from "@/hooks/useError";
 import { useToast } from "@/context/ToastContext";
 import { requestHandler } from "@/helpers/requestHandler";
+import { mutate } from "swr";
+import SuccessModalBody from "@/components/SuccessModalBody/SuccessModalBody";
 
 export const headers = [
   "Policy Held",
@@ -45,6 +48,7 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
     success: false,
     renewVehiclePapers: false,
     payment: false,
+    renewalSuccess: false,
   });
   const [policies, setPolicies] = useState([]);
   const [selectedPolicyId, setSelectedPolicyId] = useState<string | null>(null);
@@ -59,7 +63,7 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
   );
   const [isRoadWorthiness, setIsRoadWorthiness] = useState(false);
   const [isVehicleLicense, setIsVehicleLicense] = useState(false);
-  const[isKora,setIsKora] = useState(false)
+  const [isKora, setIsKora] = useState(false);
 
   // Router
   const router = useRouter();
@@ -136,10 +140,25 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
     {
       text: "Renew Policy ",
       action: (insurance: any) => {
+        const today: any = new Date();
+        const endDate: any = new Date(insurance.exporationDate);
+
+        const diffInMs = endDate - today;
+        const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+
+        console.log(diffInDays, insurance);
+
+        if (diffInDays > 30) {
+          showToast(
+            "This policy is not valid for renewal. Policies must have 30 days to expiry before they are valid for renewal.",
+            "warning"
+          );
+          return;
+        }
+
         if (insurance) {
           setSingleData(insurance);
           setModalTrue(setModals, "revewPolicy");
-
           setSelectedPolicyId(insurance?.id);
         }
       },
@@ -180,7 +199,32 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
     return policyDetail;
   }, [selectedPolicyId]);
 
-  console.log(selectedPolicyDetails, "Selected User policy");
+  const selectedPolicyFullDetails = useMemo(() => {
+    const selectedPolicyInfo = userPolicies?.find(
+      (data) => data?._id === selectedPolicyId
+    );
+
+    return selectedPolicyInfo;
+  }, [selectedPolicyId]);
+
+  // Requests
+  const handleRenewal = () => {
+    requestHandler({
+      url: `/policies/policy/${selectedPolicyFullDetails?._id}/renew`,
+      method: "PUT",
+      state: requestState,
+      setState: setRequestState,
+      id: "renew-policy",
+      successFunction() {
+        mutate("/policies/user/policy");
+        setAllModalsFalse(setModals);
+        setModalTrue(setModals, "renewalSuccess");
+      },
+      errorFunction(err) {
+        errorFlowFunction(err);
+      },
+    });
+  };
 
   return (
     <>
@@ -214,7 +258,7 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
           body={
             <PaymentModalBody
               onClose={() => setAllModalsFalse(setModals)}
-              data={singleData as any}
+              data={selectedPolicyFullDetails as any}
               policyType={
                 singleData?.policyHeld?.toLowerCase()?.includes("motor")
                   ? "motor-insurance"
@@ -228,9 +272,11 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
               }
               policySubType={singleData?.insuranceType as any}
               onSuccess={() => {
-                setAllModalsFalse(setModals);
-                setModalTrue(setModals, "success");
+                handleRenewal();
               }}
+              loading={
+                requestState?.isLoading && requestState?.id === "renew-policy"
+              }
             />
           }
         />
@@ -249,7 +295,7 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
               id={selectedPolicyId as string}
               onRenew={() => {
                 setAllModalsFalse(setModals);
-                setIsKora(true)
+                setIsKora(true);
                 setModalTrue(setModals, "payment");
               }}
               setVehicleRenewalFOrmData={setVehicleRenewalFOrmData}
@@ -282,6 +328,21 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
               hasLicenseRenewal={isVehicleLicense}
               loading={requestState?.isLoading}
               isKora={isKora}
+            />
+          }
+        />
+      )}
+
+      {modals.renewalSuccess && (
+        <Modal
+          onClick={() => setAllModalsFalse(setModals)}
+          body={
+            <SuccessModalBody
+              onClose={() => {
+                setAllModalsFalse(setModals);
+              }}
+              title="Policy Renewed Successfully!"
+              caption={`You have successfully renewed this policy. The policy start and end dates have been updated, and you have been notified via e-mail.`}
             />
           }
         />
