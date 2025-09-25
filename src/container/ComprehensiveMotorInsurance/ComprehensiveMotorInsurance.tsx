@@ -213,7 +213,27 @@ const ComprehensiveMotorInsurance = () => {
                 setAllModalsFalse(setModals);
                 comprenhensiveSubmissionFormHandler();
               }}
-              data={comprehensiveFormData as any}
+              data={{
+                user: {
+                  email: comprehensiveFormData?.email,
+                  firstName: comprehensiveFormData?.firstName,
+                  lastName: comprehensiveFormData?.lastName,
+                  phone: comprehensiveFormData?.phone,
+                  address: comprehensiveFormData?.address,
+                  state: comprehensiveFormData?.state,
+                  occupation: comprehensiveFormData?.occupation,
+                  gender: comprehensiveFormData?.gender,
+                },
+                insuranceType: "comprehensive-party-motor-insurance",
+                registrationNumber: comprehensiveFormData?.registrationNumber,
+                chasisNumber: comprehensiveFormData?.chassisNumber,
+                startDate: comprehensiveFormData?.startDate,
+                endDate: comprehensiveFormData?.endDate,
+                makeOfVehicle: comprehensiveFormData?.makeOfVehicle,
+                yearOfMake: comprehensiveFormData?.yearOfMake,
+                modelOfVehicle: comprehensiveFormData?.modelOfVehicle,
+                premium: comprehensiveFormData?.premium,
+              }}
               onClose={() => setAllModalsFalse(setModals)}
               hasLicenseRenewal={
                 comprehensiveFormData?.vehicleLicense ? true : false

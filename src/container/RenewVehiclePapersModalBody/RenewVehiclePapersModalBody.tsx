@@ -126,7 +126,6 @@ const RenewVehiclePapersModalBody = ({
             TouchRippleProps={{ center: true }}
             checked={isVehicleLicense}
             onChange={(e) => {
-              console.log(e.target.checked, "Checked");
               setIsVehicleLicense(e.target.checked);
             }}
             id="vehicleLicense"
@@ -140,7 +139,6 @@ const RenewVehiclePapersModalBody = ({
             TouchRippleProps={{ center: true }}
             checked={isRoadWorthiness}
             onChange={(e) => {
-              console.log(e.target.checked, "Checked");
               setIsRoadWorthiness(e.target.checked);
             }}
             id="roadWorthiness"

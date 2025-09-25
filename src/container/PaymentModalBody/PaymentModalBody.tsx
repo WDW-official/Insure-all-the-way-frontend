@@ -32,7 +32,7 @@ const PaystackButton = dynamic(
 
 type PaymentModalBodyType = {
   onSuccess: () => void;
-  data: policyResponseType;
+  data: policyResponseType | any;
   onClose: () => void;
   policyType?: string;
   policySubType?: string;
@@ -65,7 +65,7 @@ const PaymentModalBody = ({
       policySubtypeData?.data?.plans?.find(
         (plan: policySubTypePlansType) =>
           hyphenateAndLowerCase(plan?.name) ===
-          hyphenateAndLowerCase(data?.plan)
+          hyphenateAndLowerCase(data?.plan || (data as any)?.product)
       ),
     [policySubtypeData]
   );

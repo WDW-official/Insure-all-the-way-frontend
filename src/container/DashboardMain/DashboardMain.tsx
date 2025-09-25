@@ -146,8 +146,6 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
         const diffInMs = endDate - today;
         const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
 
-        console.log(diffInDays, insurance);
-
         if (diffInDays > 30) {
           showToast(
             "This policy is not valid for renewal. Policies must have 30 days to expiry before they are valid for renewal.",

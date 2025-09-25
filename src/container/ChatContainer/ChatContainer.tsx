@@ -83,8 +83,6 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
       state: requestState,
       setState: setRequestState,
       successFunction(res) {
-        console.log(res, "Response");
-
         setChatsState((prev) =>
           prev.map((chat) =>
             chat.id === loadingId
@@ -100,8 +98,6 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
         handleMessageScrollToBottom();
       },
       errorFunction(err) {
-        console.log(err, "check");
-
         setChatsState((prev) =>
           prev.map((chat) =>
             chat.id === loadingId

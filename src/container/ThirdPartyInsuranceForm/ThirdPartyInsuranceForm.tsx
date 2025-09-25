@@ -269,7 +269,27 @@ const ThirdPartyInsuranceForm = ({
                 setAllModalsFalse(setModals);
                 onSubmit();
               }}
-              data={data as any}
+              data={{
+                user: {
+                  email: data?.email,
+                  firstName: data?.firstName,
+                  lastName: data?.lastName,
+                  phone: data?.phone,
+                  address: data?.address,
+                  state: data?.state,
+                  occupation: data?.occupation,
+                  gender: data?.gender,
+                },
+                insuranceType: "third-party-motor-insurance",
+                registrationNumber: data?.registrationNumber,
+                chasisNumber: data?.chasisNumber,
+                plan: data?.product,
+                startDate: data?.startDate,
+                endDate: data?.endDate,
+                makeOfVehicle: data?.makeOfVehicle,
+                yearOfMake: data?.yearOfMake,
+                modelOfVehicle: data?.modelOfVehicle,
+              }}
               onClose={() => setAllModalsFalse(setModals)}
               hasLicenseRenewal={data?.vehicleLicense ? true : false}
               hasRoadWorthinessRevnewal={
@@ -278,6 +298,8 @@ const ThirdPartyInsuranceForm = ({
               isKora={
                 data?.vehicleLicense || data?.roadWorthinessFile ? true : false
               }
+              policyType="motor-insurance"
+              policySubType="third-party-motor-insurance"
             />
           }
         />

@@ -262,7 +262,28 @@ const EnhancedThirdPartyMotorInsurance = () => {
                 setAllModalsFalse(setModals);
                 enhancedThirdPartySubmissionFOrmHandler();
               }}
-              data={enhancedThirdPartyFormData as any}
+              data={{
+                user: {
+                  email: enhancedThirdPartyFormData?.email,
+                  firstName: enhancedThirdPartyFormData?.firstName,
+                  lastName: enhancedThirdPartyFormData?.lastName,
+                  phone: enhancedThirdPartyFormData?.phone,
+                  address: enhancedThirdPartyFormData?.address,
+                  state: enhancedThirdPartyFormData?.state,
+                  occupation: enhancedThirdPartyFormData?.occupation,
+                  gender: enhancedThirdPartyFormData?.gender,
+                },
+                insuranceType: "enhanced-third-party-motor-insurance",
+                registrationNumber:
+                  enhancedThirdPartyFormData?.registrationNumber,
+                chasisNumber: enhancedThirdPartyFormData?.chasisNumber,
+                plan: enhancedThirdPartyFormData?.plan,
+                startDate: enhancedThirdPartyFormData?.startDate,
+                endDate: enhancedThirdPartyFormData?.endDate,
+                makeOfVehicle: enhancedThirdPartyFormData?.makeOfVehicle,
+                yearOfMake: enhancedThirdPartyFormData?.yearOfMake,
+                modelOfVehicle: enhancedThirdPartyFormData?.modelOfVehicle,
+              }}
               onClose={() => setAllModalsFalse(setModals)}
               policyType="motor-insurance"
               policySubType="enhanced-third-party-motor-insurance"

@@ -12,8 +12,6 @@ export const getCaptchaToken = (action: string) => {
         action,
       });
 
-      console.log(token, "Captcha token");
-
       resolve(token);
     });
   });
