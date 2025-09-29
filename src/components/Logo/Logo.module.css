@@ -1,7 +1,7 @@
 .logo {
   display: block;
-  height: 63px;
-  width: 83px;
+  height: 50px;
+  width: 50px;
 }
 
 .logo > img {
@@ -11,7 +11,7 @@
 
 @media screen and (max-width: 767px) {
   .logo {
-    height: 50px;
-    width: 63px;
+    height: 40px;
+    width: 40px;
   }
 }

@@ -29,6 +29,8 @@ const PolicyDetailsDetails = ({ data, loading }: PolicyDetailsDetailsTypes) => {
       }
     }, [data]);
 
+  console.log(policyInfo, "Policy info");
+
   if (loading) {
     return <Loader />;
   }
@@ -38,35 +40,51 @@ const PolicyDetailsDetails = ({ data, loading }: PolicyDetailsDetailsTypes) => {
       <h4>More information</h4>
 
       <div className={classes.body}>
-        {policyInfo?.map((data, i) => {
-          if (
-            data?.title === "Updated At" ||
-            data?.title?.toLowerCase().includes("date")
-          ) {
+        {policyInfo
+          ?.filter((data) => data?.value !== "[object Object]")
+          ?.map((data, i) => {
+            if (
+              data?.title === "Updated At" ||
+              data?.title?.toLowerCase().includes("date")
+            ) {
+              return (
+                <div key={i}>
+                  <h4>{data?.title}</h4>
+                  <p>{moment(data?.value).format("Do MMMM, YYYY. hh:mma")}</p>
+                </div>
+              );
+            }
+            if (data?.value?.toLowerCase().includes("https")) {
+              return (
+                <div key={i}>
+                  <h4>{data?.title}</h4>
+                  <a
+                    href={data?.value}
+                    target="_blank"
+                    style={{ cursor: "pointer" }}
+                  >
+                    {data?.value}
+                  </a>
+                </div>
+              );
+            }
+
+            if (!data?.value) {
+              return (
+                <div key={i}>
+                  <h4>{data?.title}</h4>
+                  <p>No data</p>
+                </div>
+              );
+            }
+
             return (
               <div key={i}>
                 <h4>{data?.title}</h4>
-                <p>{moment(data?.value).format("Do MMMM, YYYY. hh:mma")}</p>
+                <p>{structureWords(data?.value)}</p>
               </div>
             );
-          }
-
-          if (!data?.value) {
-            return (
-              <div key={i}>
-                <h4>{data?.title}</h4>
-                <p>No data</p>
-              </div>
-            );
-          }
-
-          return (
-            <div key={i}>
-              <h4>{data?.title}</h4>
-              <p>{structureWords(data?.value)}</p>
-            </div>
-          );
-        })}
+          })}
       </div>
     </div>
   );

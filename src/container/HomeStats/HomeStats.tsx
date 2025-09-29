@@ -84,26 +84,12 @@ const HomeStats = () => {
 
         <div className={classes.container}>
           <div>
-            <div>
-              {statItems.map((data, i) => {
-                return (
-                  <div
-                    className={classes.info}
-                    onClick={() => {
-                      setSelectedStat(i);
-                      setModalTrue(setModals, "details");
-                    }}
-                    key={data?.title}
-                  >
-                    <div>
-                      <h4>{data?.stat}</h4>
-                      <p>{data?.title} </p>
-                    </div>
-                    <div>{data?.icon}</div>
-                  </div>
-                );
-              })}
-            </div>
+            <Image
+              src="https://res.cloudinary.com/dx3zrhslt/image/upload/v1759153655/macbook_pro_efuysv.png"
+              alt="Your Satisfaction Is Our Priority!"
+              width={700}
+              height={450}
+            />
           </div>
 
           <div>
@@ -125,3 +111,22 @@ const HomeStats = () => {
 };
 
 export default HomeStats;
+
+// {statItems.map((data, i) => {
+//   return (
+//     <div
+//       className={classes.info}
+//       onClick={() => {
+//         setSelectedStat(i);
+//         setModalTrue(setModals, "details");
+//       }}
+//       key={data?.title}
+//     >
+//       <div>
+//         <h4>{data?.stat}</h4>
+//         <p>{data?.title} </p>
+//       </div>
+//       <div>{data?.icon}</div>
+//     </div>
+//   );
+// })}

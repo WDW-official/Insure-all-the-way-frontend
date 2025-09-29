@@ -1,3 +1,5 @@
+"use client";
+
 import Loader from "@/components/Loader/Loader";
 import Homepage from "@/container/HomePage/Homepage";
 import { Suspense } from "react";

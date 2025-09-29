@@ -43,14 +43,14 @@ const HomeHowWeWork = () => {
         </p>
 
         <Image
-          src="https://res.cloudinary.com/dx3zrhslt/image/upload/v1748956433/How_We_Work.svg_vegy3l.webp"
+          src="https://res.cloudinary.com/dx3zrhslt/image/upload/v1759153655/macbook_pro_efuysv.png"
           alt="How we work"
           width={487}
           height={311}
         />
       </div>
 
-      <div>
+      {/* <div>
         {howWeWorkList?.map((data) => {
           return (
             <div key={data?.title}>
@@ -62,6 +62,14 @@ const HomeHowWeWork = () => {
             </div>
           );
         })}
+      </div> */}
+
+      <div>
+        <p>
+          Our <strong>B2B </strong> and <strong>B2C dashboards</strong> makes{" "}
+          <strong>purchase, renewal </strong>, and management of
+          <strong>claims </strong> seamless.
+        </p>
       </div>
     </section>
   );

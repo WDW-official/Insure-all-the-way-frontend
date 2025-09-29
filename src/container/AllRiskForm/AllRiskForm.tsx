@@ -551,6 +551,7 @@ const AllRiskForm = () => {
                     type="file"
                     id="uploadSheet"
                     onChange={(e) => handleFileChange(e?.target?.files)}
+                    accept=".xls,.xlsx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                   />
                   <label htmlFor="uploadSheet">
                     <Upload />
