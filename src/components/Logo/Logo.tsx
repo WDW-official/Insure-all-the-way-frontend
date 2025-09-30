@@ -1,7 +1,7 @@
 import { routes } from "@/utilities/routes";
 import Link from "next/link";
 import React from "react";
-import logo from "../../assets/images/logo.svg";
+import logo from "../../assets/images/logo.png";
 import Image from "next/image";
 import classes from "./Logo.module.css";
 

@@ -2,7 +2,7 @@ export const testimonials = [
   {
     name: "Mrs. Martins ",
     comment:
-      "I got my Health Insurance through them, and the whole process—choosing the right policy, payment, and getting my documents—was smooth and stress-free. The best part? Anytime I have an issue at the hospital, I just call, and they handle it sharp sharp. No wahala!",
+      "I got my Health Insurance through them, and the whole process choosing the right policy, payment, and getting my documents was smooth and stress-free. The best part? Anytime I have an issue at the hospital, I just call, and they handle it sharp sharp. No wahala!",
   },
 
   {
@@ -13,7 +13,7 @@ export const testimonials = [
   {
     name: "Mr. Osisami ",
     comment:
-      "I’ve had to make a claim twice, and each time, they made sure it was settled quickly. The way they handle claims? Too slick! Top-notch customer service.",
+      "I’ve had to make a claim twice, and each time, they made sure it was settled quickly. The way they handle claims? Too slick! Top notch customer service.",
   },
   {
     name: "Mrs. Adedeji ",

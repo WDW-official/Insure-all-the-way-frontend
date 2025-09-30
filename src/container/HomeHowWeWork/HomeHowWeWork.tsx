@@ -67,7 +67,7 @@ const HomeHowWeWork = () => {
       <div>
         <p>
           Our <strong>B2B </strong> and <strong>B2C dashboards</strong> makes{" "}
-          <strong>purchase, renewal </strong>, and management of
+          <strong>purchase, renewal </strong>,and management of{" "}
           <strong>claims </strong> seamless.
         </p>
       </div>
