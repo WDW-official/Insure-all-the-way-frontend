@@ -197,6 +197,7 @@
     line-height: 120%;
     margin-bottom: 16px;
     text-align: center;
+    display: none;
   }
 
   .container > div:nth-child(2) > ul {

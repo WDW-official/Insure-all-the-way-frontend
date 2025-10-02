@@ -57,7 +57,7 @@ const HomeParters = () => {
 
   return (
     <section className={classes.container}>
-      <h4>Our Partners</h4>
+      <h4>We are Trusted By</h4>
 
       <div ref={carouselRef}>
         {extendedLogos.map((data, i) => (

@@ -193,7 +193,7 @@
 
   .container > div:nth-child(2) > p {
     font-size: 16px;
-    line-height: 150%;
+    line-height: 130%;
     margin-bottom: 20px;
     text-align: center;
   }
