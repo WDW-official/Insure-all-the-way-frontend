@@ -2,20 +2,17 @@
 
 import Image from "next/image";
 import classes from "./HomeParters.module.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
-const partnerLogos = [
-  "https://res.cloudinary.com/dfilepe0f/image/upload/v1739176279/AXA-Logo_rzdpth.svg",
-  "https://res.cloudinary.com/dfilepe0f/image/upload/v1739176279/staco-logo-2_hhyjib.svg",
-  "https://res.cloudinary.com/dfilepe0f/image/upload/v1739176279/NEM_logo-white-resized_korbgm.svg",
-  "https://res.cloudinary.com/dfilepe0f/image/upload/v1739176279/IEI_j1osku.svg",
-  "https://res.cloudinary.com/dfilepe0f/image/upload/v1739176279/coronation-300x33_w7ulin.svg",
-  "https://res.cloudinary.com/dx3zrhslt/image/upload/v1757506841/korapayLogo_sylefp.png",
-  "https://res.cloudinary.com/dx3zrhslt/image/upload/v1757506845/unileverLogo_is6a3c.svg",
-  "https://res.cloudinary.com/dx3zrhslt/image/upload/v1757506839/medplusLogo_r7u5fr.webp",
-];
+interface Props {
+  partnerLogos: string[];
+  title?: string;
+}
 
-const HomeParters = () => {
+const HomeParters: React.FC<Props> = ({
+  partnerLogos,
+  title = "Our Partners",
+}) => {
   // Utils
   const extendedLogos = [
     ...partnerLogos,
@@ -36,6 +33,7 @@ const HomeParters = () => {
     const carousel = carouselRef.current;
     let scrollAmount = 0;
     const scrollSpeed = 1;
+    let animationFrameId: number;
 
     const animate = () => {
       if (carousel) {
@@ -47,17 +45,17 @@ const HomeParters = () => {
           scrollAmount = 0;
         }
       }
-      requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
     };
 
-    animate(); // Start animation
+    animationFrameId = requestAnimationFrame(animate);
 
-    return () => cancelAnimationFrame(animate as any);
+    return () => cancelAnimationFrame(animationFrameId);
   }, []);
 
   return (
     <section className={classes.container}>
-      <h4>We are Trusted By</h4>
+      <h4>{title}</h4>
 
       <div ref={carouselRef}>
         {extendedLogos.map((data, i) => (
