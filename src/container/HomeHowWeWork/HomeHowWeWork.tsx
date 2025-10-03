@@ -35,7 +35,7 @@ const HomeHowWeWork = () => {
   return (
     <section className={classes.container}>
       <div>
-        <h2>How It Works</h2>
+        <h2>One Dashboard, All your Insurance Needs</h2>
         <h4>Get Covered In 4 Easy Steps</h4>
         <p>
           We’ve made getting insurance fast and hassle-free. Follow these four

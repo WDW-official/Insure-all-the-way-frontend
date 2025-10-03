@@ -3,12 +3,12 @@
   justify-content: center;
   padding: 50px 80px 20px 80px;
   gap: 200px;
-  background-color: var(--grey5);
+  background: linear-gradient(to bottom, #f6f6f6, #ebebeb);
 }
 
 .container > div:nth-child(1) > h2 {
   font-family: General Sans;
-  font-size: 54px;
+  font-size: 48px;
   font-weight: 600;
   line-height: 86.4px;
   letter-spacing: -1px;
@@ -23,6 +23,7 @@
   letter-spacing: -1px;
   text-align: left;
   margin-bottom: 0.5rem;
+  display: none;
 }
 
 .container > div:nth-child(1) > p {
@@ -34,6 +35,7 @@
   margin-bottom: 42px;
   color: var(--grey4);
   width: 500px;
+  display: none;
 }
 
 .container > div:nth-child(1) > img {
