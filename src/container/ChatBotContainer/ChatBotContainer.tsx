@@ -34,7 +34,7 @@ const ChatBotContainer = () => {
     <section className={classes.container} ref={chatRef}>
       <div
         className={classes.chatContainer}
-        style={isOpen ? { maxHeight: "800px",  } : { maxHeight: "0px" }}
+        style={isOpen ? { maxHeight: "800px" } : { maxHeight: "0px" }}
       >
         <ChatContainer isOpen={isOpen} />
       </div>
@@ -52,7 +52,11 @@ const ChatBotContainer = () => {
             : { borderRadius: "10px" }
         }
       >
-        {!isOpen ? <ChatBubble /> : <Close noBg />}
+        {!isOpen ? (
+          <ChatBubble />
+        ) : (
+          <Close noBg dimensions={{ width: "20px", height: "20px" }} />
+        )}
       </div>
     </section>
   );

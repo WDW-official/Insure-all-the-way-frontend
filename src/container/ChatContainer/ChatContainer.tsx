@@ -124,7 +124,7 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
   return (
     <div className={classes.container}>
       <div className={classes.header}>
-        <Logo dimensions={{ width: 60, height: 45 }} />
+        <Logo dimensions={{ width: 50, height: 35 }} />
         <h3>
           Welcome
           {user?.firstName &&
