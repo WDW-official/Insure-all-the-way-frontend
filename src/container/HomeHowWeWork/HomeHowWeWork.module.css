@@ -122,8 +122,8 @@
 
   .container > div:nth-child(1) > h2 {
     font-family: General Sans;
-    font-size: 32px;
-    line-height: 150%;
+    font-size: 24px;
+    line-height: 120%;
     letter-spacing: -1px;
     text-align: left;
     margin-bottom: 0.5rem;
@@ -194,7 +194,7 @@
   }
 
   .container > div:nth-child(2) > p {
-    font-size: 16px;
+    font-size: 14px;
     line-height: 130%;
     margin-bottom: 20px;
     text-align: center;

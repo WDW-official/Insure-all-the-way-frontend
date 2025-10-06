@@ -1,6 +1,5 @@
 import Image from "next/image";
 import classes from "./HomeHowWeWork.module.css";
-import Policy from "@/assets/svgIcons/Policy";
 import RequestQuote from "@/assets/svgIcons/RequestQuote";
 import SpeakWithRep from "@/assets/svgIcons/SpeakWithRep";
 import Shield from "@/assets/svgIcons/Shield";

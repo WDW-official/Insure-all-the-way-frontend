@@ -7,9 +7,10 @@ import classes from "./Logo.module.css";
 
 type LogoTypes = {
   dimensions?: { width: number; height: number };
+  url?: string;
 };
 
-const Logo = ({ dimensions }: LogoTypes) => {
+const Logo = ({ dimensions, url }: LogoTypes) => {
   return (
     <Link
       href={routes.BASE_URL}
@@ -17,7 +18,7 @@ const Logo = ({ dimensions }: LogoTypes) => {
       style={{ width: dimensions?.width, height: dimensions?.height }}
     >
       <Image
-        src={logo}
+        src={url || logo}
         alt="Insure All The Way Logo"
         width={dimensions?.width}
         height={dimensions?.height}

@@ -46,19 +46,19 @@
   }
 
   .container > h4 {
-    font-size: 22px;
+    font-size: 18px;
     line-height: 140%;
     margin-bottom: 10px;
   }
 
   .container > p:nth-child(2) {
-    font-size: 18px;
+    font-size: 16px;
     line-height: 120%;
     margin-bottom: 16px;
   }
 
   .container > p:nth-child(3) {
-    font-size: 14px;
+    font-size: 12px;
     line-height: 130%;
   }
 }

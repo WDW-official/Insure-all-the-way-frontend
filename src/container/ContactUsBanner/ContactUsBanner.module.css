@@ -100,13 +100,12 @@
   }
 
   .container > h4 {
-    font-size: 24px;
+    font-size: 22px;
     line-height: 120%;
   }
 
   .container > div > p {
-    font-size: 15px;
-    font-weight: 500;
+    font-size: 14px;
     line-height: 130%;
     margin-bottom: 1.5rem;
     text-align: center;

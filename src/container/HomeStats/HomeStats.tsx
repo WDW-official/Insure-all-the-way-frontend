@@ -80,13 +80,13 @@ const HomeStats = () => {
       )}
 
       <section className={classes.outerContainer}>
-        <h2>Your Satisfaction Is Our Priority!</h2>
+        <h2>One Dashboard, All Your Insurance Needs!</h2>
 
         <div className={classes.container}>
           <div>
             <Image
               src="https://res.cloudinary.com/dx3zrhslt/image/upload/v1759153655/macbook_pro_efuysv.png"
-              alt="Your Satisfaction Is Our Priority!"
+              alt="One Dashboard, All Your Insurance Needs!"
               width={700}
               height={450}
             />

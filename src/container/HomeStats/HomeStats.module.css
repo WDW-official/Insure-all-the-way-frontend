@@ -1,6 +1,5 @@
 .outerContainer {
   padding: 40px 80px;
-  background-color: var(--grey1);
 }
 
 .outerContainer > h2 {
@@ -139,6 +138,7 @@
 @media screen and (max-width: 767px) {
   .outerContainer {
     padding: 2rem 1rem;
+    background-color: none;
   }
 
   .container {

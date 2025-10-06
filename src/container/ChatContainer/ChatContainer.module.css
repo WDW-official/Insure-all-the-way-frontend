@@ -105,6 +105,7 @@
 .chats {
   scrollbar-width: thin;
   scrollbar-color: #bbb #f0f0f0;
+  /* overflow-x: hidden; */
 }
 
 .chats::-webkit-scrollbar {
@@ -156,6 +157,10 @@
   letter-spacing: -0.02em;
   margin-top: 0.25rem;
   color: var(--blue2);
+}
+
+.chat ul {
+  list-style: none;
 }
 
 .user {

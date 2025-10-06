@@ -28,7 +28,10 @@ const Sidenav = ({ onClose }: SidenavTypes) => {
   return (
     <section className={classes.container}>
       <div>
-        <Logo />
+        <Logo
+          url="https://res.cloudinary.com/dx3zrhslt/image/upload/v1759762395/IATW_New_Logo_1_c41qxd.svg"
+          dimensions={{ width: 40, height: 40 }}
+        />
         <p>Your satisfaction is our priority</p>
         <Close onClick={onClose} />
       </div>
@@ -64,10 +67,11 @@ const Sidenav = ({ onClose }: SidenavTypes) => {
                               const updatedState = [...prevState];
                               if (
                                 updatedState[i]?.children &&
-                                updatedState[i]?.children[j]
+                                (updatedState as any)[i]?.children[j]
                               ) {
-                                updatedState[i].children[j].isActive =
-                                  !updatedState[i].children[j].isActive;
+                                (updatedState as any)[i].children[j].isActive =
+                                  !(updatedState as any)[i].children[j]
+                                    .isActive;
                               }
 
                               return updatedState;

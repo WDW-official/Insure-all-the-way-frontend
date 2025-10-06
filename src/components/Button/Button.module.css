@@ -112,8 +112,9 @@
 
 @media screen and (max-width: 767px) {
   .button {
-    font-size: 16px;
+    font-size: 14px;
     line-height: 150%;
-    padding: 16px;
+    padding: 10px 14px;
+    border-radius: 5px;
   }
 }
