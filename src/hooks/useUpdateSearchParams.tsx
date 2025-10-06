@@ -42,7 +42,7 @@ const useUpdateSearchParams = () => {
 
       Object.entries(updates).forEach(([key, value]) => {
         if (method === "get") {
-          return params.get(key); // Fetching a value for a specific key
+          return params.get(key);
         }
 
         if (method === "delete") {

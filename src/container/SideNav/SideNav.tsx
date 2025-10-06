@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import classes from "./SideNav.module.css";
 import { headerRoutes } from "@/utilities/routes";
 import { activeToggler } from "@/helpers/activeHandlers";
@@ -10,6 +10,7 @@ import Button from "@/components/Button/Button";
 import useUpdateSearchParams from "@/hooks/useUpdateSearchParams";
 import { useRouter } from "next/navigation";
 import Logo from "@/components/Logo/Logo";
+import { AuthContext } from "@/context/AuthContext";
 
 type SidenavTypes = {
   onClose: () => void;
@@ -21,6 +22,9 @@ const Sidenav = ({ onClose }: SidenavTypes) => {
 
   //   Hooks
   const { updateSearchParams } = useUpdateSearchParams();
+
+  // Context
+  const { user, requestState } = useContext(AuthContext);
 
   // Router
   const router = useRouter();
@@ -130,11 +134,16 @@ const Sidenav = ({ onClose }: SidenavTypes) => {
 
       <Button
         onClick={() => {
-          updateSearchParams("auth", "sign-in", "set");
+          if (!user) {
+            updateSearchParams("auth", "sign-in", "set");
+          } else {
+            router.push(routes.DASHBOARD);
+          }
         }}
+        loading={requestState?.isLoading}
         type="secondary"
       >
-        Sign In
+        {!user ? "Sign in" : "Dashboard"}
       </Button>
     </section>
   );

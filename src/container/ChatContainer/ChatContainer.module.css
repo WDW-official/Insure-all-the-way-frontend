@@ -105,7 +105,6 @@
 .chats {
   scrollbar-width: thin;
   scrollbar-color: #bbb #f0f0f0;
-  /* overflow-x: hidden; */
 }
 
 .chats::-webkit-scrollbar {
@@ -163,11 +162,11 @@
   list-style: none;
 }
 
-.user {
+.you {
   text-align: right;
 }
 
-.user > div {
+.you > div {
   background-color: var(--grey1);
 }
 
@@ -327,11 +326,11 @@
     color: var(--blue2);
   }
 
-  .user {
+  .you {
     text-align: right;
   }
 
-  .user > div {
+  .you > div {
     background-color: var(--grey1);
   }
 
