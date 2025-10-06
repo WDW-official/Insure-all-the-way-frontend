@@ -171,14 +171,14 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey && message?.trim()) {
                 e.preventDefault();
-                handleMessageSend(message, "User");
+                handleMessageSend(message, "You");
                 handleSendChatRequest();
               }
             }}
           />
           <button
             onClick={() => {
-              handleMessageSend(message, "user");
+              handleMessageSend(message, "You");
               handleSendChatRequest();
             }}
             disabled={!message || requestState?.isLoading}
