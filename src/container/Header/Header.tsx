@@ -13,6 +13,7 @@ import Hamburger from "@/assets/svgIcons/Hamburger";
 import Sidenav from "../SideNav/SideNav";
 import { AuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
+import { Sparkles, WandSparkles } from "lucide-react";
 
 const Header = () => {
   // States
@@ -108,6 +109,24 @@ const Header = () => {
                 <span>{data?.title}</span>
                 <ArrowDown />
               </div>
+            );
+          }
+          if (data?.properties?.includes("isAi" as string)) {
+            return (
+              <Link
+                href={"#0"}
+                onClick={() => {
+                  activeToggler(i, navItemsState, setNavItemsState);
+                }}
+                className={`${data?.isActive ? classes.active : undefined} ${
+                  classes["ai-link"]
+                }`}
+                key={i}
+                title={"Comoing soon..."}
+              >
+                <span>{data?.title}</span>
+                <WandSparkles size={16} />
+              </Link>
             );
           } else {
             return (

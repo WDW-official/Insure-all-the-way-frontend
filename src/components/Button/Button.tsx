@@ -1,8 +1,8 @@
 import { CircularProgress } from "@mui/material";
 import classes from "./Button.module.css";
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, HTMLAttributes } from "react";
 
-type ButtonPropTypes = {
+type ButtonPropTypes = HTMLAttributes<HTMLButtonElement> & {
   children: React.ReactNode;
   type?:
     | "primary"
@@ -33,9 +33,11 @@ const Button = ({
   icon,
   id,
   style,
+  ...props
 }: ButtonPropTypes) => {
   return (
     <button
+      {...props}
       className={`${classes.button} ${
         type === "secondary"
           ? classes.secondary

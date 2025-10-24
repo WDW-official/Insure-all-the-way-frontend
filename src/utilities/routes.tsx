@@ -32,6 +32,7 @@ export const routes = Object.freeze({
   TRACKER: "/dashboard/tracker",
   PROFILE: "/profile/user",
   PROFILE_CHANGE_PASSWORD: "/profile/reset-password",
+  CHAT: "/chat/1",
 });
 
 export const headerRoutes = [
@@ -180,6 +181,14 @@ export const headerRoutes = [
     children: null,
     isActive: false,
     component: null,
+  },
+  {
+    title: "Chat with Uju",
+    route: routes.CHAT,
+    children: null,
+    isActive: false,
+    component: null,
+    properties: ["isAi"],
   },
 ];
 

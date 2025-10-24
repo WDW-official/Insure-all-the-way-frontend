@@ -11,7 +11,6 @@ import { capitalize } from "@/helpers/capitalize";
 import { requestHandler } from "@/helpers/requestHandler";
 import { chatType, requestType } from "@/utilities/types";
 import useError from "@/hooks/useError";
-import { CircularProgress } from "@mui/material";
 import { SyncLoader } from "react-spinners";
 
 type ChatContainerTypes = {
@@ -124,15 +123,22 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
   return (
     <div className={classes.container}>
       <div className={classes.header}>
-        <Logo dimensions={{ width: 50, height: 35 }} />
-        <h3>
-          Welcome
-          {user?.firstName &&
-            `, ${capitalize(user?.firstName as string) || ""}`}
-        </h3>
-        <a href="">
-          <Phone />
-        </a>
+        <div className={classes.bgOverlay}></div>
+        <div className={classes.headerContainer}>
+          <Logo dimensions={{ width: 60, height: 45 }} />
+          <h3>
+            Welcome
+            {user?.firstName &&
+              `, ${capitalize(user?.firstName as string) || ""}`}
+          </h3>
+
+          <p>
+            Uju is the voice of Insure All The Way, your always-on insurance
+            partner. Whether you’re buying, renewing, or exploring coverage
+            options, Uju makes it easy to get the right answers, right when you
+            need them.
+          </p>
+        </div>
       </div>
       <div className={classes.chatContainer}>
         <div className={classes.chats} ref={containerRef}>
@@ -143,6 +149,7 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
                   <div>
                     <SyncLoader size={6} color="#a7c7e7" />
                   </div>
+
                   <p>Uju</p>
                 </div>
               );
@@ -175,6 +182,7 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
                 handleSendChatRequest();
               }
             }}
+            placeholder="Type a message..."
           />
           <button
             onClick={() => {

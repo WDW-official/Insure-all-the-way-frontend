@@ -15,7 +15,7 @@
 .container > nav {
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 24px;
 }
 
 .container > nav > div,
@@ -90,6 +90,105 @@
 
 .visible {
   transform: translateY(0);
+}
+
+.container > nav > .ai-link {
+  position: relative;
+  padding: 1rem;
+  border-radius: calc(infinity * 1px);
+  border: 1px solid transparent;
+  font-family: General Sans;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 21.6px;
+  background: transparent;
+  cursor: pointer;
+  z-index: 0;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.container > nav > .ai-link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(120deg, #00e0ff, #7b00ff, #ff00c8, #00e0ff);
+  background-size: 300% 300%;
+  animation: aiGlow 3s linear infinite;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: destination-out;
+  z-index: -1;
+}
+
+.container > nav > .ai-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 15px rgba(0, 224, 255, 0.3), 0 0 25px rgba(255, 0, 200, 0.2);
+  animation: glowPulse 2.5s ease-in-out infinite alternate;
+  z-index: -2;
+}
+
+.container > nav > .ai-link:hover {
+  text-shadow: 0 0 8px #00e0ff, 0 0 16px #7b00ff;
+  transform: scale(1.03);
+}
+
+.ai-glow-icon {
+  margin-right: 0.5rem;
+  animation: colorShift 3s linear infinite;
+  filter: drop-shadow(0 0 6px rgba(0, 224, 255, 0.7));
+}
+
+@keyframes colorShift {
+  0% {
+    color: #00e0ff;
+    filter: drop-shadow(0 0 6px #00e0ff);
+  }
+  25% {
+    color: #7b00ff;
+    filter: drop-shadow(0 0 6px #7b00ff);
+  }
+  50% {
+    color: #ff00c8;
+    filter: drop-shadow(0 0 6px #ff00c8);
+  }
+  75% {
+    color: #00ff95;
+    filter: drop-shadow(0 0 6px #00ff95);
+  }
+  100% {
+    color: #00e0ff;
+    filter: drop-shadow(0 0 6px #00e0ff);
+  }
+}
+
+@keyframes aiGlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 10px rgba(0, 224, 255, 0.5), 0 0 20px rgba(123, 0, 255, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 25px rgba(255, 0, 200, 0.6), 0 0 40px rgba(0, 224, 255, 0.4);
+  }
 }
 
 @media screen and (max-width: 767px) {
