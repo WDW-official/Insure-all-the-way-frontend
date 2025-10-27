@@ -22,6 +22,11 @@ const partners = [
       "https://res.cloudinary.com/dfilepe0f/image/upload/v1739547765/Leadway_kkq3xh.svg",
     route: "/health-insurance/individual-and-family-hmo/leadway",
   },
+  {
+    image:
+      "https://res.cloudinary.com/dx3zrhslt/image/upload/v1761563594/avon_juj2wy.png",
+    route: "/health-insurance/individual-and-family-hmo/avon",
+  },
 ];
 
 const IndividualAndFamilyHmoPartners = () => {
