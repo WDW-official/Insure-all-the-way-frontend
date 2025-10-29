@@ -27,14 +27,7 @@ const trustedByLogos = [
 
 const Homepage = () => {
   return (
-    <ApppLayout
-      bannerMessage={
-        <>
-          Stay ahead of your insurance and vehicle papers, set free reminders
-          today. <Link href="#reminder">Set a Reminder</Link>
-        </>
-      }
-    >
+    <ApppLayout>
       <HomeHero />
       <HomeStats />
       <HomeHowWeWork />

@@ -11,18 +11,14 @@ import ContactUsModalBody from "@/container/ContactUsModalBody/ContactUsModalBod
 import ForgotPassword from "@/container/ForgotPassword/ForgotPassword";
 import ResetPassword from "@/container/ResetPassword/ResetPassword";
 import Link from "next/link";
+import { routes } from "@/utilities/routes";
 
 type ApppLayoutTypes = {
   children: React.ReactNode;
   className?: string;
-  bannerMessage?: React.ReactNode;
 };
 
-const ApppLayout = ({
-  children,
-  className,
-  bannerMessage,
-}: ApppLayoutTypes) => {
+const ApppLayout = ({ children, className }: ApppLayoutTypes) => {
   // Hooks
   const { updateSearchParams } = useUpdateSearchParams();
 
@@ -32,7 +28,15 @@ const ApppLayout = ({
 
   return (
     <main className={classes.container}>
-      <Header bannerMessage={bannerMessage} />
+      <Header
+        bannerMessage={
+          <>
+            Stay ahead of your insurance and vehicle papers, set free reminders
+            today.{" "}
+            <Link href={`${routes.BASE_URL}#reminder`}> Set a Reminder</Link>
+          </>
+        }
+      />
       <section className={className}>{children}</section>
       <Footer />
       {auth === "sign-in" && (
