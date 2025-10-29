@@ -8,6 +8,8 @@ import ContactUsBanner from "../ContactUsBanner/ContactUsBanner";
 import HomeTestimonoals from "../HomeTestimonoals/HomeTestimonoals";
 import Faqs from "../Faqs/Faqs";
 import { faqs } from "@/utilities/faqs";
+import HomeReminder from "../HomeReminder/HomeReminder";
+import Link from "next/link";
 
 const partnerLogos = [
   "https://res.cloudinary.com/dfilepe0f/image/upload/v1739176279/AXA-Logo_rzdpth.svg",
@@ -25,13 +27,21 @@ const trustedByLogos = [
 
 const Homepage = () => {
   return (
-    <ApppLayout>
+    <ApppLayout
+      bannerMessage={
+        <>
+          Stay ahead of your insurance and vehicle papers, set free reminders
+          today. <Link href="#reminder">Set a Reminder</Link>
+        </>
+      }
+    >
       <HomeHero />
       <HomeStats />
       <HomeHowWeWork />
       <HomeParters partnerLogos={partnerLogos} />
       <ContactUsBanner />
       <HomeParters partnerLogos={trustedByLogos} title="We Are Trusted By" />
+      <HomeReminder />
       <HomeTestimonoals />
       <Faqs faqs={faqs.slice(0, 4)} />
     </ApppLayout>

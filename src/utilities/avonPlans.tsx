@@ -113,9 +113,6 @@ export const corporatePlans = [
   },
 ];
 
-// ─────────────────────────────────────────────
-// 👩‍💼 SME PLANS
-// ─────────────────────────────────────────────
 export const smeHeader = ["Avon SME Boss", "Avon SME Premium", "Avon SME Plus"];
 
 export const smePlans = [

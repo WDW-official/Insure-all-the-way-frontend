@@ -2,7 +2,7 @@
 
 import { headerRoutes, routes } from "@/utilities/routes";
 import classes from "./Header.module.css";
-import { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import ArrowDown from "@/assets/svgIcons/ArrowDown";
 import Button from "@/components/Button/Button";
@@ -13,11 +13,20 @@ import Hamburger from "@/assets/svgIcons/Hamburger";
 import Sidenav from "../SideNav/SideNav";
 import { AuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import { Sparkles, WandSparkles } from "lucide-react";
+import { WandSparkles, X } from "lucide-react";
+import { SESSION_STORAGE_BANNER_SEEN } from "@/utilities/constants";
 
-const Header = () => {
+interface Props {
+  bannerMessage?: React.ReactNode;
+}
+
+const Header: React.FC<Props> = ({ bannerMessage }) => {
   // States
   const [navItemsState, setNavItemsState] = useState(headerRoutes);
+  const [showBanner, setShowBanner] = useState(false);
+
+  // Local
+  const bannerMessageSeen = sessionStorage.getItem(SESSION_STORAGE_BANNER_SEEN);
 
   // Router
   const router = useRouter();
@@ -48,6 +57,12 @@ const Header = () => {
   // Hooks
   const { updateSearchParams } = useUpdateSearchParams();
 
+  // Handlers
+  const handleClearBanner = () => {
+    setShowBanner(false);
+    sessionStorage.setItem(SESSION_STORAGE_BANNER_SEEN, "true");
+  };
+
   // Effects
   useEffect(() => {
     if (typeof window !== "undefined" && typeof document !== "undefined") {
@@ -71,6 +86,14 @@ const Header = () => {
       };
     }
   }, []);
+
+  useEffect(() => {
+    if (bannerMessageSeen !== "true") {
+      setShowBanner(true);
+    } else {
+      setShowBanner(false);
+    }
+  }, [bannerMessageSeen]);
 
   const [visible, setVisible] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
@@ -169,6 +192,15 @@ const Header = () => {
       <div className={classes.sidenav} ref={sideNavRef}>
         <Sidenav onClose={handleSidenavClose} />
       </div>
+
+      {showBanner && bannerMessage && (
+        <div className={classes.banner}>
+          <div>{bannerMessage}</div>
+          <span>
+            <X size={16} color="#000" onClick={handleClearBanner} />
+          </span>
+        </div>
+      )}
     </header>
   );
 };

@@ -10,13 +10,19 @@ import Auth from "@/container/Auth/Auth";
 import ContactUsModalBody from "@/container/ContactUsModalBody/ContactUsModalBody";
 import ForgotPassword from "@/container/ForgotPassword/ForgotPassword";
 import ResetPassword from "@/container/ResetPassword/ResetPassword";
+import Link from "next/link";
 
 type ApppLayoutTypes = {
   children: React.ReactNode;
   className?: string;
+  bannerMessage?: React.ReactNode;
 };
 
-const ApppLayout = ({ children, className }: ApppLayoutTypes) => {
+const ApppLayout = ({
+  children,
+  className,
+  bannerMessage,
+}: ApppLayoutTypes) => {
   // Hooks
   const { updateSearchParams } = useUpdateSearchParams();
 
@@ -26,7 +32,7 @@ const ApppLayout = ({ children, className }: ApppLayoutTypes) => {
 
   return (
     <main className={classes.container}>
-      <Header />
+      <Header bannerMessage={bannerMessage} />
       <section className={className}>{children}</section>
       <Footer />
       {auth === "sign-in" && (
