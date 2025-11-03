@@ -32,21 +32,15 @@ const HomeReminder = () => {
         <div>
           <h4>Get Renewal Reminders</h4>
           <p>
-            Stay ahead of your renewal dates with our free Reminder Service.
-            Simply enter your vehicle and contact details, and we’ll send you
-            timely notifications before your insurance, vehicle licence, or
-            roadworthiness certificate expires. Whether you’re a regular
-            customer or just exploring your options, this service ensures you
-            never have to worry about missing a deadline or facing unnecessary
-            penalties.
+            Never miss your vehicle insurance renewal again. With our free
+            Renewal Reminder Service, you’ll receive timely alerts before your
+            insurance, vehicle licence, or roadworthiness certificate expires.
           </p>
           <p>
-            With Insure All The Way, staying compliant and protected is
-            effortless. Our system automatically reminds you weeks before each
-            due date, giving you plenty of time to renew or explore better
-            policy options. Let us handle the reminders while you focus on the
-            road, peace of mind has never been this simple.
+            Simply enter your vehicle and contact details and Insure All The Way
+            will keep you covered and compliant.
           </p>
+          <p>Insurance Made Easy.</p>
           <Button
             type="secondary"
             onClick={() => setModalTrue(setModals, "reminder")}
