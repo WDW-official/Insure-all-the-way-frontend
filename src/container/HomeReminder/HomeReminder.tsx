@@ -23,7 +23,7 @@ const HomeReminder = () => {
       <section className={classes.container} id="reminder">
         <div>
           <Image
-            src="https://res.cloudinary.com/dx3zrhslt/image/upload/v1761729309/phone-1468467_1920_ofk0qi.png"
+            src="https://res.cloudinary.com/dx3zrhslt/image/upload/v1762161839/Get_Renewal_Reminders_t7vp0i.svg"
             alt="Get Renewal Reminders"
             width={700}
             height={700}
