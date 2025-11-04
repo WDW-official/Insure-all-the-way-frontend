@@ -166,10 +166,10 @@
   .ai-link {
     position: relative;
     padding: 0.5rem 0.75rem;
-    font-size: 14px;
+    font-size: 12px;
     cursor: pointer;
     z-index: 0;
-    max-width: 230px;
+    max-width: 190px;
     margin-inline: auto;
   }
 }
