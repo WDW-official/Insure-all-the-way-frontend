@@ -137,7 +137,7 @@ export type userType = {
   occupation: string;
   gender: string;
   status?: string;
-  _id: string;
+  _id?: string;
 };
 
 export type userPoliciesType = {
