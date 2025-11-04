@@ -43,7 +43,7 @@
   font-weight: 500;
   line-height: 24px;
   text-align: left;
-  color: var(--black2);
+  color: var(--black);
 }
 
 .container > div > button {
