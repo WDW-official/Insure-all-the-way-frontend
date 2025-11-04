@@ -4,7 +4,7 @@
   justify-content: center;
   gap: 80px;
   padding: 3rem 0;
-  background: #edd01450;
+  background: var(--grey1);
 }
 
 .container > div {
@@ -99,6 +99,6 @@
 
   .container > div > button {
     margin-top: 1rem;
-    max-width: 100%;
+    max-width: 150px;
   }
 }
