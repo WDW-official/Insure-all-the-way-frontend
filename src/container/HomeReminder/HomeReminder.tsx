@@ -30,7 +30,15 @@ const HomeReminder = () => {
           />
         </div>
         <div>
-          <h4>Never miss your vehicle insurance renewal</h4>
+          <div className={classes.header}>
+            <h4>Never miss your vehicle insurance renewal</h4>
+            <Image
+              src="https://res.cloudinary.com/dx3zrhslt/image/upload/v1762291041/Reminder_1_a1xcrg.svg"
+              alt="Reminder"
+              width={120}
+              height={120}
+            />
+          </div>
           <p>
             Never miss your vehicle insurance renewal again. With our free
             Renewal Reminder Service, you’ll receive timely alerts before your
