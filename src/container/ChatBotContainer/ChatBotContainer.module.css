@@ -36,6 +36,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  background: #fff;
 }
 
 .ai-link::before {
@@ -58,7 +59,6 @@
   position: absolute;
   inset: 0;
   border-radius: calc(infinity * 1px);
-
   box-shadow: 0 0 15px rgba(0, 224, 255, 0.3), 0 0 25px rgba(255, 0, 200, 0.2);
   animation: glowPulse 2.5s ease-in-out infinite alternate;
   z-index: -2;
@@ -123,7 +123,9 @@
   .container {
     position: fixed;
     bottom: 0.5rem;
-    right: 1rem;
+    right: 0rem;
+    left: 0;
+    margin-inline: auto;
     z-index: 20;
   }
 
@@ -149,6 +151,8 @@
     overflow: hidden;
     position: absolute;
     right: 0;
+    left: 0;
+    margin-inline: auto;
     bottom: 60px;
     width: calc(100vw - 2rem);
     transition: all 0.2s ease-in-out;
@@ -157,5 +161,15 @@
     height: 90svh;
     max-height: 90vh;
     border-radius: 10px;
+  }
+
+  .ai-link {
+    position: relative;
+    padding: 0.5rem 0.75rem;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 0;
+    max-width: 230px;
+    margin-inline: auto;
   }
 }

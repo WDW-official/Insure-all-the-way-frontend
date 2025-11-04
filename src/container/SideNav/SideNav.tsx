@@ -124,6 +124,10 @@ const Sidenav = ({ onClose }: SidenavTypes) => {
               </div>
             );
           }
+
+          if (route.properties?.includes("isAi")) {
+            return null;
+          }
           return (
             <Link key={i} href={route?.route}>
               {route?.title}

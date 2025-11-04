@@ -137,6 +137,7 @@ export type userType = {
   occupation: string;
   gender: string;
   status?: string;
+  _id: string;
 };
 
 export type userPoliciesType = {
@@ -252,4 +253,29 @@ export type policyResponseType = {
   locationOfProperty?: string;
   valueOfProperty?: string;
   premium: string;
+};
+
+export type chatBotChatType = {
+  _id: string;
+  role: string;
+  message: string;
+  createdAt?: string;
+};
+
+export type conversationType = {
+  createdAt: string;
+  lastMessage: string;
+  title: string;
+  updatedAt: string;
+  _id: string;
+};
+
+export type chatsResponseType = {
+  _id: string;
+  conversation_id: string;
+  user_id: string;
+  role: string;
+  message: string;
+  createdAt: string;
+  updatedAt: string;
 };

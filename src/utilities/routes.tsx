@@ -32,7 +32,7 @@ export const routes = Object.freeze({
   TRACKER: "/dashboard/tracker",
   PROFILE: "/profile/user",
   PROFILE_CHANGE_PASSWORD: "/profile/reset-password",
-  CHAT: "/chat/1",
+  CHAT: "/chat",
 });
 
 export const headerRoutes = [

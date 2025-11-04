@@ -4,7 +4,7 @@
   display: flex;
   padding: 0.5rem;
   gap: 1rem;
-  border: 2px solid green;
+  max-height: 100vh;
 }
 
 .ellipse1 {
@@ -16,8 +16,6 @@
   width: 414px;
   height: 414px;
   border-radius: 50%;
-  background: #edd014;
-  filter: blur(300px);
   opacity: 0.8;
 }
 
@@ -30,20 +28,26 @@
   width: 414px;
   height: 414px;
   border-radius: 50%;
-  background: #a7c7e7;
-  filter: blur(300px);
+  /* background: #a7c7e7;
+  filter: blur(300px); */
   opacity: 0.8;
 }
 
 .children {
-  border: 2px solid green;
   flex: 1;
   display: flex;
   justify-content: center;
+  flex-direction: column;
   gap: 1rem;
   padding: 1rem;
 }
 
 .children > section:nth-child(1) {
   flex: 1;
+  overflow-y: auto;
+}
+
+.children > section:nth-child(2) {
+  flex-grow: 0;
+  flex-shrink: 0;
 }

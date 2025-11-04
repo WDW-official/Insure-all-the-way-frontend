@@ -46,17 +46,15 @@ const ChatBotContainer = () => {
         style={
           isOpen
             ? {
-                // borderRadius: "50%",
-                // transform: "rotate(90deg)",
                 backgroundColor: "rgb(212, 47, 47)",
               }
-            : { borderRadius: "10px" }
+            : undefined
         }
       >
         {!isOpen ? (
           <>
             Talk insurance with Uju
-            <Sparkles size={16} />
+            <Sparkles size={14} />
           </>
         ) : (
           <Close noBg dimensions={{ width: "20px", height: "20px" }} />

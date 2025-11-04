@@ -29,13 +29,13 @@ const ApppLayout = ({ children, className }: ApppLayoutTypes) => {
   return (
     <main className={classes.container}>
       <Header
-        bannerMessage={
-          <>
-            Stay ahead of your insurance and vehicle papers, set free reminders
-            today.{" "}
-            <Link href={`${routes.BASE_URL}#reminder`}> Set a Reminder</Link>
-          </>
-        }
+      // bannerMessage={
+      //   <>
+      //     Stay ahead of your insurance and vehicle papers, set free reminders
+      //     today.{" "}
+      //     <Link href={`${routes.BASE_URL}#reminder`}> Set a Reminder</Link>
+      //   </>
+      // }
       />
       <section className={className}>{children}</section>
       <Footer />

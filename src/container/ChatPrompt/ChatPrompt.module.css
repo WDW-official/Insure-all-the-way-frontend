@@ -1,0 +1,48 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.inputContainer {
+  width: 700px;
+  min-height: 60px;
+  max-height: 220px;
+  border-radius: 20px;
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px;
+  background-color: #fff;
+  display: flex;
+  padding-right: 60px;
+}
+
+.inputContainer > textarea {
+  flex: 1;
+  resize: none;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: "General Sans", sans-serif;
+  padding: 0.75rem 1rem;
+  line-height: 1.4;
+  max-height: 160px;
+  overflow-y: auto;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+  z-index: 2;
+  min-height: 100%;
+}
+
+.inputContainer > button {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.5rem;
+  width: 40px;
+  height: 40px;
+  padding: 0.5rem;
+  border-radius: 50%;
+  min-width: auto;
+}

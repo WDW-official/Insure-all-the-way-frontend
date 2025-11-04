@@ -136,6 +136,52 @@ a {
   text-decoration: none;
 }
 
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Faster */
+.animate-spin-fast {
+  animation-duration: 0.5s;
+}
+
+/* Slower */
+.animate-spin-slow {
+  animation-duration: 2s;
+}
+
+/* Reverse direction */
+.animate-spin-reverse {
+  animation-direction: reverse;
+}
+
+/* Pause (useful to toggle) */
+.animate-spin-paused {
+  animation-play-state: paused;
+}
+
+.animate-spin {
+  -webkit-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+}
+
+.hide-scrollbar {
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.hide-scrollbar ::-webkit-scrollbar {
+  display: none;
+}
+
 @media screen and (min-width: 767px) and (max-width: 1023px) {
 }
 
