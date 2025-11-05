@@ -1,4 +1,5 @@
 import Button from "@/components/Button/Button";
+import ChatListItem from "@/components/ChatListItem.tsx/ChatListItem";
 import Logo from "@/components/Logo/Logo";
 import { AuthContext } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
@@ -84,6 +85,24 @@ const ChatSideBar: React.FC<Props> = ({ loading, conversations }) => {
     });
   };
 
+  const handleRenameConversation = (id: string, title: string) => {
+    requestHandler({
+      url: `/chatbot/conversations/${id}`,
+      data: { title },
+      method: "PUT",
+      state: requestState,
+      setState: setRequestState,
+      successFunction(res) {
+        mutate("/chatbot/conversations");
+        showToast(res?.data?.message, "success");
+      },
+      errorFunction(err) {
+        errorFlowFunction(err);
+      },
+      id: "rename-conversation",
+    });
+  };
+
   return (
     <section className={classes.container}>
       <div className={classes.main}>
@@ -120,31 +139,40 @@ const ChatSideBar: React.FC<Props> = ({ loading, conversations }) => {
               {conversations?.map((data) => {
                 const isActive = pathname.includes(data?._id);
                 return (
-                  <Link
-                    href={`/chat/${data?._id}`}
-                    key={data?._id}
-                    className={`${classes.chat} ${isActive && classes.active}`}
-                  >
-                    <span>{data?.title || "New Conversation"}</span>
+                  // <Link
+                  //   href={`/chat/${data?._id}`}
+                  //   key={data?._id}
+                  //   className={`${classes.chat} ${isActive && classes.active}`}
+                  // >
+                  //   <span>{data?.title || "New Conversation"}</span>
 
-                    <Button title="Rename this conversation">
-                      <PencilLine size={14} />
-                    </Button>
-                    <Button
-                      title="Delete Conversation"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        handleDeleteConversation(data?._id);
-                      }}
-                      loading={
-                        requestState?.isLoading &&
-                        requestState?.id === "delete-conversation"
-                      }
-                    >
-                      <Trash2 size={14} color="red" />
-                    </Button>
-                  </Link>
+                  //   <Button title="Rename this conversation">
+                  //     <PencilLine size={14} />
+                  //   </Button>
+                  //   <Button
+                  //     title="Delete Conversation"
+                  //     onClick={(e) => {
+                  //       e.preventDefault();
+                  //       e.stopPropagation();
+                  //       handleDeleteConversation(data?._id);
+                  //     }}
+                  //     loading={
+                  //       requestState?.isLoading &&
+                  //       requestState?.id === "delete-conversation"
+                  //     }
+                  //   >
+                  //     <Trash2 size={14} color="red" />
+                  //   </Button>
+                  // </Link>
+
+                  <ChatListItem
+                    data={data}
+                    isActive={isActive}
+                    handleDeleteConversation={handleDeleteConversation}
+                    handleRenameConversation={handleRenameConversation}
+                    requestState={requestState}
+                    classes={classes}
+                  />
                 );
               })}
             </div>

@@ -137,7 +137,7 @@ const Header: React.FC<Props> = ({ bannerMessage }) => {
           if (data?.properties?.includes("isAi" as string)) {
             return (
               <Link
-                href={routes.BASE_URL}
+                href={data?.route}
                 onClick={() => {
                   activeToggler(i, navItemsState, setNavItemsState);
                 }}

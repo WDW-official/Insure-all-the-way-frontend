@@ -118,3 +118,14 @@
   justify-content: center;
   padding: 1rem;
 }
+
+.editInput {
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  flex: 1;
+  background: transparent;
+  border-bottom: 1px solid var(--gray3);
+}

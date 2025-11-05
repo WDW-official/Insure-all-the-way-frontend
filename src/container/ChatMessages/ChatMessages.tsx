@@ -1,7 +1,9 @@
 "use client";
 
 import Ai from "@/assets/svgIcons/Ai";
-import { Loader } from "lucide-react";
+import Button from "@/components/Button/Button";
+import { useToast } from "@/context/ToastContext";
+import { Copy, Loader } from "lucide-react";
 import { useEffect, useRef } from "react";
 import classes from "./ChatMessages.module.css";
 
@@ -23,9 +25,14 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
   isLoading,
   chatsIsLoading,
 }) => {
+  // Refs
   const containerRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
 
+  // Hooks
+  const { showToast } = useToast();
+
+  // Effects
   useEffect(() => {
     if (bottomRef.current) {
       bottomRef.current.scrollIntoView({ behavior: "smooth" });
@@ -62,10 +69,26 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
             msg.role === "user" ? classes.user : classes.assistant
           }`}
         >
+          {/* Chat Bubble */}
           <div
             className={classes.bubble}
             dangerouslySetInnerHTML={{ __html: msg?.message }}
           />
+
+          {/* Copy Button Below */}
+          <Button
+            className={classes.copyButton}
+            title="Copy message"
+            onClick={() => {
+              const plainText = msg?.message?.replace(/<[^>]+>/g, ""); // remove HTML tags
+              navigator.clipboard.writeText(plainText || "");
+              showToast("Copied successfully", "success");
+            }}
+            type="bordered"
+          >
+            <Copy size={16} />
+            <span>Copy</span>
+          </Button>
         </div>
       ))}
 
