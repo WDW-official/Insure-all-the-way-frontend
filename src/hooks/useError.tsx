@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { useToast } from "../context/ToastContext";
 import { AuthContext } from "@/context/AuthContext";
+import { mutate } from "swr";
 
 const useError = () => {
   // Context
@@ -11,6 +12,8 @@ const useError = () => {
   const errorFlowFunction = (err: any) => {
     if (err?.status === 401) {
       logout();
+
+      mutate(() => true, undefined, { revalidate: false });
     }
 
     showToast(
