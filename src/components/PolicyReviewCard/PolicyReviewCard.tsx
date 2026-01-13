@@ -8,10 +8,15 @@ type PolicyReviewCardType = {
 };
 
 const PolicyReviewCard = ({ data }: PolicyReviewCardType) => {
-  const difference = moment(data?.endDate).diff(data?.startDate, "d");
+  const startDate = moment(data?.startDate);
+  const endDate = moment(data?.endDate);
+  const today = moment();
 
-  const percentageDifference = (difference / 365) * 100;
-  const progress = 100 - percentageDifference;
+  const totalDays = endDate.diff(startDate, "days");
+
+  const elapsedDays = today.diff(startDate, "days");
+
+  const progress = Math.min(Math.max((elapsedDays / totalDays) * 100, 0), 100);
 
   return (
     <div className={classes.policyReview}>
