@@ -69,6 +69,15 @@ const PolicyDetailsDetails = ({ data, loading }: PolicyDetailsDetailsTypes) => {
               );
             }
 
+            if (data?.title === "Is Tracker Installed") {
+              return (
+                <div key={i}>
+                  <h4>Has Tracker Installed?</h4>
+                  <p>{data?.value === "true" ? "Yes" : "No"}</p>
+                </div>
+              );
+            }
+
             if (!data?.value) {
               return (
                 <div key={i}>

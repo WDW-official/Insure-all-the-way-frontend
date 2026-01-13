@@ -176,6 +176,31 @@ const DashboardMain = ({ userPolicies, className }: DashboardMainTypes) => {
         policy?.policyHeld.toLowerCase().includes("third") ||
         policy?.policyHeld.toLowerCase().includes("comprehensive"),
     },
+    {
+      text: "Track Vehicle",
+      action: () => {
+        if (typeof window !== "undefined") {
+          window.open("https://tracker.insurealltheway.co", "_blank");
+        }
+      },
+      isActive: true,
+      isVisible: (policy: any) => {
+        if (
+          policy?.policyHeld.toLowerCase().includes("third") ||
+          policy?.policyHeld.toLowerCase().includes("comprehensive") ||
+          policy?.policyHeld.toLowerCase().includes("fleet") ||
+          policy?.policyHeld.toLowerCase().includes("enhanced")
+        ) {
+          if (policy?.tracker) {
+            return true;
+          } else {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      },
+    },
   ];
 
   // Utils

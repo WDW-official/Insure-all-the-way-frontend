@@ -32,10 +32,12 @@ const PolicyInformationModalBody = ({
           "user",
           "createdAt",
           "agent",
-          "isTrackerInstalled",
+          "certificate_summary",
         ]);
       }
     }, [data]);
+
+  console.log(policyInfo, "Policy info");
 
   if (isLoading) {
     return <Loader />;
@@ -66,6 +68,20 @@ const PolicyInformationModalBody = ({
                   className={classes.url}
                 >
                   {capitalize(`Download ${data?.title}`)}
+                </p>
+              </div>
+            );
+          }
+
+          if (data?.title === "Is Tracker Installed") {
+            return (
+              <div key={i}>
+                <h4>Has Vehicle Tracker?</h4>
+                <p
+                  onClick={() => downloadFile(data?.value, data?.title)}
+                  className={classes.url}
+                >
+                  {data?.value === "true" ? "Yes" : "No"}
                 </p>
               </div>
             );
