@@ -15,7 +15,6 @@ const partnerLogos = [
   "https://res.cloudinary.com/dfilepe0f/image/upload/v1739176279/AXA-Logo_rzdpth.svg",
   "https://res.cloudinary.com/dfilepe0f/image/upload/v1739176279/staco-logo-2_hhyjib.svg",
   "https://res.cloudinary.com/dfilepe0f/image/upload/v1739176279/NEM_logo-white-resized_korbgm.svg",
-  "https://res.cloudinary.com/dfilepe0f/image/upload/v1739176279/IEI_j1osku.svg",
   "https://res.cloudinary.com/dfilepe0f/image/upload/v1739176279/coronation-300x33_w7ulin.svg",
 ];
 
