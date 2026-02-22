@@ -20,7 +20,7 @@ import PaymentModalBody from "../PaymentModalBody/PaymentModalBody";
 import Loader from "@/components/Loader/Loader";
 import { projectTime } from "@/helpers/projectTime";
 import { Alert } from "@mui/material";
-import { GENDERS } from "@/utilities/constants";
+import { GENDERS, VEHICLE_COLORS, VEHICLE_TYPES } from "@/utilities/constants";
 import {
   useCarMakes,
   useCarModels,
@@ -66,22 +66,25 @@ const ThirdPartyInsuranceForm = ({
   const [yearOfMake, setYearOfMake] = useState("");
   const [vehicleLicense, setVehicleLicense] = useState<File[]>([]);
   const [roadWorthinessFile, setRoadWorthinessFile] = useState<File[]>([]);
+  const [vehicleColor, setVehicleColor] = useState("");
+  const [vehicleType, setVehicletype] = useState("");
+  const [engineCapacity, setEngineCapacity] = useState("");
 
   // Requests
   const { isLoading: carMakesIsLoading, data: carMakesData } = useCarMakes();
   const { isLoading: modelsIsLoading, data: carModelsData } = useCarModels(
-    makeOfVehicle as string
+    makeOfVehicle as string,
   );
   const { isLoading: yearsIsLoading, data: yearsData } =
     useCarYearsByMakeAndModel(
       makeOfVehicle as string,
-      modelOfVehicle as string
+      modelOfVehicle as string,
     );
 
   // Memos
   const carMakes = useMemo(() => {
     return carMakesData?.data?.makes?.map((data: string) =>
-      capitalizeEachWord(data)
+      capitalizeEachWord(data),
     );
   }, [carMakesData]);
 
@@ -148,7 +151,7 @@ const ThirdPartyInsuranceForm = ({
           ...prevState,
           startDate: moment(
             thirdPartyPolicy["issue_date"],
-            "D MMMM YYYY"
+            "D MMMM YYYY",
           ).format("YYYY-MM-DD"),
           chasisNumber: thirdPartyPolicy["chassis_number"],
           makeOfVehicle: thirdPartyPolicy["vehicle_make"],
@@ -224,6 +227,24 @@ const ThirdPartyInsuranceForm = ({
         return { ...prevState, roadWorthinessFile: roadWorthinessFile[0] };
       });
     }
+
+    if (engineCapacity) {
+      setData((prevState) => {
+        return { ...prevState, engineCapacity };
+      });
+    }
+
+    if (vehicleColor) {
+      setData((prevState) => {
+        return { ...prevState, vehicleColor };
+      });
+    }
+
+    if (vehicleType) {
+      setData((prevState) => {
+        return { ...prevState, vehicleType };
+      });
+    }
   }, [
     state,
     roadWorthiness,
@@ -234,6 +255,9 @@ const ThirdPartyInsuranceForm = ({
     yearOfMake,
     vehicleLicense,
     roadWorthinessFile,
+    engineCapacity,
+    vehicleColor,
+    vehicleType,
   ]);
 
   useEffect(() => {
@@ -241,6 +265,8 @@ const ThirdPartyInsuranceForm = ({
       setModalTrue(setModals, "insuranceCreated");
     }
   }, [submitState?.data]);
+
+  console.log(data, "Check data");
 
   return (
     <>
@@ -513,6 +539,41 @@ const ThirdPartyInsuranceForm = ({
               />
 
               <Dropdown
+                label="Vehicle Color"
+                options={VEHICLE_COLORS}
+                title="Select"
+                selected={vehicleColor}
+                setSelected={setVehicleColor}
+                isRequired
+              />
+
+              <Dropdown
+                label="Vehicle Type"
+                options={VEHICLE_TYPES}
+                title="Select"
+                selected={vehicleType}
+                setSelected={setVehicletype}
+                isRequired
+              />
+
+              <Dropdown
+                label="Engine Capacity"
+                options={["0.1 - 1.59", "2.1 - 3.0", "3.1 - 12"]}
+                title="Select"
+                selected={engineCapacity}
+                setSelected={setEngineCapacity}
+                isRequired
+              />
+
+              <Input
+                label="Engine Number"
+                name="engineNumber"
+                value={data?.engineNumber}
+                onChange={(e) => inputChangeHandler(e, setData)}
+                isRequired
+              />
+
+              <Dropdown
                 label="Do you require assistance with vehicle license and/or road worthiness"
                 options={["Yes", "No"]}
                 title="Select"
@@ -560,6 +621,10 @@ const ThirdPartyInsuranceForm = ({
                 !data?.startDate ||
                 !data?.endDate ||
                 !data?.product ||
+                !data?.engineCapacity ||
+                !data?.engineNumber ||
+                !data?.vehicleColor ||
+                !data?.vehicleType ||
                 !data?.roadWorthiness ||
                 (data?.roadWorthiness === "Yes" &&
                   !data?.vehicleLicense &&

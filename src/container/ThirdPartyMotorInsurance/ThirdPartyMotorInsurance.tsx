@@ -14,7 +14,7 @@ const ThirdPartyMotorInsurance = () => {
   // Requests
   const { isLoading, data } = usePolicyTypeBySubtype(
     "motor-insurance",
-    "third-party-motor-insurance"
+    "third-party-motor-insurance",
   );
 
   // States
@@ -24,7 +24,7 @@ const ThirdPartyMotorInsurance = () => {
     error: null,
   });
   const [thirdPartyFormDataFormdata, setThirdPartyFormDataFormdata] = useState(
-    new FormData()
+    new FormData(),
   );
 
   // COntext
@@ -58,6 +58,10 @@ const ThirdPartyMotorInsurance = () => {
       modelOfVehicle: "",
       vehicleLicense: null,
       roadWorthinessFile: null,
+      engineCapacity: "",
+      engineNumber: "",
+      vehicleColor: "",
+      vehicleType: "",
     });
 
   // Requests
@@ -99,20 +103,20 @@ const ThirdPartyMotorInsurance = () => {
     subThirdPartyFormData.append("plan", thirdPartyFormData?.product);
     subThirdPartyFormData.append(
       "registrationNumber",
-      thirdPartyFormData?.registrationNumber
+      thirdPartyFormData?.registrationNumber,
     );
     subThirdPartyFormData.append(
       "chasisNumber",
-      thirdPartyFormData?.chasisNumber
+      thirdPartyFormData?.chasisNumber,
     );
     subThirdPartyFormData.append(
       "makeOfVehicle",
-      thirdPartyFormData?.makeOfVehicle
+      thirdPartyFormData?.makeOfVehicle,
     );
     subThirdPartyFormData.append("yearOfMake", thirdPartyFormData?.yearOfMake);
     subThirdPartyFormData.append(
       "modelOfVehicle",
-      thirdPartyFormData?.modelOfVehicle
+      thirdPartyFormData?.modelOfVehicle,
     );
 
     subThirdPartyFormData.append("firstName", thirdPartyFormData?.firstName);
@@ -127,16 +131,32 @@ const ThirdPartyMotorInsurance = () => {
     subThirdPartyFormData.append("occupation", thirdPartyFormData?.occupation);
     subThirdPartyFormData.append(
       "roadWorthiness",
-      thirdPartyFormData?.roadWorthinessFile as File
+      thirdPartyFormData?.roadWorthinessFile as File,
     );
     subThirdPartyFormData.append(
       "vehicleLicense",
-      thirdPartyFormData?.vehicleLicense as File
+      thirdPartyFormData?.vehicleLicense as File,
     );
 
     subThirdPartyFormData.append(
       "vehiclePaperRenewal",
-      thirdPartyFormData?.roadWorthiness
+      thirdPartyFormData?.roadWorthiness,
+    );
+    subThirdPartyFormData.append(
+      "engineCapacity",
+      thirdPartyFormData?.engineCapacity,
+    );
+    subThirdPartyFormData.append(
+      "vehicleColor",
+      thirdPartyFormData?.vehicleColor,
+    );
+    subThirdPartyFormData.append(
+      "vehicleType",
+      thirdPartyFormData?.vehicleType,
+    );
+    subThirdPartyFormData.append(
+      "engineNumber",
+      thirdPartyFormData?.engineNumber,
     );
 
     setThirdPartyFormDataFormdata(subThirdPartyFormData);

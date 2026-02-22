@@ -68,6 +68,10 @@ export type thirdPartyInsuranceFormType = userType & {
   modelOfVehicle: string;
   vehicleLicense?: File | null;
   roadWorthinessFile?: File | null;
+  vehicleType: string;
+  vehicleColor: string;
+  engineCapacity: string;
+  engineNumber: string;
 };
 
 export type enhancedThirdPartyInsuranceFormTypes = userType & {
