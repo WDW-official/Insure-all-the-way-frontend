@@ -137,15 +137,21 @@ const Header: React.FC<Props> = ({ bannerMessage }) => {
           if (data?.properties?.includes("isAi" as string)) {
             return (
               <Link
-                href={routes.BASE_URL}
-                onClick={() => {
+                href={user ? routes.CHAT : routes.BASE_URL}
+                onClick={(event) => {
                   activeToggler(i, navItemsState, setNavItemsState);
+
+                  if (!user) {
+                    event.preventDefault();
+                    updateSearchParams("auth", "sign-in", "set");
+                    return;
+                  }
                 }}
                 className={`${data?.isActive ? classes.active : undefined} ${
                   classes["ai-link"]
                 }`}
                 key={i}
-                title={"Comoing soon..."}
+                title="Chat with Uju"
               >
                 <span>{data?.title}</span>
                 <WandSparkles size={16} />

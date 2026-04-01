@@ -19,6 +19,11 @@ import { projectTime } from "@/helpers/projectTime";
 import { states } from "@/utilities/states";
 import { GENDERS } from "@/utilities/constants";
 import { capitalize } from "@/helpers/capitalize";
+import { downloadFile } from "@/helpers/download";
+import {
+  extractPolicyCertificateFileName,
+  extractPolicyCertificateUrl,
+} from "@/helpers/policyResponse";
 
 const CorporateHmoForm = () => {
   // States
@@ -50,6 +55,10 @@ const CorporateHmoForm = () => {
   });
   const [state, setState] = useState("");
   const [gender, setGender] = useState("");
+  const policyCertificateUrl = extractPolicyCertificateUrl(requestState?.data);
+  const policyCertificateFileName = extractPolicyCertificateFileName(
+    requestState?.data,
+  );
 
   // Hooks
   const { errorFlowFunction } = useError();
@@ -184,6 +193,18 @@ const CorporateHmoForm = () => {
                 setAllModalsFalse(setModals);
               }}
               buttontext="Okay"
+              secondaryButtonText={
+                policyCertificateUrl ? "Download Certificate" : undefined
+              }
+              onSecondaryClick={
+                policyCertificateUrl
+                  ? () =>
+                      downloadFile(
+                        policyCertificateUrl,
+                        policyCertificateFileName,
+                      )
+                  : undefined
+              }
             />
           }
         />

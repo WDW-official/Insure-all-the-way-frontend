@@ -27,8 +27,12 @@ import { formatCurrency } from "@/helpers/formatAmount";
 import Plus from "@/assets/svgIcons/Plus";
 import Trash from "@/assets/svgIcons/Trash";
 import Upload from "@/assets/svgIcons/Upload";
-import { downloadInternalFile } from "@/helpers/download";
+import { downloadFile, downloadInternalFile } from "@/helpers/download";
 import { readExcelFile } from "@/helpers/readExcelFile";
+import {
+  extractPolicyCertificateFileName,
+  extractPolicyCertificateUrl,
+} from "@/helpers/policyResponse";
 
 const AllRiskForm = () => {
   // States
@@ -81,6 +85,10 @@ const AllRiskForm = () => {
 
   // Hooks
   const { errorFlowFunction } = useError();
+  const policyCertificateUrl = extractPolicyCertificateUrl(requestState?.data);
+  const policyCertificateFileName = extractPolicyCertificateFileName(
+    requestState?.data,
+  );
 
   // Context
   const { user } = useContext(AuthContext);
@@ -272,6 +280,18 @@ const AllRiskForm = () => {
                 setAllModalsFalse(setModals);
               }}
               buttontext="Okay"
+              secondaryButtonText={
+                policyCertificateUrl ? "Download Certificate" : undefined
+              }
+              onSecondaryClick={
+                policyCertificateUrl
+                  ? () =>
+                      downloadFile(
+                        policyCertificateUrl,
+                        policyCertificateFileName,
+                      )
+                  : undefined
+              }
             />
           }
         />

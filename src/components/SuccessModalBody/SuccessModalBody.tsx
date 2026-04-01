@@ -8,6 +8,8 @@ type SuccessModalBodyType = {
   caption: string;
   buttontext?: string;
   onClick?: () => void;
+  secondaryButtonText?: string;
+  onSecondaryClick?: () => void;
   onClose: () => void;
 };
 
@@ -16,6 +18,8 @@ const SuccessModalBody = ({
   caption,
   buttontext,
   onClick,
+  secondaryButtonText,
+  onSecondaryClick,
   onClose,
 }: SuccessModalBodyType) => {
   return (
@@ -29,18 +33,30 @@ const SuccessModalBody = ({
       />
       <h2>{title || "Success!"}</h2>
       {caption && <p>{caption}</p>}
-      <Button
-        type="secondary"
-        onClick={() => {
-          if (!onClick) {
-            onClose();
-          } else {
-            onClick();
-          }
-        }}
+      <div
+        className={`${classes.actions} ${
+          secondaryButtonText ? classes.multipleActions : ""
+        }`}
       >
-        {buttontext || "Okay"}
-      </Button>
+        {secondaryButtonText && onSecondaryClick && (
+          <Button onClick={onSecondaryClick} type="bordered">
+            {secondaryButtonText}
+          </Button>
+        )}
+
+        <Button
+          type="secondary"
+          onClick={() => {
+            if (!onClick) {
+              onClose();
+            } else {
+              onClick();
+            }
+          }}
+        >
+          {buttontext || "Okay"}
+        </Button>
+      </div>
     </div>
   );
 };

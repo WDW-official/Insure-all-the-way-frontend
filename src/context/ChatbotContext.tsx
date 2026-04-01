@@ -42,4 +42,6 @@ export const useChatBot = () => {
   if (!context) {
     throw new Error("UseChatBot must be used within a ChatBot Provider");
   }
+
+  return context;
 };

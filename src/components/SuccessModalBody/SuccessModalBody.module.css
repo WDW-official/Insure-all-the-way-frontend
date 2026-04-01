@@ -31,8 +31,19 @@
   margin-bottom: 2rem;
 }
 
-.container > button {
-  margin-inline: auto;
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.actions > button {
+  min-width: 170px;
+}
+
+.multipleActions {
+  align-items: center;
 }
 
 @media screen and (max-width: 767px) {
@@ -66,7 +77,13 @@
     margin-bottom: 1.5rem;
   }
 
-  .container > button {
-    margin-inline: auto;
+  .actions {
+    flex-direction: column-reverse;
+    gap: 0.6rem;
+  }
+
+  .actions > button {
+    width: 100%;
+    min-width: 0;
   }
 }

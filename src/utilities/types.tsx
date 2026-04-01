@@ -228,6 +228,16 @@ export type chatType = {
   loading: boolean;
 };
 
+export type chatRoleType = "user" | "assistant";
+
+export type chatUiStatusType = "pending" | "sent" | "error" | "retryable";
+
+export type chatReplyReferenceType = {
+  _id: string;
+  role: chatRoleType;
+  message: string;
+};
+
 export type policyResponseType = {
   _id: string;
   user: userType;
@@ -261,9 +271,11 @@ export type policyResponseType = {
 
 export type chatBotChatType = {
   _id: string;
-  role: string;
+  role: chatRoleType;
   message: string;
   createdAt?: string;
+  replyTo?: chatReplyReferenceType | null;
+  status?: chatUiStatusType;
 };
 
 export type conversationType = {

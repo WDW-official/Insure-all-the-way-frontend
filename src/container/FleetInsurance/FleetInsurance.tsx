@@ -15,6 +15,11 @@ import { setAllModalsFalse, setModalTrue } from "@/helpers/modalHandlers";
 import useError from "@/hooks/useError";
 import Modal from "@/components/Modal/Modal";
 import SuccessModalBody from "@/components/SuccessModalBody/SuccessModalBody";
+import { downloadFile } from "@/helpers/download";
+import {
+  extractPolicyCertificateFileName,
+  extractPolicyCertificateUrl,
+} from "@/helpers/policyResponse";
 
 const FleetInsurance = () => {
   // States
@@ -45,6 +50,10 @@ const FleetInsurance = () => {
   const [modals, setModals] = useState<modalGenericType>({
     insuranceCreated: false,
   });
+  const policyCertificateUrl = extractPolicyCertificateUrl(requestState?.data);
+  const policyCertificateFileName = extractPolicyCertificateFileName(
+    requestState?.data,
+  );
 
   // Hooks
   const { errorFlowFunction } = useError();
@@ -173,6 +182,18 @@ const FleetInsurance = () => {
                 setAllModalsFalse(setModals);
               }}
               buttontext="Okay"
+              secondaryButtonText={
+                policyCertificateUrl ? "Download Certificate" : undefined
+              }
+              onSecondaryClick={
+                policyCertificateUrl
+                  ? () =>
+                      downloadFile(
+                        policyCertificateUrl,
+                        policyCertificateFileName,
+                      )
+                  : undefined
+              }
             />
           }
         />
