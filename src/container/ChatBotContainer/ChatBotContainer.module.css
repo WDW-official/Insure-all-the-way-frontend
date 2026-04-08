@@ -1,7 +1,7 @@
 .container {
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;
+  bottom: 1.25rem;
+  right: 1.25rem;
   z-index: 20;
 }
 
@@ -9,120 +9,64 @@
   overflow: hidden;
   position: absolute;
   right: 0;
-  bottom: 70px;
-  width: 450px;
-  transition: all 0.2s ease-in-out;
+  bottom: 58px;
+  width: 368px;
+  transition:
+    max-height 0.22s ease,
+    opacity 0.18s ease,
+    transform 0.22s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background-color 0.18s ease;
+  background: transparent;
+  box-shadow: none;
+  height: min(78vh, 640px);
+  max-height: 0;
+  border-radius: 18px;
+  border: 1px solid transparent;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+}
+
+.chatContainerOpen {
   background: var(--white);
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  height: 85vh;
-  max-height: 90vh;
-  border-radius: 10px;
+  box-shadow: 0 25px 70px rgba(27, 58, 87, 0.18);
+  max-height: 80vh;
+  border-color: rgba(27, 58, 87, 0.08);
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
 }
 
 .ai-link {
   position: relative;
-  padding: 1rem;
+  padding: 0.78rem 1rem;
   border-radius: calc(infinity * 1px);
-  border: 1px solid transparent;
+  border: 1px solid rgba(27, 58, 87, 0.12);
   font-family: General Sans;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
-  line-height: 21.6px;
-  background: transparent;
+  line-height: 20px;
+  color: var(--blue2);
   cursor: pointer;
-  z-index: 0;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: #fff;
-}
-
-.ai-link::before {
-  content: "";
-  position: absolute;
-  border-radius: calc(infinity * 1px);
-  inset: 0;
-  padding: 1px;
-  background: linear-gradient(120deg, #00e0ff, #7b00ff, #ff00c8, #00e0ff);
-  background-size: 300% 300%;
-  animation: aiGlow 3s linear infinite;
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  -webkit-mask-composite: destination-out;
-  z-index: -1;
-}
-
-.ai-link::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: calc(infinity * 1px);
-  box-shadow: 0 0 15px rgba(0, 224, 255, 0.3), 0 0 25px rgba(255, 0, 200, 0.2);
-  animation: glowPulse 2.5s ease-in-out infinite alternate;
-  z-index: -2;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 16px 42px rgba(27, 58, 87, 0.14);
 }
 
 .ai-link:hover {
-  text-shadow: 0 0 8px #00e0ff, 0 0 16px #7b00ff;
-  transform: scale(1.03);
-}
-
-.ai-glow-icon {
-  margin-right: 0.5rem;
-  animation: colorShift 3s linear infinite;
-  filter: drop-shadow(0 0 6px rgba(0, 224, 255, 0.7));
-}
-
-@keyframes colorShift {
-  0% {
-    color: #00e0ff;
-    filter: drop-shadow(0 0 6px #00e0ff);
-  }
-  25% {
-    color: #7b00ff;
-    filter: drop-shadow(0 0 6px #7b00ff);
-  }
-  50% {
-    color: #ff00c8;
-    filter: drop-shadow(0 0 6px #ff00c8);
-  }
-  75% {
-    color: #00ff95;
-    filter: drop-shadow(0 0 6px #00ff95);
-  }
-  100% {
-    color: #00e0ff;
-    filter: drop-shadow(0 0 6px #00e0ff);
-  }
-}
-
-@keyframes aiGlow {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-@keyframes glowPulse {
-  0% {
-    box-shadow: 0 0 10px rgba(0, 224, 255, 0.5), 0 0 20px rgba(123, 0, 255, 0.3);
-  }
-  100% {
-    box-shadow: 0 0 25px rgba(255, 0, 200, 0.6), 0 0 40px rgba(0, 224, 255, 0.4);
-  }
+  transform: translateY(-1px);
 }
 
 @media screen and (max-width: 767px) {
   .container {
     position: fixed;
-    bottom: 0.5rem;
+    bottom: 0.65rem;
     right: 0rem;
     left: 0;
     margin-inline: auto;
@@ -153,23 +97,23 @@
     right: 0;
     left: 0;
     margin-inline: auto;
-    bottom: 60px;
-    width: calc(100vw - 2rem);
-    transition: all 0.2s ease-in-out;
-    background: var(--white);
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    height: 90svh;
-    max-height: 90vh;
-    border-radius: 10px;
+    bottom: 54px;
+    width: min(calc(100vw - 0.8rem), 360px);
+    height: min(78svh, 620px);
+    max-height: 0;
+    border-radius: 14px;
+  }
+
+  .chatContainerOpen {
+    max-height: 80svh;
   }
 
   .ai-link {
     position: relative;
-    padding: 0.5rem 0.75rem;
-    font-size: 12px;
+    padding: 0.58rem 0.82rem;
+    font-size: 11px;
     cursor: pointer;
-    z-index: 0;
-    max-width: 190px;
+    max-width: 174px;
     margin-inline: auto;
   }
 }

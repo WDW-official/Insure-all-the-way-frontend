@@ -1,7 +1,7 @@
 import useGetHook from "./useGetHook";
 
-export const useConversations = () => {
-  return useGetHook("/chatbot/conversations");
+export const useConversations = (enabled = true) => {
+  return useGetHook(enabled ? "/chatbot/conversations" : null);
 };
 
 export const useConversationChats = (conversationId?: string) => {

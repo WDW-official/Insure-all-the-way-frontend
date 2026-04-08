@@ -17,6 +17,11 @@ import { setAllModalsFalse, setModalTrue } from "@/helpers/modalHandlers";
 import Modal from "@/components/Modal/Modal";
 import PaymentModalBody from "../PaymentModalBody/PaymentModalBody";
 import SuccessModalBody from "@/components/SuccessModalBody/SuccessModalBody";
+import { downloadFile } from "@/helpers/download";
+import {
+  extractPolicyCertificateFileName,
+  extractPolicyCertificateUrl,
+} from "@/helpers/policyResponse";
 
 const EnhancedThirdPartyMotorInsurance = () => {
   // Hooks
@@ -70,6 +75,10 @@ const EnhancedThirdPartyMotorInsurance = () => {
     payment: false,
     success: false,
   });
+  const policyCertificateUrl = extractPolicyCertificateUrl(requestState?.data);
+  const policyCertificateFileName = extractPolicyCertificateFileName(
+    requestState?.data,
+  );
 
   // Hooks
   const { errorFlowFunction } = useError();
@@ -248,6 +257,18 @@ const EnhancedThirdPartyMotorInsurance = () => {
                 setAllModalsFalse(setModals);
                 updateSearchParams("step", "1", "set");
               }}
+              secondaryButtonText={
+                policyCertificateUrl ? "Download Certificate" : undefined
+              }
+              onSecondaryClick={
+                policyCertificateUrl
+                  ? () =>
+                      downloadFile(
+                        policyCertificateUrl,
+                        policyCertificateFileName,
+                      )
+                  : undefined
+              }
             />
           }
         />

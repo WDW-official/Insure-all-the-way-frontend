@@ -22,6 +22,11 @@ import { areAllValuesFilled } from "@/helpers/validateObjectValues";
 import { GENDERS, TODAY } from "@/utilities/constants";
 import { projectTime } from "@/helpers/projectTime";
 import { capitalize } from "@mui/material";
+import { downloadFile } from "@/helpers/download";
+import {
+  extractPolicyCertificateFileName,
+  extractPolicyCertificateUrl,
+} from "@/helpers/policyResponse";
 
 const BuildingForm = () => {
   // States
@@ -49,6 +54,10 @@ const BuildingForm = () => {
     error: null,
   });
   const [gender, setGender] = useState("");
+  const policyCertificateUrl = extractPolicyCertificateUrl(requestState?.data);
+  const policyCertificateFileName = extractPolicyCertificateFileName(
+    requestState?.data,
+  );
 
   // FormData
   const [buildingFormDataFOrmData, setBuildingFormDataFormData] = useState(
@@ -173,6 +182,18 @@ const BuildingForm = () => {
                 setAllModalsFalse(setModals);
               }}
               buttontext="Okay"
+              secondaryButtonText={
+                policyCertificateUrl ? "Download Certificate" : undefined
+              }
+              onSecondaryClick={
+                policyCertificateUrl
+                  ? () =>
+                      downloadFile(
+                        policyCertificateUrl,
+                        policyCertificateFileName,
+                      )
+                  : undefined
+              }
             />
           }
         />

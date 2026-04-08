@@ -25,6 +25,11 @@ import Modal from "@/components/Modal/Modal";
 import SuccessModalBody from "@/components/SuccessModalBody/SuccessModalBody";
 import PaymentModalBody from "../PaymentModalBody/PaymentModalBody";
 import { projectTime } from "@/helpers/projectTime";
+import { downloadFile } from "@/helpers/download";
+import {
+  extractPolicyCertificateFileName,
+  extractPolicyCertificateUrl,
+} from "@/helpers/policyResponse";
 
 type IndividualAndFamilyHmoForm2Type = {
   data: individualAndFamilyHmoDataTypes;
@@ -52,6 +57,10 @@ const IndividualAndFamilyHmoForm2 = ({
     success: false,
     insuranceSuccess: false,
   });
+  const policyCertificateUrl = extractPolicyCertificateUrl(requestState?.data);
+  const policyCertificateFileName = extractPolicyCertificateFileName(
+    requestState?.data,
+  );
 
   //   Context
   const { user } = useContext(AuthContext);
@@ -184,6 +193,18 @@ const IndividualAndFamilyHmoForm2 = ({
                 setAllModalsFalse(setModals);
                 setModalTrue(setModals, "payment");
               }}
+              secondaryButtonText={
+                policyCertificateUrl ? "Download Certificate" : undefined
+              }
+              onSecondaryClick={
+                policyCertificateUrl
+                  ? () =>
+                      downloadFile(
+                        policyCertificateUrl,
+                        policyCertificateFileName,
+                      )
+                  : undefined
+              }
             />
           }
         />

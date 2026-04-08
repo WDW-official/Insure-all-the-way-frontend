@@ -1,200 +1,324 @@
 "use client";
 
+import Button from "@/components/Button/Button";
 import Logo from "@/components/Logo/Logo";
-import classes from "./ChatContainer.module.css";
-import Phone from "@/assets/svgIcons/Phone";
-import Send from "@/assets/svgIcons/Send";
-import { chat } from "@/utilities/dummyConstants";
-import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
-import { capitalize } from "@/helpers/capitalize";
-import { requestHandler } from "@/helpers/requestHandler";
-import { chatType, requestType } from "@/utilities/types";
 import useError from "@/hooks/useError";
-import { SyncLoader } from "react-spinners";
+import useUpdateSearchParams from "@/hooks/useUpdateSearchParams";
+import { useConversationChats, useConversations } from "@/hooks/useChats";
+import {
+  CHATBOT_CONVERSATIONS_KEY,
+  createChatConversation,
+  sendChatMessage,
+} from "@/services/chatbot";
+import {
+  buildChatRequestMessage,
+  CHAT_PAGE_STARTER_PROMPTS,
+  CHAT_WIDGET_EMPTY_STATE,
+  createChatMessage,
+  parseStoredChatMessage,
+} from "@/utilities/chatbot";
+import {
+  chatBotChatType,
+  chatReplyReferenceType,
+  conversationType,
+} from "@/utilities/types";
+import { ArrowUpRight, LockKeyhole, MessageSquareText } from "lucide-react";
+import Link from "next/link";
+import { useContext, useEffect, useMemo, useState } from "react";
+import { mutate } from "swr";
+import ChatMessages from "../ChatMessages/ChatMessages";
+import ChatPrompt from "../ChatPrompt/ChatPrompt";
+import classes from "./ChatContainer.module.css";
 
 type ChatContainerTypes = {
   isOpen: boolean;
 };
 
 const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
-  // Refs
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [activeConversationId, setActiveConversationId] = useState<
+    string | null
+  >(null);
+  const [messages, setMessages] = useState<chatBotChatType[]>([]);
+  const [isSending, setIsSending] = useState(false);
+  const [isCreatingConversation, setIsCreatingConversation] = useState(false);
+  const [replyToMessage, setReplyToMessage] =
+    useState<chatReplyReferenceType | null>(null);
 
-  //   States
-  const [chatsState, setChatsState] = useState<chatType[]>(chat);
-  const [message, setMessage] = useState("");
-  const [requestState, setRequestState] = useState<requestType>({
-    isLoading: false,
-    data: null,
-    error: null,
-  });
-
-  //   COntext
   const { user } = useContext(AuthContext);
-
-  // Hooks
   const { errorFlowFunction } = useError();
+  const { updateSearchParams } = useUpdateSearchParams();
 
-  //   Utils
-  const handleMessageSend = (message: string, role: string) => {
-    setChatsState((prevState) => {
-      return [
-        ...prevState,
-        { message, sender: role, id: role, loading: false },
-      ];
-    });
-    setMessage("");
+  const { data: conversationData, isLoading: conversationsIsLoading } =
+    useConversations(Boolean(user) && isOpen);
+  const { data: chatsData, isLoading: chatsIsLoading } = useConversationChats(
+    Boolean(user) && isOpen ? activeConversationId || undefined : undefined,
+  );
 
-    setTimeout(() => {
-      handleMessageScrollToBottom();
-    }, 500);
-  };
+  const conversations: conversationType[] = useMemo(
+    () => conversationData?.data?.conversations || [],
+    [conversationData],
+  );
 
-  const handleMessageScrollToBottom = () => {
-    if (containerRef?.current) {
-      containerRef.current.scrollTo({
-        behavior: "smooth",
-        top: containerRef.current.scrollHeight,
-        left: 0,
-      });
+  const activeConversation = useMemo(
+    () =>
+      conversations.find(
+        (conversation) => conversation._id === activeConversationId,
+      ) || conversations[0],
+    [activeConversationId, conversations],
+  );
+
+  useEffect(() => {
+    if (!user || !isOpen) {
+      return;
+    }
+
+    if (conversations.length > 0 && !activeConversationId) {
+      setActiveConversationId(conversations[0]._id);
+    }
+  }, [activeConversationId, conversations, isOpen, user]);
+
+  useEffect(() => {
+    if (!activeConversationId) {
+      setMessages([]);
+      setReplyToMessage(null);
+      return;
+    }
+
+    if (chatsData?.data?.chats) {
+      setMessages(
+        chatsData.data.chats.map((message: chatBotChatType) => {
+          const parsedMessage = parseStoredChatMessage(
+            message.message,
+            message.role,
+          );
+
+          return {
+            ...message,
+            ...parsedMessage,
+            status: "sent" as const,
+          };
+        }),
+      );
+    }
+  }, [activeConversationId, chatsData]);
+
+  useEffect(() => {
+    setReplyToMessage(null);
+  }, [activeConversationId]);
+
+  const ensureConversation = async () => {
+    if (activeConversationId) {
+      return activeConversationId;
+    }
+
+    setIsCreatingConversation(true);
+
+    try {
+      const response = await createChatConversation();
+      const createdConversationId = response?.data?.conversation?._id;
+
+      setActiveConversationId(createdConversationId);
+      mutate(CHATBOT_CONVERSATIONS_KEY);
+
+      return createdConversationId;
+    } catch (error) {
+      errorFlowFunction(error);
+      return null;
+    } finally {
+      setIsCreatingConversation(false);
     }
   };
 
-  const handleSendChatRequest = () => {
-    const loadingId = String(Date.now());
+  const sendMessageToAssistant = async (
+    messageText: string,
+    messageId?: string,
+    replyReference: chatReplyReferenceType | null = null,
+  ) => {
+    if (!messageText.trim() || !user) {
+      return;
+    }
 
-    setTimeout(() => {
-      setChatsState((prev) => [
-        ...prev,
-        { id: loadingId, message: "...", sender: "bot", loading: true },
-      ]);
-      handleMessageScrollToBottom();
-    }, 500);
+    const conversationId = await ensureConversation();
 
-    requestHandler({
-      url: `${process.env.NEXT_PUBLIC_CHATBOT_BACKEND_API_URL}/chat`,
-      data: {
-        message,
-        user_id: user?.email,
-      },
-      method: "POST",
-      state: requestState,
-      setState: setRequestState,
-      successFunction(res) {
-        setChatsState((prev) =>
-          prev.map((chat) =>
-            chat.id === loadingId
-              ? {
-                  id: loadingId,
-                  message: res?.data?.reply,
-                  sender: "bot",
-                  loading: false,
-                }
-              : chat
-          )
-        );
-        handleMessageScrollToBottom();
-      },
-      errorFunction(err) {
-        setChatsState((prev) =>
-          prev.map((chat) =>
-            chat.id === loadingId
-              ? {
-                  id: loadingId,
-                  message: "Something went wrong ❌",
-                  sender: "bot",
-                  loading: false,
-                }
-              : chat
-          )
-        );
+    if (!conversationId) {
+      return;
+    }
 
-        errorFlowFunction(err);
-      },
+    const pendingUserMessage = messageId
+      ? null
+      : createChatMessage({
+          message: messageText,
+          role: "user",
+          replyTo: replyReference,
+          status: "pending",
+        });
+    const targetMessageId = messageId || pendingUserMessage?._id;
+
+    setIsSending(true);
+    setReplyToMessage(null);
+
+    setMessages((prevState) => {
+      if (!messageId && pendingUserMessage) {
+        return [...prevState, pendingUserMessage];
+      }
+
+      return prevState.map((message) =>
+        message._id === targetMessageId
+          ? { ...message, status: "pending" as const }
+          : message,
+      );
     });
+
+    try {
+      const response = await sendChatMessage({
+        conversationId,
+        message: buildChatRequestMessage({
+          message: messageText,
+          replyTo: replyReference,
+        }),
+        userId: user?._id,
+      });
+
+      setMessages((prevState) => {
+        const nextState = prevState.map((message) =>
+          message._id === targetMessageId
+            ? {
+                ...message,
+                status: "sent" as const,
+              }
+            : message,
+        );
+
+        return [
+          ...nextState,
+          createChatMessage({
+            message: response?.data?.reply,
+            role: "assistant",
+          }),
+        ];
+      });
+
+      mutate(CHATBOT_CONVERSATIONS_KEY);
+    } catch (error) {
+      setMessages((prevState) =>
+        prevState.map((message) =>
+          message._id === targetMessageId
+            ? {
+                ...message,
+                status: "retryable" as const,
+              }
+            : message,
+        ),
+      );
+
+      errorFlowFunction(error);
+    } finally {
+      setIsSending(false);
+    }
   };
 
-  //   Effects
-  useEffect(() => {
-    handleMessageScrollToBottom();
-  }, [isOpen]);
+  const handleRetryMessage = (messageId: string) => {
+    const messageToRetry = messages.find(
+      (message) => message._id === messageId,
+    );
+
+    if (!messageToRetry) {
+      return;
+    }
+
+    sendMessageToAssistant(
+      messageToRetry.message,
+      messageId,
+      messageToRetry.replyTo || null,
+    );
+  };
+
+  if (!user) {
+    return (
+      <div className={classes.container}>
+        <div className={classes.lockedState}>
+          <div className={classes.lockIcon}>
+            <LockKeyhole size={20} />
+          </div>
+          <h3>Chat with Uju after you sign in</h3>
+          <p>
+            Your assistant works best with your policy context, claims history,
+            and saved conversations.
+          </p>
+          <Button
+            onClick={() => updateSearchParams("auth", "sign-in", "set")}
+            type="secondary"
+          >
+            Sign in to continue
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  const currentConversationId = activeConversation?._id || activeConversationId;
 
   return (
     <div className={classes.container}>
       <div className={classes.header}>
-        <div className={classes.bgOverlay}></div>
-        <div className={classes.headerContainer}>
-          <Logo dimensions={{ width: 60, height: 45 }} />
-          <h3>
-            Welcome
-            {user?.firstName &&
-              `, ${capitalize(user?.firstName as string) || ""}`}
-          </h3>
+        <div className={classes.headerTop}>
+          <div className={classes.brandBlock}>
+            <Logo dimensions={{ width: 44, height: 32 }} />
 
-          <p>
-            Uju is the voice of Insure All The Way, your always-on insurance
-            partner. Whether you’re buying, renewing, or exploring coverage
-            options, Uju makes it easy to get the right answers, right when you
-            need them.
-          </p>
-        </div>
-      </div>
-      <div className={classes.chatContainer}>
-        <div className={classes.chats} ref={containerRef}>
-          {chatsState.map((data, i) => {
-            if (data?.loading) {
-              return (
-                <div key={1} className={`${classes.chat} ${classes.loading}`}>
-                  <div>
-                    <SyncLoader size={6} color="#a7c7e7" />
-                  </div>
+            <div className={classes.headerCopy}>
+              <h3>Uju</h3>
+            </div>
+          </div>
 
-                  <p>Uju</p>
-                </div>
-              );
+          <Link
+            className={classes.fullAssistantLink}
+            href={
+              currentConversationId ? `/chat/${currentConversationId}` : "/chat"
             }
-            return (
-              <div
-                className={`${classes.chat} ${
-                  classes[data.sender?.toLowerCase()]
-                }`}
-                key={i}
-              >
-                <div dangerouslySetInnerHTML={{ __html: data?.message }}></div>
-                <p>
-                  {data?.sender?.toLowerCase() === "bot"
-                    ? "Uju"
-                    : user?.firstName || data?.sender}
-                </p>
-              </div>
-            );
-          })}
-        </div>
-        <form className={classes.form}>
-          <textarea
-            value={message}
-            onChange={(e) => setMessage(e?.target?.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey && message?.trim()) {
-                e.preventDefault();
-                handleMessageSend(message, "You");
-                handleSendChatRequest();
-              }
-            }}
-            placeholder="Type a message..."
-          />
-          <button
-            onClick={() => {
-              handleMessageSend(message, "You");
-              handleSendChatRequest();
-            }}
-            disabled={!message || requestState?.isLoading}
           >
-            <Send />
-          </button>
-        </form>
+            Full assistant
+            <ArrowUpRight size={16} />
+          </Link>
+        </div>
+
+        {activeConversation?.title && (
+          <div className={classes.currentConversation}>
+            <MessageSquareText size={15} />
+            <span>{activeConversation.title}</span>
+          </div>
+        )}
       </div>
+
+      <div className={classes.messagesArea}>
+        <ChatMessages
+          chatsIsLoading={Boolean(activeConversationId) && chatsIsLoading}
+          emptyState={CHAT_WIDGET_EMPTY_STATE}
+          isLoading={
+            isSending || isCreatingConversation || conversationsIsLoading
+          }
+          messages={messages}
+          onPromptSelect={(prompt) =>
+            sendMessageToAssistant(prompt, undefined, replyToMessage)
+          }
+          onReply={setReplyToMessage}
+          onRetry={handleRetryMessage}
+          starterPrompts={CHAT_PAGE_STARTER_PROMPTS.slice(0, 2)}
+          variant="widget"
+        />
+      </div>
+
+      <ChatPrompt
+        disabled={isCreatingConversation}
+        loading={isSending}
+        onCancelReply={() => setReplyToMessage(null)}
+        onSend={(message) =>
+          sendMessageToAssistant(message, undefined, replyToMessage)
+        }
+        placeholder="Ask about a quote, claim, or coverage…"
+        replyTo={replyToMessage}
+        variant="widget"
+      />
     </div>
   );
 };

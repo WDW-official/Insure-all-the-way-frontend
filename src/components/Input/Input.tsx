@@ -26,6 +26,7 @@ type InputProps = {
   min?: number | string | any;
   max?: number | string;
   loading?: boolean;
+  autoFocus?: boolean;
 };
 
 const Input = ({
@@ -48,6 +49,7 @@ const Input = ({
   min,
   max,
   loading,
+  autoFocus,
 }: InputProps) => {
   // States
   const [invalid, setInvalid] = useState(false);
@@ -91,6 +93,7 @@ const Input = ({
           onKeyUp={onKeyup}
           min={min}
           max={max}
+          autoFocus={autoFocus}
         />
         {loading && (
           <CircularProgress

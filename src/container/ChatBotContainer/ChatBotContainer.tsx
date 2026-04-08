@@ -1,15 +1,17 @@
-import ChatBubble from "@/assets/svgIcons/ChatBubble";
 import classes from "./ChatBotContainer.module.css";
 import ChatContainer from "../ChatContainer/ChatContainer";
 import { useContext, useEffect, useRef } from "react";
 import { ChatContext } from "@/context/ChatbotContext";
 import Close from "@/assets/svgIcons/Close";
-import { Sparkles } from "lucide-react";
+import { MessageSquareText } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 const ChatBotContainer = () => {
   // COntext
   const { isOpen, handleOpenChatContainer, handleCloseChatContainer } =
     useContext(ChatContext);
+
+  const pathname = usePathname();
 
   //   Refs
   const chatRef = useRef<HTMLDivElement | null>(null);
@@ -29,13 +31,18 @@ const ChatBotContainer = () => {
         document.removeEventListener("mousedown", handleCloseChat);
       };
     }
-  }, []);
+  }, [handleCloseChatContainer]);
+
+  if (pathname.startsWith("/chat")) {
+    return null;
+  }
 
   return (
     <section className={classes.container} ref={chatRef}>
       <div
-        className={classes.chatContainer}
-        style={isOpen ? { maxHeight: "1300px" } : { maxHeight: "0px" }}
+        className={`${classes.chatContainer} ${
+          isOpen ? classes.chatContainerOpen : ""
+        }`}
       >
         <ChatContainer isOpen={isOpen} />
       </div>
@@ -43,18 +50,11 @@ const ChatBotContainer = () => {
       <div
         className={classes["ai-link"]}
         onClick={handleOpenChatContainer}
-        style={
-          isOpen
-            ? {
-                backgroundColor: "rgb(212, 47, 47)",
-              }
-            : undefined
-        }
       >
         {!isOpen ? (
           <>
             Talk insurance with Uju
-            <Sparkles size={14} />
+            <MessageSquareText size={15} />
           </>
         ) : (
           <Close noBg dimensions={{ width: "20px", height: "20px" }} />

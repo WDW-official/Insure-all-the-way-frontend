@@ -30,6 +30,11 @@ import { mutate } from "swr";
 import { capitalize, capitalizeEachWord } from "@/helpers/capitalize";
 import FileUploadInput from "@/components/FileUploadInput/FileUploadInput";
 import useError from "@/hooks/useError";
+import { downloadFile } from "@/helpers/download";
+import {
+  extractPolicyCertificateFileName,
+  extractPolicyCertificateUrl,
+} from "@/helpers/policyResponse";
 
 type ThirdPartyInsuranceFormTypes = {
   data: thirdPartyInsuranceFormType;
@@ -98,6 +103,10 @@ const ThirdPartyInsuranceForm = ({
 
   // Hooks
   const { errorFlowFunction } = useError();
+  const policyCertificateUrl = extractPolicyCertificateUrl(submitState?.data);
+  const policyCertificateFileName = extractPolicyCertificateFileName(
+    submitState?.data,
+  );
 
   // Requests
   const askNiidHandler = (regNumber: string) => {
@@ -281,6 +290,18 @@ const ThirdPartyInsuranceForm = ({
               onClick={() => {
                 setAllModalsFalse(setModals);
               }}
+              secondaryButtonText={
+                policyCertificateUrl ? "Download Certificate" : undefined
+              }
+              onSecondaryClick={
+                policyCertificateUrl
+                  ? () =>
+                      downloadFile(
+                        policyCertificateUrl,
+                        policyCertificateFileName,
+                      )
+                  : undefined
+              }
             />
           }
         />

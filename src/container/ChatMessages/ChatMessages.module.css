@@ -1,127 +1,500 @@
 .container {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  padding: 0rem 200px;
   height: 100%;
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
-  scroll-behavior: smooth;
-}
-
-.empty {
-  text-align: center;
-  color: #9ca3af;
-  font-size: 0.9rem;
-  margin-top: 2rem;
-  width: 100%;
-  height: 100%;
+  padding: 1rem 1.15rem 0.65rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
+  gap: 0.9rem;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 }
 
-.empty > h4 {
-  font-weight: 500;
-  font-size: 16px;
-  color: var(--black);
+.widgetContainer {
+  padding: 0.65rem 0.68rem 0.2rem;
 }
 
-.messageWrapper {
+.messageRow {
   display: flex;
-  width: 100%;
+  gap: 0.7rem;
+  align-items: flex-start;
 }
 
-.user {
-  justify-content: flex-end;
+.userRow {
+  flex-direction: row-reverse;
 }
 
-.assistant {
-  justify-content: flex-start;
+.assistantRow {
+  flex-direction: row;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--blue2);
+  background: rgba(167, 199, 231, 0.22);
+  border: 1px solid rgba(27, 58, 87, 0.08);
+}
+
+.userRow .avatar {
+  background: rgba(27, 58, 87, 0.12);
+}
+
+.messageColumn {
+  width: min(100%, 700px);
+}
+
+.userRow .messageColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.messageMeta {
+  display: inline-flex;
+  gap: 0.45rem;
+  align-items: center;
+  color: var(--grey4);
+  font-size: 0.76rem;
+  margin-bottom: 0.3rem;
+}
+
+.messageMeta > span {
+  color: var(--blue2);
+  font-weight: 600;
 }
 
 .bubble {
-  max-width: 70%;
-  padding: 0.75rem 1rem;
-  border-radius: 1rem;
-  line-height: 1.5;
-  font-size: 14px;
-  font-weight: 500;
-  word-wrap: break-word;
-  animation: fadeIn 0.2s ease;
+  max-width: 100%;
+  border-radius: 18px;
+  padding: 0.82rem 0.9rem;
+  line-height: 1.6;
+  font-size: 0.9rem;
+  word-break: break-word;
+  border: 1px solid transparent;
+  box-shadow: 0 8px 22px rgba(27, 58, 87, 0.05);
+}
+
+.userBubble {
+  background: var(--blue2);
+  color: var(--white);
+  border-top-right-radius: 8px;
+}
+
+.userBubble > p {
   white-space: pre-wrap;
 }
 
-.user .bubble {
-  background-color: var(--blue);
-  color: #fff;
-  border-bottom-right-radius: 0.25rem;
+.assistantBubble {
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--black2);
+  border-color: rgba(27, 58, 87, 0.08);
+  border-top-left-radius: 8px;
 }
 
-.assistant .bubble {
-  background-color: #e5e7eb;
-  color: #111827;
-  border-bottom-left-radius: 0.25rem;
+.replyPreview {
+  margin-bottom: 0.65rem;
+  padding: 0.58rem 0.68rem;
+  border-radius: 13px;
+  background: rgba(27, 58, 87, 0.06);
+  border: 1px solid rgba(27, 58, 87, 0.08);
 }
 
-.loading {
+.replyPreview > span {
+  display: inline-flex;
+  color: var(--blue2);
+  font-size: 0.72rem;
+  font-weight: 700;
+  margin-bottom: 0.14rem;
+}
+
+.replyPreview > p {
+  color: inherit;
+  opacity: 0.86;
+  font-size: 0.76rem;
+  line-height: 1.4;
+}
+
+.errorBubble {
+  border-color: rgba(212, 47, 47, 0.25);
+  background: rgba(212, 47, 47, 0.08);
+  color: var(--black2);
+}
+
+.richText :global(p) {
+  margin-bottom: 0.6rem;
+}
+
+.richText :global(p:last-child) {
+  margin-bottom: 0;
+}
+
+.richText :global(ul),
+.richText :global(ol) {
+  margin: 0.25rem 0 0.65rem 1rem;
+}
+
+.richText :global(li) {
+  margin-bottom: 0.25rem;
+}
+
+.richText :global(code) {
+  display: inline-block;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.8rem;
+  padding: 0.05rem 0.35rem;
+  border-radius: 6px;
+  background: rgba(27, 58, 87, 0.08);
+}
+
+.richText :global(a) {
+  color: var(--blue4);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.richText :global(h4) {
+  font-size: 0.92rem;
+  color: var(--blue2);
+  margin-bottom: 0.35rem;
+}
+
+.messageActions {
+  margin-top: 0.4rem;
   display: flex;
-  gap: 4px;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  opacity: 0;
+  transform: translateY(-2px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.messageRow:hover .messageActions,
+.messageRow:focus-within .messageActions {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.actionButton {
+  border: 1px solid rgba(27, 58, 87, 0.08);
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--grey4);
+  display: inline-flex;
   align-items: center;
-  background-color: #e5e7eb;
+  gap: 0.35rem;
+  font-weight: 600;
+  font-size: 0.74rem;
+  cursor: pointer;
+  padding: 0.36rem 0.56rem;
+  border-radius: 999px;
+  transition: color 0.2s ease;
 }
 
-.dot {
-  width: 6px;
-  height: 6px;
-  background-color: #9ca3af;
-  border-radius: 50%;
-  animation: blink 1.4s infinite both;
+.actionButton:hover {
+  color: var(--blue2);
+  border-color: rgba(27, 58, 87, 0.14);
 }
 
-.dot:nth-child(2) {
-  animation-delay: 0.2s;
+.retryButton {
+  color: var(--red);
 }
 
-.dot:nth-child(3) {
-  animation-delay: 0.4s;
+.loadingDots {
+  display: inline-flex;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.loadingDots > span {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--blue2);
+  opacity: 0.28;
+  animation: blink 1.1s infinite ease-in-out;
+}
+
+.loadingDots > span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.loadingDots > span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.empty {
+  flex: 1;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.65rem;
+  padding: 1.25rem 0 0.75rem;
+}
+
+.widgetEmpty {
+  padding-top: 0.2rem;
+  min-height: auto;
+  gap: 0.42rem;
+}
+
+.emptyIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.92);
+  overflow: hidden;
+}
+
+
+.emptyIconImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.emptyEyebrow {
+  color: var(--blue3);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.empty > h4 {
+  max-width: 520px;
+  color: var(--blue2);
+  font-size: 1.45rem;
+  line-height: 1.15;
+}
+
+.empty > p {
+  max-width: 620px;
+  color: var(--grey4);
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+
+.promptGrid {
+  width: min(100%, 680px);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin-top: 0.55rem;
+}
+
+.promptGrid > button {
+  text-align: left;
+  padding: 0.8rem 0.85rem;
+  border-radius: 14px;
+  border: 1px solid rgba(27, 58, 87, 0.1);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--blue2);
+  font-size: 0.84rem;
+  line-height: 1.45;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.promptGrid > button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(27, 58, 87, 0.18);
+}
+
+.loader {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @keyframes blink {
   0%,
   80%,
   100% {
-    opacity: 0.3;
+    transform: translateY(0);
+    opacity: 0.24;
   }
   40% {
+    transform: translateY(-2px);
     opacity: 1;
   }
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(5px);
+@media screen and (max-width: 767px) {
+  .container {
+    padding: 0.75rem 0.8rem 0.45rem;
   }
-  to {
+
+  .messageRow {
+    gap: 0.55rem;
+  }
+
+  .avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+    font-size: 0.66rem;
+  }
+
+  .bubble {
+    padding: 0.72rem 0.78rem;
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+
+  .replyPreview {
+    padding: 0.55rem 0.62rem;
+    margin-bottom: 0.55rem;
+  }
+
+  .messageActions {
     opacity: 1;
     transform: translateY(0);
   }
+
+  .empty > h4 {
+    font-size: 1.08rem;
+  }
+
+  .empty > p {
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+
+  .promptGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .promptGrid > button {
+    padding: 0.7rem 0.78rem;
+    font-size: 0.8rem;
+  }
 }
 
-.container::-webkit-scrollbar {
-  width: 6px;
+.widgetContainer .messageRow {
+  gap: 0.5rem;
 }
 
-.container::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.15);
-  border-radius: 10px;
+.widgetContainer .avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  font-size: 0.6rem;
 }
 
-.loader {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
+.widgetContainer .messageMeta {
+  font-size: 0.68rem;
+  margin-bottom: 0.22rem;
+}
+
+.widgetContainer .bubble {
+  padding: 0.64rem 0.7rem;
+  border-radius: 14px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.widgetContainer .replyPreview {
+  margin-bottom: 0.48rem;
+  padding: 0.48rem 0.54rem;
+  border-radius: 11px;
+}
+
+.widgetContainer .replyPreview > span,
+.widgetContainer .replyPreview > p {
+  font-size: 0.68rem;
+}
+
+.widgetContainer .messageActions {
+  margin-top: 0.28rem;
+  gap: 0.28rem;
+}
+
+.widgetContainer .actionButton {
+  padding: 0.26rem 0.46rem;
+  font-size: 0.68rem;
+}
+
+.widgetContainer .empty > h4 {
+  max-width: 280px;
+  font-size: 0.98rem;
+  line-height: 1.2;
+}
+
+.widgetContainer .empty > p {
+  max-width: 300px;
+  font-size: 0.77rem;
+  line-height: 1.35;
+}
+
+.widgetContainer .promptGrid {
+  width: 100%;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.42rem;
+  margin-top: 0.25rem;
+}
+
+.widgetContainer .promptGrid > button {
+  padding: 0.58rem 0.64rem;
+  border-radius: 12px;
+  font-size: 0.74rem;
+  line-height: 1.28;
+}
+
+@media screen and (max-width: 767px) {
+  .widgetContainer {
+    padding: 0.58rem 0.58rem 0.18rem;
+  }
+
+  .widgetContainer .avatar {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+  }
+
+  .widgetContainer .bubble {
+    padding: 0.6rem 0.64rem;
+    font-size: 0.78rem;
+  }
+
+  .widgetContainer .empty > h4 {
+    font-size: 0.92rem;
+  }
+
+  .widgetContainer .empty > p {
+    font-size: 0.72rem;
+    line-height: 1.3;
+  }
+
+  .widgetContainer .promptGrid > button {
+    padding: 0.52rem 0.56rem;
+    font-size: 0.7rem;
+  }
+}
+
+.pageEmptyIcon {
+  width: 172px;
+  height: 72px;
+}
+
+.widgetEmptyIcon {
+  width: 48px;
+  height: 48px;
 }

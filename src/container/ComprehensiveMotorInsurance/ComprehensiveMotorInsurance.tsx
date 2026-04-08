@@ -16,6 +16,11 @@ import Modal from "@/components/Modal/Modal";
 import { setAllModalsFalse, setModalTrue } from "@/helpers/modalHandlers";
 import SuccessModalBody from "@/components/SuccessModalBody/SuccessModalBody";
 import PaymentModalBody from "../PaymentModalBody/PaymentModalBody";
+import { downloadFile } from "@/helpers/download";
+import {
+  extractPolicyCertificateFileName,
+  extractPolicyCertificateUrl,
+} from "@/helpers/policyResponse";
 
 const ComprehensiveMotorInsurance = () => {
   // Context
@@ -62,6 +67,10 @@ const ComprehensiveMotorInsurance = () => {
     success: false,
     insuranceSuccess: false,
   });
+  const policyCertificateUrl = extractPolicyCertificateUrl(requestState?.data);
+  const policyCertificateFileName = extractPolicyCertificateFileName(
+    requestState?.data,
+  );
 
   // Requests
   const comprenhensiveSubmissionFormHandler = () => {
@@ -199,6 +208,18 @@ const ComprehensiveMotorInsurance = () => {
               onClick={() => {
                 setAllModalsFalse(setModals);
               }}
+              secondaryButtonText={
+                policyCertificateUrl ? "Download Certificate" : undefined
+              }
+              onSecondaryClick={
+                policyCertificateUrl
+                  ? () =>
+                      downloadFile(
+                        policyCertificateUrl,
+                        policyCertificateFileName,
+                      )
+                  : undefined
+              }
             />
           }
         />
