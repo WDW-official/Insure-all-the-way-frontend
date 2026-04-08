@@ -25,9 +25,6 @@ const Header: React.FC<Props> = ({ bannerMessage }) => {
   const [navItemsState, setNavItemsState] = useState(headerRoutes);
   const [showBanner, setShowBanner] = useState(false);
 
-  // Local
-  const bannerMessageSeen = sessionStorage.getItem(SESSION_STORAGE_BANNER_SEEN);
-
   // Router
   const router = useRouter();
 
@@ -60,7 +57,9 @@ const Header: React.FC<Props> = ({ bannerMessage }) => {
   // Handlers
   const handleClearBanner = () => {
     setShowBanner(false);
-    sessionStorage.setItem(SESSION_STORAGE_BANNER_SEEN, "true");
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem(SESSION_STORAGE_BANNER_SEEN, "true");
+    }
   };
 
   // Effects
@@ -88,12 +87,18 @@ const Header: React.FC<Props> = ({ bannerMessage }) => {
   }, []);
 
   useEffect(() => {
-    if (bannerMessageSeen !== "true") {
-      setShowBanner(true);
-    } else {
-      setShowBanner(false);
+    if (typeof window !== "undefined") {
+      const bannerMessageSeen = sessionStorage.getItem(
+        SESSION_STORAGE_BANNER_SEEN
+      );
+
+      if (bannerMessageSeen !== "true") {
+        setShowBanner(true);
+      } else {
+        setShowBanner(false);
+      }
     }
-  }, [bannerMessageSeen]);
+  }, []);
 
   const [visible, setVisible] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
