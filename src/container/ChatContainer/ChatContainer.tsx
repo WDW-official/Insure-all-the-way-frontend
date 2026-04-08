@@ -262,21 +262,14 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
   return (
     <div className={classes.container}>
       <div className={classes.header}>
-        <div>
-          <Logo dimensions={{ width: 44, height: 32 }} />
+        <div className={classes.headerTop}>
+          <div className={classes.brandBlock}>
+            <Logo dimensions={{ width: 44, height: 32 }} />
 
-          <div className={classes.headerCopy}>
-            <h3>Uju</h3>
-          </div>
-        </div>
-
-        <div className={classes.headerActions}>
-          {activeConversation?.title && (
-            <div className={classes.currentConversation}>
-              <MessageSquareText size={15} />
-              <span>{activeConversation.title}</span>
+            <div className={classes.headerCopy}>
+              <h3>Uju</h3>
             </div>
-          )}
+          </div>
 
           <Link
             className={classes.fullAssistantLink}
@@ -288,6 +281,13 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
             <ArrowUpRight size={16} />
           </Link>
         </div>
+
+        {activeConversation?.title && (
+          <div className={classes.currentConversation}>
+            <MessageSquareText size={15} />
+            <span>{activeConversation.title}</span>
+          </div>
+        )}
       </div>
 
       <div className={classes.messagesArea}>

@@ -40,8 +40,9 @@ const ChatBotContainer = () => {
   return (
     <section className={classes.container} ref={chatRef}>
       <div
-        className={classes.chatContainer}
-        style={isOpen ? { maxHeight: "1300px" } : { maxHeight: "0px" }}
+        className={`${classes.chatContainer} ${
+          isOpen ? classes.chatContainerOpen : ""
+        }`}
       >
         <ChatContainer isOpen={isOpen} />
       </div>

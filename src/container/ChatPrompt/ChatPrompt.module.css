@@ -192,6 +192,10 @@
     align-items: center;
   }
 
+  .widgetInputFooter {
+    justify-content: flex-end;
+  }
+
   .inputFooter > span {
     display: none;
   }

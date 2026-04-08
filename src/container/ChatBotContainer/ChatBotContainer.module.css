@@ -11,13 +11,32 @@
   right: 0;
   bottom: 58px;
   width: 368px;
-  transition: all 0.2s ease-in-out;
+  transition:
+    max-height 0.22s ease,
+    opacity 0.18s ease,
+    transform 0.22s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background-color 0.18s ease;
+  background: transparent;
+  box-shadow: none;
+  height: min(78vh, 640px);
+  max-height: 0;
+  border-radius: 18px;
+  border: 1px solid transparent;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+}
+
+.chatContainerOpen {
   background: var(--white);
   box-shadow: 0 25px 70px rgba(27, 58, 87, 0.18);
-  height: min(78vh, 640px);
   max-height: 80vh;
-  border-radius: 18px;
-  border: 1px solid rgba(27, 58, 87, 0.08);
+  border-color: rgba(27, 58, 87, 0.08);
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
 }
 
 .ai-link {
@@ -80,12 +99,13 @@
     margin-inline: auto;
     bottom: 54px;
     width: min(calc(100vw - 0.8rem), 360px);
-    transition: all 0.2s ease-in-out;
-    background: var(--white);
-    box-shadow: 0 25px 70px rgba(27, 58, 87, 0.18);
     height: min(78svh, 620px);
-    max-height: 80svh;
+    max-height: 0;
     border-radius: 14px;
+  }
+
+  .chatContainerOpen {
+    max-height: 80svh;
   }
 
   .ai-link {

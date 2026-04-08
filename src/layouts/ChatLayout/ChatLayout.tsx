@@ -167,10 +167,7 @@ const ChatLayout = () => {
 
     setMessages((prevState) => {
       if (!messageId && pendingUserMessage) {
-        return [
-          ...prevState,
-          pendingUserMessage,
-        ];
+        return [...prevState, pendingUserMessage];
       }
 
       return prevState.map((message) =>
@@ -232,7 +229,9 @@ const ChatLayout = () => {
   };
 
   const handleRetryMessage = (messageId: string) => {
-    const messageToRetry = messages.find((message) => message._id === messageId);
+    const messageToRetry = messages.find(
+      (message) => message._id === messageId,
+    );
 
     if (!messageToRetry) {
       return;
@@ -291,9 +290,6 @@ const ChatLayout = () => {
               )}
 
               <div>
-                <span className={classes.eyebrow}>
-                  {CHAT_PAGE_EMPTY_STATE.eyebrow}
-                </span>
                 <h1>Uju</h1>
                 <p>Insurance help for policies, claims, quotes, and cover.</p>
               </div>
@@ -310,7 +306,9 @@ const ChatLayout = () => {
           ) : (
             <>
               <ChatMessages
-                chatsIsLoading={Boolean(currentConversationId) && chatsIsLoading}
+                chatsIsLoading={
+                  Boolean(currentConversationId) && chatsIsLoading
+                }
                 emptyState={CHAT_PAGE_EMPTY_STATE}
                 isLoading={isSending}
                 messages={messages}
