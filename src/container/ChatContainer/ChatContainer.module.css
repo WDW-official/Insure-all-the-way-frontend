@@ -66,6 +66,32 @@
   text-overflow: ellipsis;
 }
 
+.guestHint {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.45rem 0.55rem;
+  border-radius: 12px;
+  background: rgba(167, 199, 231, 0.18);
+  border: 1px solid rgba(27, 58, 87, 0.08);
+}
+
+.guestHint > p {
+  color: var(--grey4);
+  font-size: 0.68rem;
+}
+
+.guestHintButton {
+  padding: 0.36rem 0.6rem !important;
+  min-width: fit-content !important;
+  font-size: 0.68rem !important;
+  line-height: 1.15 !important;
+  font-weight: 600 !important;
+  box-shadow: none !important;
+  border-radius: 8px !important;
+}
+
 .fullAssistantLink {
   display: inline-flex;
   align-items: center;

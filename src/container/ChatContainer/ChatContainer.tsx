@@ -16,6 +16,7 @@ import {
   CHAT_PAGE_STARTER_PROMPTS,
   CHAT_WIDGET_EMPTY_STATE,
   createChatMessage,
+  getOrCreateGuestChatSessionId,
   parseStoredChatMessage,
 } from "@/utilities/chatbot";
 import {
@@ -23,7 +24,7 @@ import {
   chatReplyReferenceType,
   conversationType,
 } from "@/utilities/types";
-import { ArrowUpRight, LockKeyhole, MessageSquareText } from "lucide-react";
+import { ArrowUpRight, MessageSquareText } from "lucide-react";
 import Link from "next/link";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { mutate } from "swr";
@@ -44,15 +45,32 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
   const [isCreatingConversation, setIsCreatingConversation] = useState(false);
   const [replyToMessage, setReplyToMessage] =
     useState<chatReplyReferenceType | null>(null);
+  const [guestSessionId, setGuestSessionId] = useState<string>("");
 
   const { user } = useContext(AuthContext);
   const { errorFlowFunction } = useError();
   const { updateSearchParams } = useUpdateSearchParams();
+  const scopedGuestSessionId = user?._id ? undefined : guestSessionId || undefined;
+  const chatIdentityReady = Boolean(user?._id || guestSessionId);
+  const conversationsSWRKey = scopedGuestSessionId
+    ? `${CHATBOT_CONVERSATIONS_KEY}?guest_session_id=${encodeURIComponent(
+        scopedGuestSessionId,
+      )}`
+    : CHATBOT_CONVERSATIONS_KEY;
+
+  useEffect(() => {
+    if (user?._id || typeof window === "undefined") {
+      return;
+    }
+
+    setGuestSessionId(getOrCreateGuestChatSessionId());
+  }, [user?._id]);
 
   const { data: conversationData, isLoading: conversationsIsLoading } =
-    useConversations(Boolean(user) && isOpen);
+    useConversations(Boolean(isOpen && chatIdentityReady), scopedGuestSessionId);
   const { data: chatsData, isLoading: chatsIsLoading } = useConversationChats(
-    Boolean(user) && isOpen ? activeConversationId || undefined : undefined,
+    isOpen && chatIdentityReady ? activeConversationId || undefined : undefined,
+    scopedGuestSessionId,
   );
 
   const conversations: conversationType[] = useMemo(
@@ -69,14 +87,14 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
   );
 
   useEffect(() => {
-    if (!user || !isOpen) {
+    if (!isOpen) {
       return;
     }
 
     if (conversations.length > 0 && !activeConversationId) {
       setActiveConversationId(conversations[0]._id);
     }
-  }, [activeConversationId, conversations, isOpen, user]);
+  }, [activeConversationId, conversations, isOpen]);
 
   useEffect(() => {
     if (!activeConversationId) {
@@ -108,6 +126,10 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
   }, [activeConversationId]);
 
   const ensureConversation = async () => {
+    if (!chatIdentityReady) {
+      return null;
+    }
+
     if (activeConversationId) {
       return activeConversationId;
     }
@@ -115,11 +137,11 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
     setIsCreatingConversation(true);
 
     try {
-      const response = await createChatConversation();
+      const response = await createChatConversation(undefined, scopedGuestSessionId);
       const createdConversationId = response?.data?.conversation?._id;
 
       setActiveConversationId(createdConversationId);
-      mutate(CHATBOT_CONVERSATIONS_KEY);
+      mutate(conversationsSWRKey);
 
       return createdConversationId;
     } catch (error) {
@@ -135,7 +157,7 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
     messageId?: string,
     replyReference: chatReplyReferenceType | null = null,
   ) => {
-    if (!messageText.trim() || !user) {
+    if (!messageText.trim() || !chatIdentityReady) {
       return;
     }
 
@@ -177,7 +199,7 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
           message: messageText,
           replyTo: replyReference,
         }),
-        userId: user?._id,
+        guestSessionId: scopedGuestSessionId,
       });
 
       setMessages((prevState) => {
@@ -199,7 +221,7 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
         ];
       });
 
-      mutate(CHATBOT_CONVERSATIONS_KEY);
+      mutate(conversationsSWRKey);
     } catch (error) {
       setMessages((prevState) =>
         prevState.map((message) =>
@@ -234,29 +256,6 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
     );
   };
 
-  if (!user) {
-    return (
-      <div className={classes.container}>
-        <div className={classes.lockedState}>
-          <div className={classes.lockIcon}>
-            <LockKeyhole size={20} />
-          </div>
-          <h3>Chat with Uju after you sign in</h3>
-          <p>
-            Your assistant works best with your policy context, claims history,
-            and saved conversations.
-          </p>
-          <Button
-            onClick={() => updateSearchParams("auth", "sign-in", "set")}
-            type="secondary"
-          >
-            Sign in to continue
-          </Button>
-        </div>
-      </div>
-    );
-  }
-
   const currentConversationId = activeConversation?._id || activeConversationId;
 
   return (
@@ -286,6 +285,19 @@ const ChatContainer = ({ isOpen }: ChatContainerTypes) => {
           <div className={classes.currentConversation}>
             <MessageSquareText size={15} />
             <span>{activeConversation.title}</span>
+          </div>
+        )}
+
+        {!user && (
+          <div className={classes.guestHint}>
+            <p>Guest mode is active. Sign in for policy-specific help.</p>
+            <Button
+              className={classes.guestHintButton}
+              onClick={() => updateSearchParams("auth", "sign-in", "set")}
+              type="tertiary"
+            >
+              Sign in
+            </Button>
           </div>
         )}
       </div>

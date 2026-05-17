@@ -1,4 +1,5 @@
 import { sanitizeChatHtml } from "@/helpers/sanitizeChatHtml";
+import { LOCAL_STORAGE_CHATBOT_GUEST_SESSION_KEY } from "./constants";
 import {
   chatBotChatType,
   chatReplyReferenceType,
@@ -31,6 +32,36 @@ export const CHAT_WIDGET_EMPTY_STATE = {
 
 const createLocalId = () =>
   `local-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+
+const createGuestChatSessionId = () => {
+  const generatedId =
+    typeof crypto !== "undefined" && crypto.randomUUID
+      ? crypto.randomUUID()
+      : `${Date.now()}-${Math.random().toString(36).slice(2, 12)}`;
+
+  return `guest-${generatedId}`.replace(/[^a-zA-Z0-9._-]/g, "-");
+};
+
+export const getOrCreateGuestChatSessionId = () => {
+  if (typeof window === "undefined") {
+    return "";
+  }
+
+  const existingGuestId = localStorage.getItem(
+    LOCAL_STORAGE_CHATBOT_GUEST_SESSION_KEY,
+  );
+
+  if (existingGuestId) {
+    return existingGuestId;
+  }
+
+  const nextGuestSessionId = createGuestChatSessionId();
+  localStorage.setItem(
+    LOCAL_STORAGE_CHATBOT_GUEST_SESSION_KEY,
+    nextGuestSessionId,
+  );
+  return nextGuestSessionId;
+};
 
 export const getChatParticipantLabel = (role: chatRoleType) =>
   role === "assistant" ? "Uju" : "You";

@@ -1,6 +1,8 @@
 import moment from "moment";
 
 export const LOCAL_STORAGE_AUTH_KEY = "iatw-auth-user-token";
+export const LOCAL_STORAGE_CHATBOT_GUEST_SESSION_KEY =
+  "iatw-chatbot-guest-session-id";
 
 export const SESSION_STORAGE_BANNER_SEEN = "user-banner-seen";
 

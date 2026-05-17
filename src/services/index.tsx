@@ -23,7 +23,12 @@ axiosInstance.interceptors.request.use((axiosConfig) => {
     throw new Error("Please check your internet connection");
   }
 
-  axiosConfig.headers.Authorization = `Bearer ${getToken()}`;
+  const token = getToken();
+  if (token) {
+    axiosConfig.headers.Authorization = `Bearer ${token}`;
+  } else if (axiosConfig.headers.Authorization) {
+    delete axiosConfig.headers.Authorization;
+  }
 
   return axiosConfig;
 });
