@@ -90,6 +90,11 @@
   flex-shrink: 0;
 }
 
+.signInHint {
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
 .menuButton {
   display: none;
 }
@@ -154,6 +159,10 @@
   }
 
   .threadMeta {
+    display: none;
+  }
+
+  .signInHint {
     display: none;
   }
 

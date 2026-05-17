@@ -31,6 +31,8 @@ import classes from "./ChatSideBar.module.css";
 interface Props {
   activeConversationId?: string;
   conversations: conversationType[];
+  guestSessionId?: string;
+  isGuest?: boolean;
   isOpen: boolean;
   loading: boolean;
   onClose: () => void;
@@ -45,6 +47,8 @@ type RenameState = {
 const ChatSideBar: React.FC<Props> = ({
   activeConversationId,
   conversations,
+  guestSessionId,
+  isGuest = false,
   isOpen,
   loading,
   onClose,
@@ -52,6 +56,11 @@ const ChatSideBar: React.FC<Props> = ({
   const { user } = useContext(AuthContext);
   const { errorFlowFunction } = useError();
   const { showToast } = useToast();
+  const conversationsSWRKey = guestSessionId
+    ? `${CHATBOT_CONVERSATIONS_KEY}?guest_session_id=${encodeURIComponent(
+        guestSessionId,
+      )}`
+    : CHATBOT_CONVERSATIONS_KEY;
 
   const pathname = usePathname();
   const router = useRouter();
@@ -76,11 +85,15 @@ const ChatSideBar: React.FC<Props> = ({
   }, [user?.firstName, user?.lastName]);
 
   const handleCreateConversation = async () => {
+    if (isGuest && !guestSessionId) {
+      return;
+    }
+
     try {
       setIsCreatingConversation(true);
-      const response = await createChatConversation();
+      const response = await createChatConversation(undefined, guestSessionId);
 
-      mutate(CHATBOT_CONVERSATIONS_KEY);
+      mutate(conversationsSWRKey);
       router.push(`/chat/${response?.data?.conversation?._id}`);
       onClose();
     } catch (error) {
@@ -91,11 +104,15 @@ const ChatSideBar: React.FC<Props> = ({
   };
 
   const handleDeleteConversation = async (conversationId: string) => {
+    if (isGuest && !guestSessionId) {
+      return;
+    }
+
     try {
       setDeletingConversationId(conversationId);
-      const response = await deleteChatConversation(conversationId);
+      const response = await deleteChatConversation(conversationId, guestSessionId);
 
-      mutate(CHATBOT_CONVERSATIONS_KEY);
+      mutate(conversationsSWRKey);
       showToast(response?.data?.message, "success");
 
       if (activeConversationId === conversationId) {
@@ -111,6 +128,10 @@ const ChatSideBar: React.FC<Props> = ({
   };
 
   const handleRenameConversation = async () => {
+    if (isGuest && !guestSessionId) {
+      return;
+    }
+
     if (!renameState.title.trim()) {
       showToast("Please enter a conversation name", "error");
       return;
@@ -121,9 +142,10 @@ const ChatSideBar: React.FC<Props> = ({
       await renameChatConversation(
         renameState.conversationId,
         renameState.title.trim(),
+        guestSessionId,
       );
 
-      mutate(CHATBOT_CONVERSATIONS_KEY);
+      mutate(conversationsSWRKey);
       showToast("Conversation renamed successfully", "success");
       setRenameState({
         conversationId: "",
@@ -212,6 +234,7 @@ const ChatSideBar: React.FC<Props> = ({
 
           <Button
             className={classes.newChatButton}
+            disabled={isGuest && !guestSessionId}
             loading={isCreatingConversation}
             onClick={handleCreateConversation}
           >
@@ -287,9 +310,13 @@ const ChatSideBar: React.FC<Props> = ({
           )}
         </div>
 
-        <Link className={classes.user} href="/dashboard" onClick={onClose}>
+        <Link
+          className={classes.user}
+          href={isGuest ? "/" : "/dashboard"}
+          onClick={onClose}
+        >
           <User size={16} />
-          <span>{fullName}</span>
+          <span>{isGuest ? "Guest Mode" : fullName}</span>
         </Link>
       </aside>
     </>

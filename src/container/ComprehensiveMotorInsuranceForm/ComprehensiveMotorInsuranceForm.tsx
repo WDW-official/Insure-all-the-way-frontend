@@ -37,6 +37,11 @@ type ComprehensiveMotorInsuranceFormTypes = {
   requestState: requestType;
 };
 
+type VehicleMakeOption = {
+  name: string;
+  code: string;
+};
+
 const ComprehensiveMotorInsuranceForm = ({
   data,
   setData,
@@ -64,12 +69,30 @@ const ComprehensiveMotorInsuranceForm = ({
 
   // Requests
   const { isLoading: carMakesIsLoading, data: carMakesData } = useCarMakes();
+  const makeOptions = useMemo<VehicleMakeOption[]>(
+    () => carMakesData?.data?.makeOptions || [],
+    [carMakesData]
+  );
+  const selectedMakeCode = useMemo(() => {
+    if (!makeOfVehicle) {
+      return "";
+    }
+
+    const selectedLabel = makeOfVehicle.trim().toLowerCase();
+    const selected = makeOptions.find(
+      (option) =>
+        capitalizeEachWord(option.name).trim().toLowerCase() === selectedLabel
+    );
+
+    return selected?.code || "";
+  }, [makeOfVehicle, makeOptions]);
+  const makeIdentifier = selectedMakeCode || makeOfVehicle;
   const { isLoading: modelsIsLoading, data: carModelsData } = useCarModels(
-    makeOfVehicle as string
+    makeIdentifier as string
   );
   const { isLoading: yearsIsLoading, data: yearsData } =
     useCarYearsByMakeAndModel(
-      makeOfVehicle as string,
+      makeIdentifier as string,
       modelOfVehicle as string
     );
   const askNiidHandler = (regNumber: string) => {
@@ -104,14 +127,14 @@ const ComprehensiveMotorInsuranceForm = ({
 
   // Effects
   useEffect(() => {
-    if (makeOfVehicle) {
-      mutate(`/externals/cars/models/${makeOfVehicle}`);
+    if (makeIdentifier) {
+      mutate(`/externals/cars/models/${makeIdentifier}`);
     }
 
-    if (makeOfVehicle && modelOfVehicle) {
-      mutate(`/externals/cars/models/${makeOfVehicle}/${modelOfVehicle}`);
+    if (makeIdentifier && modelOfVehicle) {
+      mutate(`/externals/cars/models/${makeIdentifier}/${modelOfVehicle}`);
     }
-  }, [makeOfVehicle]);
+  }, [makeIdentifier, modelOfVehicle]);
 
   useEffect(() => {
     const thirdPartyPolicy = askNiidRequestState?.data?.policyData;

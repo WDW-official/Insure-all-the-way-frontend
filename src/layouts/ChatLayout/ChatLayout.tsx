@@ -8,6 +8,7 @@ import ChatSideBar from "@/container/ChatSideBar/ChatSideBar";
 import { AuthContext } from "@/context/AuthContext";
 import { useConversationChats, useConversations } from "@/hooks/useChats";
 import useError from "@/hooks/useError";
+import useUpdateSearchParams from "@/hooks/useUpdateSearchParams";
 import {
   CHATBOT_CONVERSATIONS_KEY,
   createChatConversation,
@@ -18,6 +19,7 @@ import {
   CHAT_PAGE_EMPTY_STATE,
   CHAT_PAGE_STARTER_PROMPTS,
   createChatMessage,
+  getOrCreateGuestChatSessionId,
   parseStoredChatMessage,
 } from "@/utilities/chatbot";
 import {
@@ -39,28 +41,50 @@ const ChatLayout = () => {
   const [replyToMessage, setReplyToMessage] =
     useState<chatReplyReferenceType | null>(null);
   const [isMobileView, setIsMobileView] = useState(false);
+  const [guestSessionId, setGuestSessionId] = useState<string>("");
 
   const { user } = useContext(AuthContext);
   const { errorFlowFunction } = useError();
+  const { updateSearchParams } = useUpdateSearchParams();
 
   const { chatId } = useParams();
   const router = useRouter();
+  const scopedGuestSessionId = user?._id ? undefined : guestSessionId || undefined;
+  const chatIdentityReady = Boolean(user?._id || guestSessionId);
+  const conversationsSWRKey = scopedGuestSessionId
+    ? `${CHATBOT_CONVERSATIONS_KEY}?guest_session_id=${encodeURIComponent(
+        scopedGuestSessionId,
+      )}`
+    : CHATBOT_CONVERSATIONS_KEY;
 
   const currentConversationId = Array.isArray(chatId) ? chatId[0] : chatId;
-  const chatKey = currentConversationId
-    ? `/chatbot/chats/${currentConversationId}`
+  const chatKey = chatIdentityReady && currentConversationId
+    ? `/chatbot/chats/${currentConversationId}${
+        scopedGuestSessionId
+          ? `?guest_session_id=${encodeURIComponent(scopedGuestSessionId)}`
+          : ""
+      }`
     : null;
 
   const { isLoading: conversationsIsLoading, data: conversationData } =
-    useConversations();
+    useConversations(chatIdentityReady, scopedGuestSessionId);
   const { isLoading: chatsIsLoading, data: chatsData } = useConversationChats(
-    currentConversationId as string | undefined,
+    chatIdentityReady ? (currentConversationId as string | undefined) : undefined,
+    scopedGuestSessionId,
   );
 
   const conversations: conversationType[] = useMemo(
     () => conversationData?.data?.conversations || [],
     [conversationData],
   );
+
+  useEffect(() => {
+    if (user?._id || typeof window === "undefined") {
+      return;
+    }
+
+    setGuestSessionId(getOrCreateGuestChatSessionId());
+  }, [user?._id]);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -108,7 +132,7 @@ const ChatLayout = () => {
   }, [currentConversationId]);
 
   useEffect(() => {
-    if (conversationsIsLoading || currentConversationId) {
+    if (!chatIdentityReady || conversationsIsLoading || currentConversationId) {
       return;
     }
 
@@ -123,9 +147,9 @@ const ChatLayout = () => {
 
     setIsCreatingConversation(true);
 
-    createChatConversation()
+    createChatConversation(undefined, scopedGuestSessionId)
       .then((response) => {
-        mutate(CHATBOT_CONVERSATIONS_KEY);
+        mutate(conversationsSWRKey);
         router.replace(`/chat/${response?.data?.conversation?._id}`);
       })
       .catch((error) => {
@@ -138,6 +162,9 @@ const ChatLayout = () => {
     conversations,
     conversationsIsLoading,
     currentConversationId,
+    scopedGuestSessionId,
+    chatIdentityReady,
+    conversationsSWRKey,
     errorFlowFunction,
     isCreatingConversation,
     router,
@@ -186,8 +213,8 @@ const ChatLayout = () => {
           message: messageText,
           replyTo: replyReference,
         }),
-        userId: user?._id,
         conversationId: currentConversationId,
+        guestSessionId: scopedGuestSessionId,
       });
 
       setMessages((prevState) => {
@@ -209,7 +236,7 @@ const ChatLayout = () => {
         ];
       });
 
-      mutate(CHATBOT_CONVERSATIONS_KEY);
+      mutate(conversationsSWRKey);
     } catch (error) {
       setMessages((prevState) =>
         prevState.map((message) =>
@@ -270,6 +297,8 @@ const ChatLayout = () => {
         <ChatSideBar
           activeConversationId={currentConversationId as string | undefined}
           conversations={conversations}
+          guestSessionId={scopedGuestSessionId}
+          isGuest={!user}
           isOpen={sidebarOpen}
           loading={conversationsIsLoading}
           onClose={() => setSidebarOpen(false)}
@@ -299,6 +328,16 @@ const ChatLayout = () => {
               <MessageSquareText size={18} />
               <span>{conversations.length} conversations</span>
             </div>
+
+            {!user && (
+              <Button
+                className={classes.signInHint}
+                onClick={() => updateSearchParams("auth", "sign-in", "set")}
+                type="tertiary"
+              >
+                Sign in for policy-specific help
+              </Button>
+            )}
           </header>
 
           {isInitialising ? (
