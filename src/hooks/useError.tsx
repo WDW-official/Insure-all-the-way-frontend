@@ -26,5 +26,4 @@ const useError = () => {
 
   return { errorFlowFunction };
 };
-
 export default useError;
