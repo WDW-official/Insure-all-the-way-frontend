@@ -1,22 +1,42 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+
+const SEARCH_PARAMS_CHANGE_EVENT = "iatw-search-params-change";
 
 const useUpdateSearchParams = () => {
-  const router = useRouter();
   const pathname = usePathname();
   const [currentSearch, setCurrentSearch] = useState("");
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      setCurrentSearch(window.location.search || "");
+    if (typeof window === "undefined") {
+      return;
     }
+
+    const syncSearchParams = (event?: Event) => {
+      const nextSearch =
+        event instanceof CustomEvent && typeof event.detail === "string"
+          ? event.detail
+          : window.location.search || "";
+
+      setCurrentSearch(nextSearch);
+    };
+
+    syncSearchParams();
+
+    window.addEventListener("popstate", syncSearchParams);
+    window.addEventListener(SEARCH_PARAMS_CHANGE_EVENT, syncSearchParams);
+
+    return () => {
+      window.removeEventListener("popstate", syncSearchParams);
+      window.removeEventListener(SEARCH_PARAMS_CHANGE_EVENT, syncSearchParams);
+    };
   }, [pathname]);
 
   const getParams = () => {
     if (typeof window !== "undefined") {
-      return new URLSearchParams(window.location.search || currentSearch);
+      return new URLSearchParams(currentSearch || window.location.search);
     }
 
     return new URLSearchParams(currentSearch);
@@ -25,11 +45,22 @@ const useUpdateSearchParams = () => {
   const pushParams = (params: URLSearchParams, scroll?: boolean) => {
     const nextSearch = params.toString();
     const nextUrl = nextSearch ? `${pathname}?${nextSearch}` : pathname;
+    const formattedSearch = nextSearch ? `?${nextSearch}` : "";
 
-    setCurrentSearch(nextSearch ? `?${nextSearch}` : "");
-    router.push(nextUrl, {
-      scroll: scroll || false,
-    });
+    setCurrentSearch(formattedSearch);
+
+    if (typeof window !== "undefined") {
+      window.history.pushState(null, "", nextUrl);
+      window.dispatchEvent(
+        new CustomEvent(SEARCH_PARAMS_CHANGE_EVENT, {
+          detail: formattedSearch,
+        })
+      );
+    }
+
+    if (scroll) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   const updateSearchParams = (
